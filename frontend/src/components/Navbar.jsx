@@ -196,6 +196,18 @@ const Navbar = () => {
                 {item.name}
               </NavLink>
             ))}
+
+            {/* Mobile Admin Option Line & URL */}
+            <hr className="my-2 border-stone-200" />
+            <a 
+              href="https://plantora-uots.vercel.app/" 
+              target="_blank" 
+              rel="noreferrer" 
+              onClick={() => setVisible(false)}
+              className="py-3 px-4 rounded-xl text-sm font-semibold tracking-wide text-white bg-[#0b2216] hover:bg-emerald-900 transition-all text-center mt-1 shadow-sm"
+            >
+              ADMIN PANEL
+            </a>
           </div>
         </div>
       </div>
