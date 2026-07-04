@@ -1,0 +1,206 @@
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { ShopContext } from '../context/ShopContext';
+import { assets } from '../assets/assets';
+
+const Navbar = () => {
+  const [visible, setVisible] = useState(false);
+  const [animateCart, setAnimateCart] = useState(false);
+  
+  const { setShowSearch, getCartCount, navigate, token, setToken, setCartItems } = useContext(ShopContext);
+
+  const cartCount = getCartCount();
+
+  const logout = () => {
+    navigate('/login');
+    localStorage.removeItem('token');
+    setToken('');
+    setCartItems({});
+  };
+
+  // Trigger the pop/shake visual effect when cartCount updates
+  useEffect(() => {
+    if (cartCount === 0) return;
+    setAnimateCart(true);
+    const timer = setTimeout(() => setAnimateCart(false), 500);
+    return () => clearTimeout(timer);
+  }, [cartCount]);
+
+  return (
+    <>
+      {/* Dynamic Keyframe Injection for the Cart Pop/Shake Effect */}
+      <style>{`
+        @keyframes cart-bump {
+          0% { transform: scale(1); }
+          20% { transform: scale(1.3) rotate(-10deg); }
+          40% { transform: scale(1.3) rotate(10deg); }
+          60% { transform: scale(1.2) rotate(-5deg); }
+          80% { transform: scale(1.1) rotate(5deg); }
+          100% { transform: scale(1); }
+        }
+        .animate-cart-pop {
+          animation: cart-bump 0.5s ease-in-out;
+        }
+      `}</style>
+
+      <nav className='sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-stone-100 px-4 sm:px-6 lg:px-10 py-0 flex items-center justify-between transition-all duration-300'>
+        
+        {/* Brand Logo */}
+        <Link to='/' className='flex items-center group flex-shrink-0 mr-4'>
+          <img src={assets.logo1} className='w-20 sm:w-24 md:w-28 transition-transform duration-300 group-hover:scale-[1.01]' alt="Nursery Logo" />
+        </Link>
+
+        {/* Right Side Utility & Navigation Panel combined closer together */}
+        <div className='flex items-center gap-6 md:gap-8 flex-1 justify-end max-w-5xl ml-auto'>
+          
+          {/* Navigation Menu Links (Desktop) - Large font & adjacent to search */}
+          <ul className='hidden lg:flex items-center gap-7 xl:gap-8 text-[15px] font-medium tracking-wide text-stone-700 font-sans'>
+            {[
+              { name: 'Home', path: '/' },
+              { name: 'Our Plants', path: '/collection' },
+              { name: 'Services', path: '/services' }, 
+              { name: 'About Us', path: '/about' },
+              { name: 'Contact Us', path: '/contact' }
+            ].map((item, idx) => (
+              <NavLink 
+                key={idx}
+                to={item.path} 
+                className={({ isActive }) => 
+                  `group relative py-2 transition-colors duration-200 hover:text-emerald-900 text-stone-600 font-medium ${isActive ? 'text-emerald-950 font-semibold' : ''}`
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    <span>{item.name}</span>
+                    {/* Smooth custom sliding/growing active underline item */}
+                    <span 
+                      className={`absolute bottom-0 left-0 h-[2px] bg-emerald-800 transition-all duration-300 origin-left ${
+                        isActive ? 'w-full scale-x-100' : 'w-full scale-x-0 group-hover:scale-x-100'
+                      }`} 
+                    />
+                  </>
+                )}
+              </NavLink>
+            ))}
+          </ul>
+
+          {/* Permanent Search Bar Input (Desktop/Tablet) */}
+          <div 
+            onClick={() => { setShowSearch(true); navigate('/collection') }}
+            className='hidden md:flex items-center gap-3 bg-stone-100/80 border border-stone-200/50 px-4 py-2 rounded-full w-full max-w-[200px] lg:max-w-[240px] cursor-pointer hover:bg-stone-100 transition-all duration-200 group flex-shrink-0'
+          >
+            <img src={assets.search_icon} className='w-4 h-4 opacity-60 group-hover:opacity-90 transition-opacity' alt="" />
+            <input 
+              type="text" 
+              placeholder="Search plants..." 
+              disabled
+              className='bg-transparent text-xs text-stone-600 outline-none w-full placeholder-stone-400 cursor-pointer'
+            />
+          </div>
+
+          {/* Action Controls Frame */}
+          <div className='flex items-center gap-2 sm:gap-3 flex-shrink-0'>
+            
+            {/* Mobile Search Icon Alternative */}
+            <button 
+              onClick={() => { setShowSearch(true); navigate('/collection') }}
+              className='block md:hidden p-2 hover:bg-stone-100 rounded-full transition-colors'
+              aria-label="Search"
+            >
+              <img src={assets.search_icon} className='w-5 h-5 opacity-80' alt="" />
+            </button>
+
+            {/* Shopping Cart Icon Trigger with Dynamic CSS Pop Effect */}
+            <Link 
+              to='/cart' 
+              className={`relative p-2 hover:bg-stone-100 rounded-full transition-colors duration-200 block ${animateCart ? 'animate-cart-pop text-emerald-800' : ''}`}
+            >
+              <img src={assets.cart_icon} className='w-5 h-5 opacity-80' alt="Cart" />
+              {cartCount > 0 && (
+                <span className='absolute top-1 right-1 bg-emerald-700 text-white font-bold text-[9px] h-4 min-w-4 px-1 flex items-center justify-center rounded-full shadow-sm'>
+                  {cartCount}
+                </span>
+              )}
+            </Link>
+
+            {/* User Account Context Anchor */}
+            <div className='group relative'>
+              <button 
+                onClick={() => token ? null : navigate('/login')} 
+                className='p-2 hover:bg-stone-100 rounded-full transition-colors duration-200 block'
+                aria-label="Account Settings"
+              >
+                <img className='w-5 h-5 opacity-80' src={assets.profile_icon} alt="" />
+              </button>
+              
+              {token && (
+                <div className='absolute right-0 top-full pt-2 w-40 hidden group-hover:block z-50'>
+                  <div className='flex flex-col gap-1 p-2 bg-white shadow-xl rounded-xl border border-stone-100 text-stone-700 text-xs sm:text-sm'>
+                    <p onClick={() => navigate('/profile')} className='cursor-pointer px-3 py-2 rounded-lg hover:bg-stone-50 transition-colors'>My Profile</p>
+                    <p onClick={() => navigate('/userdashboard')} className='cursor-pointer px-3 py-2 rounded-lg hover:bg-stone-50 transition-colors'>Orders</p>
+                    <hr className="border-stone-100" />
+                    <p onClick={logout} className='cursor-pointer px-3 py-2 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors'>Logout</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Desktop Action Button */}
+            <a href="#" target="_blank" rel="noreferrer" className='hidden sm:block'>
+              <button className="bg-[#0b2216] hover:bg-emerald-900 text-white font-medium py-2 px-4 md:px-5 rounded-full text-xs transition-all duration-300 shadow-sm whitespace-nowrap tracking-wide">
+                Call Now
+              </button>
+            </a>
+
+            {/* Mobile Menu Hamburger Toggle */}
+            <button 
+              onClick={() => setVisible(true)} 
+              className='lg:hidden p-2 hover:bg-stone-100 rounded-full transition-colors duration-200'
+              aria-label="Open Menu"
+            >
+              <img src={assets.menu_icon} className='w-5 h-5 opacity-80' alt="" /> 
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Drawer Navigation Canvas */}
+      <div 
+        onClick={() => setVisible(false)} 
+        className={`fixed inset-0 bg-black/40 backdrop-blur-xs z-50 transition-opacity duration-300 ${visible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+      />
+
+      <div className={`fixed top-0 right-0 bottom-0 z-50 bg-white w-full max-w-[300px] shadow-2xl transition-transform duration-300 ease-in-out transform ${visible ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className='flex flex-col h-full text-stone-700 bg-stone-50/50 overflow-y-auto'>
+          <div onClick={() => setVisible(false)} className='flex items-center gap-3 p-5 cursor-pointer text-stone-500 hover:text-stone-900 transition-colors border-b border-stone-100 bg-white'>
+            <img className='h-4 rotate-180 opacity-70' src={assets.dropdown_icon} alt="" />
+            <span className='text-xs font-semibold uppercase tracking-wider'>Close Menu</span>
+          </div>
+
+          <div className="flex flex-col py-4 px-3 gap-1">
+            {[
+              { name: 'HOME', path: '/' },
+              { name: 'OUR PLANTS', path: '/collection' },
+              { name: 'SERVICES', path: '/services' },
+              { name: 'ABOUT US', path: '/about' },
+              { name: 'CONTACT US', path: '/contact' }
+            ].map((item, idx) => (
+              <NavLink 
+                key={idx}
+                onClick={() => setVisible(false)} 
+                className={({ isActive }) => 
+                  `py-3 px-4 rounded-xl text-sm font-medium tracking-wide transition-all ${isActive ? 'bg-emerald-50 text-emerald-900 font-semibold' : 'hover:bg-stone-100'}`
+                } 
+                to={item.path}
+              >
+                {item.name}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Navbar;

@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a.active hr{
+    display: block;
+}
+
+*{
+    font-family: 'Outfit', 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+.prata-regular {
+    font-family: "Prata", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+@media (max-width:640px) {
+    a.active{
+        background-color: #064e3b; /* Premium Emerald-900 instead of harsh black */
+        color: white;
+    }
+}
+
+/* --- Premium Botanical Backdrop Layer --- */
+body {
+    margin: 0;
+    padding: 0;
+    color: #292524; /* Warm stone-800 text instead of pure harsh black */
+    background-color: #fcfbf7; /* Elegant off-white cream base */
+    
+    /* Layer 1: Smooth, subtle radial gradients that mimic morning light passing through leaves */
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(209, 250, 229, 0.3) 0px, transparent 50%), 
+        radial-gradient(at 100% 100%, rgba(240, 253, 244, 0.4) 0px, transparent 50%),
+        /* Layer 2: Ultra-fine analog noise grain to make the background feel premium and material */
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.015'/%3E%3C/svg%3E");
+        
+    background-attachment: fixed;
+}
+
+@layer utilities {
+  .animate-marquee {
+    animation: marquee 35s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+
+/* Customizes the close 'X' button to look minimal and elegant */
+.Toastify__close-button {
+  color: #78716c !important; /* stone-500 */
+  opacity: 0.6;
+  align-self: center;
+  transition: opacity 0.2s ease;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1;
+  color: #064e3b !important; /* emerald-900 */
+}
+
+/* Aligns your success/error icons cleanly with the botanical theme */
+.Toastify__toast-icon {
+  width: 20px;
+  margin-inline-end: 12px;
+}
+
+/* Overrides default colors for standard success/error icon fill states */
+.Toastify__toast--success .Toastify__toast-icon svg {
+  fill: #065f46 !important; /* emerald-800 */
+}
+.Toastify__toast--error .Toastify__toast-icon svg {
+  fill: #991b1b !important; /* red-800 */
+}
