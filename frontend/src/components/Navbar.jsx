@@ -146,9 +146,9 @@ const Navbar = () => {
             </div>
 
             {/* Desktop Action Button */}
-            <a href="#" target="_blank" rel="noreferrer" className='hidden sm:block'>
+            <a href="https://plantora-uots.vercel.app/" target="_blank" rel="noreferrer" className='hidden sm:block'>
               <button className="bg-[#0b2216] hover:bg-emerald-900 text-white font-medium py-2 px-4 md:px-5 rounded-full text-xs transition-all duration-300 shadow-sm whitespace-nowrap tracking-wide">
-                Call Now
+                Admin Panel
               </button>
             </a>
 
