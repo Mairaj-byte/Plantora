@@ -93,11 +93,12 @@ const Sidebar = ({ setToken }) => {
       )}
 
       {/* --- SIDEBAR CONTAINER --- */}
+      {/* Changed left-0 to right-0, border-r to border-l, and -translate-x-full to translate-x-full */}
       <div className={`
-        fixed lg:sticky top-0 left-0 h-screen bg-[#f0f2eb]  border-r border-gray-200 
+        fixed lg:sticky top-0 right-0 h-screen bg-[#f0f2eb] border-l border-gray-200 
         flex flex-col justify-between py-8 z-50 transition-transform duration-300 ease-in-out
         w-[260px] lg:w-[22%] xl:w-[18%] shrink-0
-        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        ${isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}
       `}>
         
         {/* Top Section: Brand & Nav */}

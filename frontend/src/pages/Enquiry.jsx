@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Leaf, User, Mail, Phone, MapPin, MessageSquare, Send, X } from 'lucide-react';
+import { Leaf, User, Mail, Phone, MapPin, MessageSquare, Send, X, Loader2 } from 'lucide-react';
 
 const Enquiry = ({ plantName, onClose }) => {
   const [formData, setFormData] = useState({
@@ -11,7 +11,11 @@ const Enquiry = ({ plantName, onClose }) => {
     message: ''
   });
 
-  
+  // Submission UI states
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState({ type: null, message: '' });
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     if (plantName) {
       setFormData(prev => ({ ...prev, plantName: plantName }));
@@ -22,19 +26,60 @@ const Enquiry = ({ plantName, onClose }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Enquiry Submitted Successfully:", formData);
-    // Add your backend submission routing rules here
-    if (onClose) onClose(); // Optionally close modal on successful submit
+    setIsSubmitting(true);
+    setStatus({ type: null, message: '' });
+
+    try {
+      const response = await fetch(backendUrl + "/api/enquiry/list", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Something went wrong. Please try again.');
+      }
+
+      // Optional: Parse JSON if your backend returns data
+      // const data = await response.json(); 
+
+      setStatus({ type: 'success', message: 'Enquiry submitted successfully!' });
+      
+      // Clear form on success
+      setFormData({
+        plantName: plantName || '',
+        name: '',
+        email: '',
+        contactNumber: '',
+        address: '',
+        message: ''
+      });
+
+      // Close modal/overlay after a short delay so user sees success state
+      if (onClose) {
+        setTimeout(() => {
+          onClose();
+        }, 1500);
+      }
+
+    } catch (error) {
+      setStatus({ 
+        type: 'error', 
+        message: error.message || 'Failed to submit enquiry. Check your connection.' 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="w-full bg-white transition-all duration-300 relative">
       
-      
       <div className="bg-emerald-950 text-white p-8 relative overflow-hidden">
-      
         {onClose && (
           <button 
             type="button" 
@@ -62,6 +107,17 @@ const Enquiry = ({ plantName, onClose }) => {
       {/* Form Container */}
       <form onSubmit={handleSubmit} className="p-6 sm:p-10 space-y-6">
         
+        {/* Status Messages */}
+        {status.type && (
+          <div className={`p-4 rounded-xl text-sm font-medium ${
+            status.type === 'success' 
+              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' 
+              : 'bg-rose-50 text-rose-800 border border-rose-200'
+          }`}>
+            {status.message}
+          </div>
+        )}
+
         {/* Plant Name Field */}
         <div className="space-y-1.5">
           <label className="text-xs uppercase font-bold tracking-wider text-emerald-800 flex items-center gap-1.5">
@@ -75,7 +131,8 @@ const Enquiry = ({ plantName, onClose }) => {
               onChange={handleChange}
               placeholder="Enter plant variety name..."
               required
-              className="w-full bg-[#F4F6F2]/50 border border-emerald-100/80 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all"
+              disabled={isSubmitting}
+              className="w-full bg-[#F4F6F2]/50 border border-emerald-100/80 rounded-xl px-4 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all disabled:opacity-60"
             />
           </div>
         </div>
@@ -93,7 +150,8 @@ const Enquiry = ({ plantName, onClose }) => {
               onChange={handleChange}
               placeholder="John Doe"
               required
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all"
+              disabled={isSubmitting}
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all disabled:opacity-60"
             />
           </div>
 
@@ -109,7 +167,8 @@ const Enquiry = ({ plantName, onClose }) => {
               onChange={handleChange}
               placeholder="johndoe@example.com"
               required
-              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all"
+              disabled={isSubmitting}
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all disabled:opacity-60"
             />
           </div>
         </div>
@@ -127,7 +186,8 @@ const Enquiry = ({ plantName, onClose }) => {
             onChange={handleChange}
             placeholder="+1 (555) 000-0000"
             required
-            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all"
+            disabled={isSubmitting}
+            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all disabled:opacity-60"
           />
         </div>
 
@@ -143,7 +203,8 @@ const Enquiry = ({ plantName, onClose }) => {
             onChange={handleChange}
             placeholder="Street Address, Apartment, Suite, City, State"
             required
-            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all"
+            disabled={isSubmitting}
+            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all disabled:opacity-60"
           />
         </div>
 
@@ -159,7 +220,8 @@ const Enquiry = ({ plantName, onClose }) => {
             rows={4}
             placeholder="Provide context regarding lighting configuration constraints, spatial layout setup, or delivery care questions..."
             required
-            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all resize-none"
+            disabled={isSubmitting}
+            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-800/20 focus:border-emerald-800 transition-all resize-none disabled:opacity-60"
           />
         </div>
 
@@ -167,9 +229,18 @@ const Enquiry = ({ plantName, onClose }) => {
         <div className="pt-2">
           <button
             type="submit"
-            className="w-full bg-emerald-950 text-white font-medium py-3.5 px-6 rounded-xl hover:bg-emerald-900 transition-all active:scale-[0.99] flex items-center justify-center gap-2 text-sm shadow-sm tracking-wide"
+            disabled={isSubmitting}
+            className="w-full bg-emerald-950 text-white font-medium py-3.5 px-6 rounded-xl hover:bg-emerald-900 transition-all active:scale-[0.99] flex items-center justify-center gap-2 text-sm shadow-sm tracking-wide disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Send className="w-4 h-4" /> Submit Request Review
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" /> Submitting Request...
+              </>
+            ) : (
+              <>
+                <Send className="w-4 h-4" /> Submit Request Review
+              </>
+            )}
           </button>
         </div>
       </form>

@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Inquiries from './pages/Inquiries'
 import Settings from './pages/Settings'
 import Dashboard from './pages/Dashboard'
+import Products from './pages/Products'
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 export const currency = '₹'
@@ -25,7 +26,25 @@ const App = () => {
 
   return (
     <div className='bg-gray-50 min-h-screen antialiased'>
-      <ToastContainer />
+      <ToastContainer
+              position="top-right"
+              autoClose={3500}
+              hideProgressBar={false}
+              newestOnTop
+              closeOnClick
+              pauseOnHover
+              draggable
+              theme="light"
+              toastClassName={() =>
+                "relative flex p-4 min-h-16 rounded-2xl justify-between overflow-hidden cursor-pointer bg-white/95 backdrop-blur-md border border-stone-100 shadow-[0_10px_30px_rgba(11,34,22,0.08)] mb-4"
+              }
+              bodyClassName={() =>
+                "flex text-xs sm:text-sm font-light tracking-wide text-stone-800 items-center p-0 m-0"
+              }
+              progressClassName={() =>
+                "absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-700 to-emerald-950"
+              }
+            />
       {token === ""
         ? <Login setToken={setToken} />
         : <>
@@ -50,6 +69,7 @@ const App = () => {
                 <Route path='/inquiries' element={<Inquiries token={token} />} />
                 <Route path='/settings' element={<Settings token={token} />} />
                 <Route path='/dashboard' element={<Dashboard token={token} />} />
+                <Route path='/products' element={<Products token={token} />} />
               </Routes>
             </div>
 
