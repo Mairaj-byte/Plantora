@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Calendar, Trash2, Search, MessageSquare, Inbox } from 'lucide-react';
 
-const Inquiries = () => {
+const Enquiries = () => {
   const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -276,4 +276,4 @@ const Inquiries = () => {
   );
 };
 
-export default Inquiries;
+export default Enquiries;
