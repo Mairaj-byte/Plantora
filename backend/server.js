@@ -2,8 +2,10 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import connectDB from './config/mongodb.js'
+import { initializeAdmin } from './models/adminModel.js'
 import connectCloudinary from './config/cloudinary.js'
 import userRouter from './routes/userRoute.js'
+import adminRouter from './routes/adminRoute.js' // Added Admin Router
 import productRouter from './routes/productRoute.js'
 import cartRouter from './routes/cartRoute.js'
 import orderRouter from './routes/orderRoute.js'
@@ -13,6 +15,7 @@ import enquiryRouter from './routes/enquiryRoute.js'
 // App Config
 const app = express()
 const port = process.env.PORT || 4000
+
 connectDB()
 connectCloudinary()
 
@@ -21,17 +24,16 @@ app.use(express.json())
 app.use(cors())
 
 // api endpoints
-app.use('/api/user',userRouter)
-app.use('/api/product',productRouter)
-app.use('/api/cart',cartRouter)
-app.use('/api/order',orderRouter)
-app.use('/api/clear',clearRouter)
-app.use('/api/enquiry',enquiryRouter)
+app.use('/api/user', userRouter)
+app.use('/api/admin', adminRouter) // Added Admin API Route
+app.use('/api/product', productRouter)
+app.use('/api/cart', cartRouter)
+app.use('/api/order', orderRouter)
+app.use('/api/clear', clearRouter)
+app.use('/api/enquiry', enquiryRouter)
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send("API Working")
 })
 
-
-
-app.listen(port, ()=> console.log('Backend Started on Port : '+ port))
+app.listen(port, () => console.log('Backend Started on Port : ' + port))
