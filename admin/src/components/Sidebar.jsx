@@ -46,9 +46,9 @@ const Sidebar = ({ setToken }) => {
         <span>Dashboard</span>
       </NavLink>
 
-      <NavLink className={navLinkClass} to="/inquiries" onClick={() => setIsOpen(false)}>
+      <NavLink className={navLinkClass} to="/enquiries" onClick={() => setIsOpen(false)}>
         <MessageSquare className='w-5 h-5 transition-opacity' />
-        <span>Inquiries</span>
+        <span>Enquiries</span>
       </NavLink>
 
       <NavLink className={navLinkClass} to="/products" onClick={() => setIsOpen(false)}>
