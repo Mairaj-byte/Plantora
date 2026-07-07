@@ -11,24 +11,26 @@ const Orders = ({ token }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All Statuses');
 
-  const fetchAllOrders = async () => {
-    if (!token) return null;
-
-    try {
-      const response = await axios.post(
-        backendUrl + '/api/order/list',
-        {},
-        { headers: { token } }
-      );
-      if (response.data.success) {
-        setOrders(response.data.orders.reverse());
-      } else {
-        toast.error(response.data.message);
+  // Inside your Orders.jsx component (or wherever you fetch the list)
+const fetchAllOrders = async () => {
+  try {
+    const response = await axios.post(
+      `${backendUrl}/api/order/list`, 
+      {}, // Empty body because it's a POST without payload data
+      {
+        headers: {
+          token: token // This must match exactly what you destructured: const { token } = req.headers;
+        }
       }
-    } catch (error) {
-      toast.error(error.message);
+    );
+    
+    if (response.data.success) {
+      setOrders(response.data.orders);
     }
-  };
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const statusHandler = async (event, orderId) => {
     try {
