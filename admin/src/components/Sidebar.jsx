@@ -8,7 +8,8 @@ import {
   Settings, 
   Menu, 
   X, 
-  LogOut 
+  LogOut,
+  Package,
 } from 'lucide-react'
 
 const Sidebar = ({ setToken }) => {
@@ -59,6 +60,11 @@ const Sidebar = ({ setToken }) => {
       <NavLink className={navLinkClass} to="/orders" onClick={() => setIsOpen(false)}>
         <ClipboardList className='w-5 h-5 transition-opacity' />
         <span>Orders</span>
+      </NavLink>
+
+      <NavLink className={navLinkClass} to="/newproduct" onClick={() => setIsOpen(false)}>
+        <Package className='w-5 h-5 transition-opacity' />
+        <span>New Product</span>
       </NavLink>
 
       <NavLink className={navLinkClass} to="/settings" onClick={() => setIsOpen(false)}>
