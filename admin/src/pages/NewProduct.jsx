@@ -166,7 +166,7 @@ const NewProduct = ({ token }) => {
                     <option value="Creepar">🌿 Creepar</option>
                     <option value="Shrub">🌳 Shrub</option>
                     <option value="Fruit Plants">🍎 Fruit Plants</option>
-                    <option value="Pot Design">🪴 Pot Design</option>
+                    <option value="Timber">🪴 Timber</option>
                     <option value="Indoor Plants">🏠 Indoor Plants</option>
                     <option value="Ground Cover Plants">🍀 Ground Cover Plants</option>
                     <option value="Palm Tree">🌴 Palm Tree</option>

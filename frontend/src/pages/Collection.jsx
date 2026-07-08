@@ -140,7 +140,7 @@ const Collection = () => {
                   { id: 'creepar', value: 'Creepar', label: 'Creepar' },
                   { id: 'outdoor', value: 'Ground Cover Plants', label: 'Ground Cover Plants' },
                   { id: 'fruit', value: 'Fruit Plants', label: 'Fruit Plants' },
-                  { id: 'pot', value: 'Pot Design', label: 'Pot Design' },
+                  { id: 'pot', value: 'Timber', label: 'Timber' },
                   { id: 'exotic', value: 'Shrub', label: 'Shrub' },
                   { id: 'palm', value: 'Palm Tree', label: 'Palm Tree' }
                 ].map((cat) => (
