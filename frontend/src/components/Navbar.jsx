@@ -55,11 +55,14 @@ const Navbar = () => {
       <nav className='sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-stone-100 px-4 sm:px-6 lg:px-10 py-4 flex items-center justify-between transition-all duration-300'>
 
         {/* Brand Logo */}
+        <a href="/about">
         <img
   src={assets.WebLogo}
   className="w-28 sm:w-32 md:w-40 transition-transform duration-300 group-hover:scale-[1.01]"
   alt="Nursery Logo"
 />
+        </a>
+        
 
         {/* Right Side Utility & Navigation Panel combined closer together */}
         <div className='flex items-center gap-6 md:gap-8 flex-1 justify-end max-w-5xl ml-auto'>

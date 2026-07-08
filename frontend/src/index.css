@@ -35,7 +35,7 @@ body {
     margin: 0;
     padding: 0;
     color: #292524; /* Warm stone-800 text instead of pure harsh black */
-    background-color: #fcfbf7; /* Elegant off-white cream base */
+    background-color: transparent; /* Elegant off-white cream base */
     
     /* Layer 1: Smooth, subtle radial gradients that mimic morning light passing through leaves */
     background-image: 

@@ -24,10 +24,24 @@ import About2 from './About2.jpg'
 import About3 from './About3.png'
 import About4 from './About4.png'
 import WebLogo from './WebLogo.png'
+import Services1 from './Services1.jpg'
+import Services2 from './Services2.jpg'
+import Services3 from './Services3.jpg'
+import Services4 from './Services4.jpg'
+import Services5 from './Services5.jpg'
+import Services6 from './Services6.jpg'
+import Services7 from './Services7.jpg'
+
 
 
 export const assets = {
-    
+    Services1,
+    Services2,
+    Services3,
+    Services4,
+    Services5,
+    Services6,
+    Services7,
     WebLogo,
     About1,
     About2,

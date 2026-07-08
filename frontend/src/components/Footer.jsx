@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Footer = () => {
-  // Explicitly defined navigation links with their required URLs
   const links = [
     { name: 'Home', path: '/' },
     { name: 'About us', path: '/about' },
@@ -10,8 +9,8 @@ const Footer = () => {
   ];
 
   return (
-    <footer className='bg-[#0b2216] text-stone-300 border-t border-emerald-950 mt-24 sm:mt-40 transition-colors duration-300 font-sans'>
-      {/* Reduced the bottom padding on larger screens from pb-24 to md:pb-12 */}
+    /* FIXED: Changed mt-24 sm:mt-40 to mt-0 so it sits perfectly flush with the Newsletter section */
+    <footer className='bg-[#0b2216] text-stone-300 border-t border-emerald-950 mt-0 transition-colors duration-300 font-sans'>
       <div className='max-w-7xl mx-auto px-6 pt-16 pb-16 md:pt-24 md:pb-12'>
         
         {/* Main Grid Content */}

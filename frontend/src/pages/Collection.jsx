@@ -129,7 +129,7 @@ const Collection = () => {
           </button>
 
           {/* Collapsible Content */}
-          <div className={`sticky top-24 space-y-6 bg-surface-container-low p-5 rounded-xl border border-gray-200/60 transition-all ${showFilter ? 'block' : 'hidden lg:block'}`}>
+          <div className={`sticky top-24 space-y-6 bg-[#f3f4f1] p-5 rounded-xl border border-gray-200/60 transition-all ${showFilter ? 'block' : 'hidden lg:block'}`}>
 
             {/* Categories */}
             <div>
@@ -178,6 +178,8 @@ const Collection = () => {
               </button>
             )}
           </div>
+
+          
         </aside>
 
         {/* Right Side Showcase Grid */}

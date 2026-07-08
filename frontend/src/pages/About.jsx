@@ -52,10 +52,10 @@ const About = () => {
         
           <div className="max-w-4xl mx-auto space-y-6">
             <span className="inline-block px-4 py-1.5 bg-[#ccebc7] text-[#07200b] rounded-full text-[14px] font-semibold uppercase tracking-widest">
-              Since 2016
+              Since 2021
             </span>
             <h1 className="text-[48px] leading-[1.1] font-semibold tracking-tight font-['EB_Garamond'] text-white">
-              Nurturing Growth in Gajraula
+              Nurturing Growth in Amroha
             </h1>
             <p className="text-[18px] leading-[1.6] text-white/90 max-w-2xl mx-auto">
               Chauhan Traders & Nursery is more than just a nursery; it's a legacy of commitment to quality and a passion for the green world.
@@ -69,19 +69,19 @@ const About = () => {
             <div className="space-y-8">
               <div className="space-y-4">
                 <h2 className="text-[32px] font-['EB_Garamond'] font-medium text-[#061b0e]">
-                  A Vision Planted in 2016
+                  A Vision Planted in 2021
                 </h2>
                 <div className="w-20 h-1 bg-[#4a6549] rounded-full"></div>
               </div>
               <p className="text-[18px] leading-[1.6] text-[#434843]">
-                Founded in the heart of Gajraula in 2016, Chauhan Traders & Nursery began with a singular vision: to bridge the gap between dedicated plant traders and high-quality botanical specimens. What started as a local initiative has blossomed into a trusted hub for horticultural excellence.
+                Founded in the heart of Amroha in 2021, Chauhan Traders & Nursery began with a singular vision: to bridge the gap between dedicated plant traders and high-quality botanical specimens. What started as a local initiative has blossomed into a trusted hub for horticultural excellence.
               </p>
               <p className="text-[18px] leading-[1.6] text-[#434843]">
                 Our journey over the last eight years has been defined by our unwavering commitment to "Affordable Quality." We understand that every plant we supply is an investment in the environment and our customers' peace of mind.
               </p>
               <div className="grid grid-cols-2 gap-6 pt-4">
                 <div className="p-6 bg-[#edeeeb] rounded-xl border border-[#c3c8c1]/30">
-                  <span className="text-[48px] font-['EB_Garamond'] font-semibold text-[#061b0e]">8+</span>
+                  <span className="text-[48px] font-['EB_Garamond'] font-semibold text-[#061b0e]">5+</span>
                   <p className="text-[14px] font-semibold text-[#434843]">Years of Expertise</p>
                 </div>
                 <div className="p-6 bg-[#edeeeb] rounded-xl border border-[#c3c8c1]/30">

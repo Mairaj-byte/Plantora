@@ -8,7 +8,7 @@ const NewsletterBox = () => {
 
     return (
         <section className='my-12 px-4 sm:px-12 max-w-7xl mx-auto'>
-            {/* Elegant Background Card inspired by the clean layout in Screenshot (177).png */}
+            
             <div className=' p-8 sm:p-16 text-center backdrop-blur-sm relative overflow-hidden'>
                 
                 {/* Decorative Subtle Accent Light */}

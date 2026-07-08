@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Leaf, Truck, HeartHandshake, Sparkles, Sprout, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Leaf, Truck, HeartHandshake, Sparkles, Sprout, ShieldCheck, ArrowRight, Trees, Layers, Gem, ShoppingBag, Store } from 'lucide-react';
+import { assets } from '../assets/assets';
 
 const Services = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -15,7 +16,7 @@ const Services = () => {
       title: "Secure & Safe Shipping",
       description: "Our specialized eco-packaging ensures your green friends arrive safely, hydrated, and completely stress-free right at your doorstep.",
       isFeatured: true,
-      image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=80"
+      image: assets.Services1
     },
     {
       icon: <HeartHandshake className="w-6 h-6 text-emerald-600" />,
@@ -34,19 +35,62 @@ const Services = () => {
       title: "Rare & Exotic Species",
       description: "From variegated Monstera to rare Alocasias, we source hard-to-find botanical gems for passionate collectors.",
       isFeatured: true,
-      image: "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80"
+      image: assets.Services2
     },
     {
       icon: <Sprout className="w-6 h-6 text-lime-600" />,
       title: "Garden Consultation",
       description: "Unsure which plant fits your space? Schedule a virtual layout consultation to pick the perfect low-light or pet-friendly choices.",
-      isFeatured: false
+      isFeatured: true,
+      image: assets.Services3
     },
     {
       icon: <ShieldCheck className="w-6 h-6 text-teal-600" />,
       title: "30-Day Health Guarantee",
       description: "We are confident in our plant health. If your plant shows signs of decline within 30 days, we will replace it entirely free.",
       isFeatured: false
+    },
+    {
+      icon: <Trees className="w-6 h-6 text-emerald-600" />,
+      title: "Garden Design Service",
+      description: "Transform your outdoor areas with bespoke architectural landscaping tailored to your local climate and personal aesthetic.",
+      isFeatured: false
+
+    },
+    {
+      icon: <Layers className="w-6 h-6 text-lime-700" />,
+      title: "Vertical Garden Service",
+      description: "Maximize your space with stunning living walls and vertical installations perfect for urban settings and compact patios.",
+      isFeatured: true,
+      image: assets.Services4
+    },
+    {
+      icon: <Gem className="w-6 h-6 text-stone-600" />,
+      title: "Stone Design services",
+      description: "Incorporate elegant pathways, retaining walls, and custom rockeries that seamlessly balance organic textures with greenery.",
+      isFeatured: true,
+      image: assets.Services5
+
+    },
+    {
+      icon: <ShoppingBag className="w-6 h-6 text-amber-700" />,
+      title: "Retail Plant Service",
+      description: "Explore our meticulously curated selection of premium houseplants, flowers, and essentials designed for immediate home styling.",
+      isFeatured: false
+    },
+    {
+      icon: <Store className="w-6 h-6 text-teal-700" />,
+      title: "Wholesale Plant Service",
+      description: "Bulk botanical ordering options and volume contract pricing explicitly optimized for commercial developers, offices, and designers.",
+      isFeatured: false
+    },
+    {
+      icon: <Gem className="w-6 h-6 text-stone-600" />,
+      title: "Eco Friendly services",
+      description: "Eco Garden Nursery is committed to sustainable practices, from biodegradable packaging to organic soil mixes, ensuring a greener future for all.",
+      isFeatured: true,
+      image: assets.Services6
+
     }
   ];
 
@@ -105,7 +149,7 @@ const Services = () => {
                       {service.description}
                     </p>
                     <a 
-                      href={`#${service.title.toLowerCase().replace(/\s+/g, '-')}`}
+                      href={"/contact"}
                       className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#ccebc7] hover:text-white transition-colors pt-2"
                     >
                       Learn Details <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
@@ -141,7 +185,7 @@ const Services = () => {
                 </div>
                 
                 <a 
-                  href={`#${service.title.toLowerCase().replace(/\s+/g, '-')}`} 
+                  href={"/contact"} 
                   className="text-xs font-semibold tracking-wider uppercase text-emerald-700 hover:text-[#061b0e] transition-colors flex items-center gap-1.5 mt-4"
                 >
                   Learn details <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
@@ -155,7 +199,7 @@ const Services = () => {
         <div className="mt-20 relative rounded-[32px] overflow-hidden bg-[#061b0e] text-white shadow-xl">
           <div className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 opacity-20 lg:opacity-40 pointer-events-none">
             <img 
-              src="https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=1200&q=80" 
+              src={assets.Services7}
               alt="Lush Nursery Setup" 
               className="w-full h-full object-cover"
             />
@@ -171,7 +215,9 @@ const Services = () => {
             </p>
             <div className="pt-2">
               <button className="bg-[#ccebc7] text-[#07200b] font-semibold tracking-wide text-sm px-8 py-3.5 rounded-full hover:bg-white hover:-translate-y-0.5 transition-all duration-300 shadow-md">
+                <a href={"/collection"}>
                 Browse Content Collection
+                </a>
               </button>
             </div>
           </div>
