@@ -3,6 +3,7 @@ import { ShopContext } from '../context/ShopContext'
 import { assets } from '../assets/assets';
 // import Title from '../components/Title';
 import ProductItem from '../components/ProductItem';
+import SearchBar from '../components/SearchBar';
 
 const Collection = () => {
 
@@ -85,6 +86,7 @@ const Collection = () => {
   return (
     /* Reduced overall max-width to max-w-6xl for a tighter layout frame */
     <main className="max-w-6xl mx-auto px-4 md:px-6 py-8 min-h-screen">
+      
 
       {/* Hero Title Section */}
       <div className="mb-8">

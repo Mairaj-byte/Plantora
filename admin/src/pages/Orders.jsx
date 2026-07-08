@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { backendUrl, currency } from '../App';
+import { currency } from '../App';
 import { toast } from 'react-toastify';
 import { assets } from '../assets/assets';
-// Import essential icons from lucide-react
 import { Download, Plus, Search, Package, Phone, Image as ImageIcon } from 'lucide-react';
 
 const Orders = ({ token }) => {
@@ -11,26 +10,27 @@ const Orders = ({ token }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All Statuses');
 
-  // Inside your Orders.jsx component (or wherever you fetch the list)
-const fetchAllOrders = async () => {
-  try {
-    const response = await axios.post(
-      `${backendUrl}/api/order/list`, 
-      {}, // Empty body because it's a POST without payload data
-      {
-        headers: {
-          token: token // This must match exactly what you destructured: const { token } = req.headers;
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+  const fetchAllOrders = async () => {
+    try {
+      const response = await axios.post(
+        `${backendUrl}/api/order/list`,
+        {},
+        {
+          headers: {
+            token: token
+          }
         }
+      );
+
+      if (response.data.success) {
+        setOrders(response.data.orders);
       }
-    );
-    
-    if (response.data.success) {
-      setOrders(response.data.orders);
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-};
+  };
 
   const statusHandler = async (event, orderId) => {
     try {
@@ -53,12 +53,10 @@ const fetchAllOrders = async () => {
     fetchAllOrders();
   }, [token]);
 
-  // Dynamic calculations for Bento Grid metrics
   const totalRevenue = orders.reduce((sum, order) => sum + (order.amount || 0), 0);
   const pendingFulfillment = orders.filter(o => o.status !== 'Delivered').length;
   const activeShipments = orders.filter(o => o.status === 'Shipped' || o.status === 'Out for delivery').length;
 
-  // Filter Logic
   const filteredOrders = orders.filter(order => {
     const matchesSearch =
       order._id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -164,128 +162,125 @@ const fetchAllOrders = async () => {
 
 
             {/* Cards List Layout (Botanical Table Row Aesthetics) */}
-<div className="divide-y divide-[#c3c8c1]/20">
-  {filteredOrders.length > 0 ? (
-    filteredOrders.map((order, index) => {
-      // Safely fetch the primary image from the first ordered item to use as the main card display
-      const primaryItemImage = order.items?.[0]?.image?.[0];
-      const primaryItemName = order.items?.[0]?.name || "Product";
+            <div className="divide-y divide-[#c3c8c1]/20">
+              {filteredOrders.length > 0 ? (
+                filteredOrders.map((order, index) => {
+                  // Safely fetch the primary image from the first ordered item to use as the main card display
+                  const primaryItemImage = order.items?.[0]?.image?.[0];
+                  const primaryItemName = order.items?.[0]?.name || "Product";
 
-      return (
-        <div 
-          className="grid grid-cols-1 md:grid-cols-[auto_1fr_1.2fr_1fr] gap-6 items-center p-6 hover:bg-[#f3f4f1]/30 transition-colors" 
-          key={order._id || index}
-        >
-          {/* Prominent Primary Product Image Cover Display - Appears Only Once Here */}
-          <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl bg-[#f3f4f1] border border-[#c3c8c1]/30 shadow-sm overflow-hidden flex items-center justify-center flex-shrink-0 self-start md:self-center">
-            {primaryItemImage ? (
-              <img 
-                className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
-                src={primaryItemImage} 
-                alt={primaryItemName} 
-                onError={(e) => { e.target.style.display = 'none'; }}
-              />
-            ) : (
-              <Package className="w-8 h-8 text-[#434843]/40 stroke-[1.25]" />
-            )}
-          </div>
+                  return (
+                    <div
+                      className="grid grid-cols-1 md:grid-cols-[auto_1fr_1.2fr_1fr] gap-6 items-center p-6 hover:bg-[#f3f4f1]/30 transition-colors"
+                      key={order._id || index}
+                    >
+                      {/* Prominent Primary Product Image Cover Display - Appears Only Once Here */}
+                      <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl bg-[#f3f4f1] border border-[#c3c8c1]/30 shadow-sm overflow-hidden flex items-center justify-center flex-shrink-0 self-start md:self-center">
+                        {primaryItemImage ? (
+                          <img
+                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                            src={primaryItemImage}
+                            alt={primaryItemName}
+                            onError={(e) => { e.target.style.display = 'none'; }}
+                          />
+                        ) : (
+                          <Package className="w-8 h-8 text-[#434843]/40 stroke-[1.25]" />
+                        )}
+                      </div>
 
-          {/* Customer, Order details & Address Column */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[11px] font-bold bg-[#ccebc7] text-[#506b4f] px-2.5 py-0.5 rounded-full">
-                ID: {order._id ? order._id.slice(-6).toUpperCase() : `#${index}`}
-              </span>
-              <span className="text-xs text-[#434843]">
-                {new Date(order.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
-              </span>
-            </div>
+                      {/* Customer, Order details & Address Column */}
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-[11px] font-bold bg-[#ccebc7] text-[#506b4f] px-2.5 py-0.5 rounded-full">
+                            ID: {order._id ? order._id.slice(-6).toUpperCase() : `#${index}`}
+                          </span>
+                          <span className="text-xs text-[#434843]">
+                            {new Date(order.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                          </span>
+                        </div>
 
-            <div className="text-sm font-semibold text-[#191c1b]">
-              {order.address?.firstName} {order.address?.lastName}
-            </div>
+                        <div className="text-sm font-semibold text-[#191c1b]">
+                          {order.address?.firstName} {order.address?.lastName}
+                        </div>
 
-            <div className="text-xs text-[#434843] leading-relaxed max-w-xs space-y-0.5">
-              <p>{order.address?.street},</p>
-              <p>{order.address?.city}, {order.address?.state}, {order.address?.zipcode}</p>
-              <p className="mt-1 font-medium text-[#4a6549] flex items-center gap-1">
-                <Phone className="w-3 h-3 inline" /> {order.address?.phone}
-              </p>
-            </div>
-          </div>
+                        <div className="text-xs text-[#434843] leading-relaxed max-w-xs space-y-0.5">
+                          <p>{order.address?.street},</p>
+                          <p>{order.address?.city}, {order.address?.state}, {order.address?.zipcode}</p>
+                          <p className="mt-1 font-medium text-[#4a6549] flex items-center gap-1">
+                            <Phone className="w-3 h-3 inline" /> {order.address?.phone}
+                          </p>
+                        </div>
+                      </div>
 
-          {/* Dynamic Items Row Grid - Clean Typography Text View (No micro-images) */}
-          <div className="space-y-3 text-sm w-full">
-            <div className="bg-[#f3f4f1]/50 p-3 rounded-lg border border-[#c3c8c1]/20 space-y-2">
-              <p className="text-[10px] font-bold text-[#434843] uppercase tracking-tight">Products Purchased</p>
-              <div className="max-h-36 overflow-y-auto space-y-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {order.items.map((item, idx) => (
-                  <div key={idx} className="bg-white p-2 rounded-lg border border-[#c3c8c1]/10 shadow-sm">
-                    {/* Clean Typography Layout */}
-                    <div className="text-xs min-w-0">
-                      <p className="font-semibold text-[#191c1b] truncate">{item.name}</p>
-                      <p className="text-[#434843]/80 text-[11px] mt-0.5">
-                        Qty: <span className="font-bold text-[#191c1b]">{item.quantity}</span>
-                        {item.size && <span className="ml-2 px-1 py-0.5 bg-[#f3f4f1] text-[#4a6549] rounded font-bold text-[10px]">{item.size}</span>}
-                      </p>
+                      {/* Dynamic Items Row Grid - Clean Typography Text View (No micro-images) */}
+                      <div className="space-y-3 text-sm w-full">
+                        <div className="bg-[#f3f4f1]/50 p-3 rounded-lg border border-[#c3c8c1]/20 space-y-2">
+                          <p className="text-[10px] font-bold text-[#434843] uppercase tracking-tight">Products Purchased</p>
+                          <div className="max-h-36 overflow-y-auto space-y-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                            {order.items.map((item, idx) => (
+                              <div key={idx} className="bg-white p-2 rounded-lg border border-[#c3c8c1]/10 shadow-sm">
+                                {/* Clean Typography Layout */}
+                                <div className="text-xs min-w-0">
+                                  <p className="font-semibold text-[#191c1b] truncate">{item.name}</p>
+                                  <p className="text-[#434843]/80 text-[11px] mt-0.5">
+                                    Qty: <span className="font-bold text-[#191c1b]">{item.quantity}</span>
+                                    {item.size && <span className="ml-2 px-1 py-0.5 bg-[#f3f4f1] text-[#4a6549] rounded font-bold text-[10px]">{item.size}</span>}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Meta Payment Data */}
+                        <div className="text-xs space-y-1 px-1 flex justify-between items-center md:block">
+                          <p className="text-[#434843]"><span className="font-medium">Method:</span> {order.paymentMethod}</p>
+                          <p className="text-[#434843]">
+                            <span className="font-medium">Payment:</span>{' '}
+                            <span className={`font-semibold ${order.payment ? 'text-[#4a6549]' : 'text-[#93000a]'}`}>
+                              {order.payment ? 'Done' : 'Pending'}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Order Pricing & Custom Status Control Dropdown */}
+                      <div className="flex md:flex-col justify-between md:justify-center items-center md:items-end gap-4 h-full w-full">
+                        <div className="text-left md:text-right">
+                          <p className="text-xs text-[#434843] font-medium">Total Billing</p>
+                          <p className="text-lg font-bold font-['EB_Garamond'] text-[#061b0e]">{currency}{order.amount?.toLocaleString('en-IN')}</p>
+                        </div>
+
+                        <div className="w-full max-w-[160px]">
+                          <select
+                            onChange={(event) => statusHandler(event, order._id)}
+                            value={order.status}
+                            className="w-full text-xs font-semibold bg-white border border-[#c3c8c1]/30 text-[#191c1b] rounded-lg p-2.5 outline-none shadow-sm transition-all focus:ring-2 focus:ring-[#4a6549]/20 cursor-pointer"
+                          >
+                            <option value="Order Placed">📦 Order Placed</option>
+                            <option value="Packing">⚙️ Packing</option>
+                            <option value="Shipped">🚚 Shipped</option>
+                            <option value="Out for delivery">🛵 Out for delivery</option>
+                            <option value="Delivered">✅ Delivered</option>
+                          </select>
+                        </div>
+                      </div>
+
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            {/* Meta Payment Data */}
-            <div className="text-xs space-y-1 px-1 flex justify-between items-center md:block">
-              <p className="text-[#434843]"><span className="font-medium">Method:</span> {order.paymentMethod}</p>
-              <p className="text-[#434843]">
-                <span className="font-medium">Payment:</span>{' '}
-                <span className={`font-semibold ${order.payment ? 'text-[#4a6549]' : 'text-[#93000a]'}`}>
-                  {order.payment ? 'Done' : 'Pending'}
-                </span>
-              </p>
-            </div>
-          </div>
-
-          {/* Order Pricing & Custom Status Control Dropdown */}
-          <div className="flex md:flex-col justify-between md:justify-center items-center md:items-end gap-4 h-full w-full">
-            <div className="text-left md:text-right">
-              <p className="text-xs text-[#434843] font-medium">Total Billing</p>
-              <p className="text-lg font-bold font-['EB_Garamond'] text-[#061b0e]">{currency}{order.amount?.toLocaleString('en-IN')}</p>
+                  );
+                })
+              ) : (
+                <div className="p-12 text-center text-[#434843] text-sm italic">
+                  No orders match your active filter metrics.
+                </div>
+              )}
             </div>
 
-            <div className="w-full max-w-[160px]">
-              <select 
-                onChange={(event) => statusHandler(event, order._id)} 
-                value={order.status} 
-                className="w-full text-xs font-semibold bg-white border border-[#c3c8c1]/30 text-[#191c1b] rounded-lg p-2.5 outline-none shadow-sm transition-all focus:ring-2 focus:ring-[#4a6549]/20 cursor-pointer"
-              >
-                <option value="Order Placed">📦 Order Placed</option>
-                <option value="Packing">⚙️ Packing</option>
-                <option value="Shipped">🚚 Shipped</option>
-                <option value="Out for delivery">🛵 Out for delivery</option>
-                <option value="Delivered">✅ Delivered</option>
-              </select>
-            </div>
-          </div>
-
-        </div>
-      );
-    })
-  ) : (
-    <div className="p-12 text-center text-[#434843] text-sm italic">
-      No orders match your active filter metrics.
-    </div>
-  )}
-</div>
-
-
-            
             {/* Table Footer Layout indicator */}
             <div className="p-4 md:p-6 border-t border-[#c3c8c1]/20 flex justify-between items-center bg-[#f3f4f1]/30 text-xs font-medium text-[#434843]">
               <p>Showing {filteredOrders.length} of {orders.length} total transactional entries</p>
             </div>
           </div>
-
         </div>
       </main>
     </div>
