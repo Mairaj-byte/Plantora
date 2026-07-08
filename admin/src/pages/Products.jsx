@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { backendUrl, currency } from '../App';
 import { toast } from 'react-toastify';
-import { Search, Trash2, Layers, Tag, Leaf, Eye, AlertCircle } from 'lucide-react';
+import { Search, Trash2, Edit3, Layers, Tag, Leaf, Eye, AlertCircle } from 'lucide-react';
 
 const Products = ({ token }) => {
   const [list, setList] = useState([]);
@@ -53,15 +53,11 @@ const Products = ({ token }) => {
     fetchList();
   }, []);
 
-  // Unique categories calculation for filter dynamic dropdowns
   const uniqueCategories = ['All Categories', ...new Set(list.map(item => item.category).filter(Boolean))];
-
-  // Dynamic Bento Metrics Calculations
   const totalProducts = list.length;
   const totalCategories = uniqueCategories.length - 1;
   const averagePrice = list.length > 0 ? Math.round(list.reduce((sum, item) => sum + (item.price || 0), 0) / list.length) : 0;
 
-  // Client-side search and category filtering logic
   const filteredList = list.filter(item => {
     const matchesSearch = item.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           item.category?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -148,13 +144,13 @@ const Products = ({ token }) => {
               </div>
             </div>
 
-            {/* Structured Table Layout Header (Desktop View) */}
-            <div className="hidden md:grid grid-cols-[80px_2.5fr_1.2fr_1fr_100px] items-center gap-4 py-3.5 px-6 border-b border-[#c3c8c1]/30 bg-[#f3f4f1]/80 text-xs font-bold text-[#434843] uppercase tracking-wider">
+            {/* Structured Table Layout Header */}
+            <div className="hidden md:grid grid-cols-[80px_2.5fr_1.2fr_1fr_140px] items-center gap-4 py-3.5 px-6 border-b border-[#c3c8c1]/30 bg-[#f3f4f1]/80 text-xs font-bold text-[#434843] uppercase tracking-wider">
               <span>Display</span>
               <span>Plant Name</span>
               <span>Category Classification</span>
               <span>Price Scale</span>
-              <span className="text-center">Manage</span>
+              <span className="text-center">Actions</span>
             </div>
 
             {/* Product Mapping List Area */}
@@ -162,7 +158,7 @@ const Products = ({ token }) => {
               {filteredList.length > 0 ? (
                 filteredList.map((item, index) => (
                   <div 
-                    className="grid grid-cols-1 md:grid-cols-[80px_2.5fr_1.2fr_1fr_100px] items-center gap-4 p-4 md:p-6 hover:bg-[#f3f4f1]/30 transition-colors" 
+                    className="grid grid-cols-1 md:grid-cols-[80px_2.5fr_1.2fr_1fr_140px] items-center gap-4 p-4 md:p-6 hover:bg-[#f3f4f1]/30 transition-colors" 
                     key={item._id || index}
                   >
                     
@@ -205,12 +201,23 @@ const Products = ({ token }) => {
                       </span>
                     </div>
 
-                    {/* Column 5: Trash Destructive Operational Button */}
-                    <div className="flex justify-end md:justify-center items-center pt-2 md:pt-0 border-t border-[#c3c8c1]/10 md:border-0 mt-2 md:mt-0">
+                    {/* Column 5: Actions (Edit & Delete) */}
+                    <div className="flex justify-end md:justify-center items-center gap-2 pt-2 md:pt-0 border-t border-[#c3c8c1]/10 md:border-0 mt-2 md:mt-0">
+                      {/* Edit Button */}
+                      <button
+                        onClick={() => window.location.href = `/product/${item._id}`}
+                        className="flex items-center gap-2 justify-center text-[#434843] hover:text-[#4a6549] bg-[#f3f4f1]/50 hover:bg-[#ccebc7]/40 p-2.5 rounded-xl transition-all duration-200 border border-[#c3c8c1]/20 hover:border-[#4a6549]/30 flex-1 md:flex-initial"
+                        title="Edit product info"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                        <span className="text-xs font-semibold md:hidden">Edit info</span>
+                      </button>
+
+                      {/* Delete Button */}
                       <button
                         onClick={() => removeProduct(item._id)}
                         disabled={isDeleting === item._id}
-                        className="flex items-center gap-2 md:justify-center text-[#434843] hover:text-[#93000a] bg-[#f3f4f1]/50 hover:bg-[#ffdad6] p-2.5 rounded-xl transition-all duration-200 border border-[#c3c8c1]/20 hover:border-[#ffb4ab] group w-full md:w-auto"
+                        className="flex items-center gap-2 justify-center text-[#434843] hover:text-[#93000a] bg-[#f3f4f1]/50 hover:bg-[#ffdad6] p-2.5 rounded-xl transition-all duration-200 border border-[#c3c8c1]/20 hover:border-[#ffb4ab] group flex-1 md:flex-initial"
                         title="Remove product variant"
                       >
                         <Trash2 className={`w-4 h-4 transition-transform group-hover:scale-105 ${isDeleting === item._id ? 'animate-pulse text-red-500' : ''}`} />
@@ -228,7 +235,7 @@ const Products = ({ token }) => {
               )}
             </div>
 
-            {/* Table Dynamic Footer Entries Summary */}
+            {/* Table Dynamic Footer */}
             <div className="p-4 md:p-6 border-t border-[#c3c8c1]/20 flex justify-between items-center bg-[#f3f4f1]/30 text-xs font-medium text-[#434843]">
               <p>Displaying {filteredList.length} of {list.length} catalog items</p>
             </div>

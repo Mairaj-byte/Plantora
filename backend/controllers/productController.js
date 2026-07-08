@@ -90,16 +90,98 @@ const removeProduct = async (req, res) => {
     }
 };
 
-// Single Product
+
+
+
+
+// Fetch Single Product
 const singleProduct = async (req, res) => {
     try {
-        const { productId } = req.body;
+        // Backend handles both body and query fallback gracefully
+        const productId = req.body.productId || req.query.productId;
+
+        if (!productId) {
+            return res.json({ success: false, message: "Product ID is required" });
+        }
 
         const product = await productModel.findById(productId);
+
+        if (!product) {
+            return res.json({ success: false, message: "Product not found" });
+        }
 
         res.json({
             success: true,
             product,
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+// Update Product
+const updateProduct = async (req, res) => {
+    try {
+        const {
+            id,
+            name,
+            description,
+            price,
+            category,
+            subCategory,
+            bestseller,
+            sizes,
+            existingImages // Passed from frontend as a JSON array string
+        } = req.body;
+
+        // Find the existing item first
+        const currentProduct = await productModel.findById(id);
+        if (!currentProduct) {
+            return res.json({ success: false, message: "Product not found" });
+        }
+
+        // Parse existing images array or fall back to current database structure
+        let updatedImages = existingImages ? JSON.parse(existingImages) : [...currentProduct.image];
+
+        // Process potential image file injections matching your multi-upload configuration slots
+        const imageSlots = ['image1', 'image2', 'image3', 'image4'];
+        
+        for (let i = 0; i < imageSlots.length; i++) {
+            const slotName = imageSlots[i];
+            if (req.files && req.files[slotName] && req.files[slotName][0]) {
+                const file = req.files[slotName][0];
+                const result = await cloudinary.uploader.upload(file.path, {
+                    resource_type: "image",
+                });
+                // Replace the specific index slot or push new url
+                updatedImages[i] = result.secure_url;
+            }
+        }
+
+        // Filter null values if any slot was skipped out of bound completely
+        updatedImages = updatedImages.filter(Boolean);
+
+        // Build the update payload matching schema types
+        const updateData = {
+            name,
+            description,
+            price: Number(price),
+            category,
+            subCategory,
+            bestseller: bestseller === "true" || bestseller === true,
+            sizes: sizes ? JSON.parse(sizes) : [],
+            image: updatedImages
+        };
+
+        await productModel.findByIdAndUpdate(id, updateData);
+
+        res.json({
+            success: true,
+            message: "Product Updated Successfully",
         });
     } catch (error) {
         console.log(error);
@@ -115,4 +197,9 @@ export {
     listProducts,
     removeProduct,
     singleProduct,
+    updateProduct
 };
+
+
+
+
