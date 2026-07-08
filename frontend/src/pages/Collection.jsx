@@ -12,7 +12,11 @@ const Collection = () => {
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
-  const [sortType, setSortType] = useState('relavent')
+  const [sortType, setSortType] = useState('relevant')
+
+  // --- PAGINATION STATES ---
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 21; // 7 rows × 3 cards per row = 21 items
 
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {
@@ -48,6 +52,7 @@ const Collection = () => {
     }
 
     setFilterProducts(productsCopy)
+    setCurrentPage(1); // Reset to first page when filters change
   }
 
   const sortProduct = () => {
@@ -82,6 +87,12 @@ const Collection = () => {
   useEffect(() => {
     sortProduct();
   }, [sortType])
+
+  // --- PAGINATION CALCULATIONS ---
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentProducts = filterProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(filterProducts.length / itemsPerPage);
 
   return (
     /* Reduced overall max-width to max-w-6xl for a tighter layout frame */
@@ -126,11 +137,14 @@ const Collection = () => {
               <div className="space-y-2">
                 {[
                   { id: 'indoor', value: 'Indoor Plants', label: 'Indoor Plants' },
-                  { id: 'outdoor', value: 'Outdoor Garden', label: 'Outdoor Garden' },
-                  { id: 'exotic', value: 'Decorative and Exotic', label: 'Decorative & Exotic' },
-                  { id: 'fruit', value: 'Fruit Plants', label: 'Fruit Plants' }
+                  { id: 'creepar', value: 'Creepar', label: 'Creepar' },
+                  { id: 'outdoor', value: 'Ground Cover Plants', label: 'Ground Cover Plants' },
+                  { id: 'fruit', value: 'Fruit Plants', label: 'Fruit Plants' },
+                  { id: 'pot', value: 'Pot Design', label: 'Pot Design' },
+                  { id: 'exotic', value: 'Shrub', label: 'Shrub' },
+                  { id: 'palm', value: 'Palm Tree', label: 'Palm Tree' }
                 ].map((cat) => (
-                  <label key={cat.id} className="flex items-center group cursor-pointer">
+                  <label key={cat.value} className="flex items-center group cursor-pointer">
                     <input
                       className="w-4 h-4 rounded border-gray-300 text-secondary focus:ring-secondary/20 mr-2.5 accent-emerald-700"
                       type="checkbox"
@@ -139,32 +153,6 @@ const Collection = () => {
                       onChange={toggleCategory}
                     />
                     <span className="text-xs text-gray-700 group-hover:text-primary transition-colors">{cat.label}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="h-px bg-gray-200"></div>
-
-            {/* SubCategory Filter / Type */}
-            <div>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-primary mb-3">Type</h3>
-              <div className="space-y-2">
-                {[
-                  { id: 'decor', value: 'Home Decor', label: 'Home Decor' },
-                  { id: 'office', value: 'Office Plants', label: 'Office Plants' },
-                  { id: 'bedroom', value: 'Bedroom Plants', label: 'Bedroom Plants' },
-                  { id: 'balcony', value: 'Balcony Plants', label: 'Balcony Plants' }
-                ].map((sub) => (
-                  <label key={sub.id} className="flex items-center group cursor-pointer">
-                    <input
-                      className="w-4 h-4 rounded border-gray-300 text-secondary focus:ring-secondary/20 mr-2.5 accent-emerald-700"
-                      type="checkbox"
-                      value={sub.value}
-                      checked={subCategory.includes(sub.value)}
-                      onChange={toggleSubCategory}
-                    />
-                    <span className="text-xs text-gray-700 group-hover:text-primary transition-colors">{sub.label}</span>
                   </label>
                 ))}
               </div>
@@ -193,48 +181,86 @@ const Collection = () => {
         </aside>
 
         {/* Right Side Showcase Grid */}
-        <div className="flex-grow">
+        <div className="flex-grow flex flex-col justify-between">
 
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-slate-100">
-            {/* Product Count */}
-            <span className="text-sm text-slate-500">
-              Showing <span className="font-semibold text-slate-800">{filterProducts.length}</span> plants
-            </span>
+          <div>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-slate-100">
+              {/* Product Count */}
+              <span className="text-sm text-slate-500">
+                Showing <span className="font-semibold text-slate-800">{indexOfFirstProduct + 1}-{Math.min(indexOfLastProduct, filterProducts.length)}</span> of <span className="font-semibold text-slate-800">{filterProducts.length}</span> plants
+              </span>
 
-            {/* Sort Filter */}
-            <div className="flex items-center gap-2 self-start sm:self-auto">
-              <span className="text-sm text-slate-500 whitespace-nowrap">Sort by:</span>
-              <select
-                value={sortType}
-                onChange={(e) => setSortType(e.target.value)}
-                className="bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 cursor-pointer transition-all duration-200"
-              >
-                <option value="relevant">Relevant</option>
-                <option value="low-high">Price: Low to High</option>
-                <option value="high-low">Price: High to Low</option>
-              </select>
+              {/* Sort Filter */}
+              <div className="flex items-center gap-2 self-start sm:self-auto">
+                <span className="text-sm text-slate-500 whitespace-nowrap">Sort by:</span>
+                <select
+                  value={sortType}
+                  onChange={(e) => setSortType(e.target.value)}
+                  className="bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 cursor-pointer transition-all duration-200"
+                >
+                  <option value="relevant">Relevant</option>
+                  <option value="low-high">Price: Low to High</option>
+                  <option value="high-low">Price: High to Low</option>
+                </select>
+              </div>
             </div>
+
+            {/* Grid layout serving current sliced page items */}
+            {filterProducts.length === 0 ? (
+              <div className="text-center py-24 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                <p className="text-xs text-gray-500">No products match the selected configuration criteria.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4">
+                {currentProducts.map((item, index) => (
+                  <div key={item._id || index} className="group bg-[#F3F4F0] rounded-xl overflow-hidden hover:translate-y-[-2px] transition-all duration-300">
+                    <ProductItem
+                      name={item.name}
+                      id={item._id}
+                      price={item.price}
+                      image={item.image}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Optimized grid properties to guarantee at least 3 cards wide from small breakpoints upwards */}
-          {filterProducts.length === 0 ? (
-            <div className="text-center py-24 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-              <p className="text-xs text-gray-500">No products match the selected configuration criteria.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4">
-              {filterProducts.map((item, index) => (
-                <div key={index} className="group bg-[#F3F4F0] rounded-xl overflow-hidden hover:translate-y-[-2px] transition-all duration-300">
-                  <ProductItem
-                    name={item.name}
-                    id={item._id}
-                    price={item.price}
-                    image={item.image}
-                  />
-                </div>
+          {/* --- PAGINATION UI CONTROLS --- */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2 mt-12 pb-6">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => prev - 1)}
+                className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all"
+              >
+                Previous
+              </button>
+              
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-9 h-9 rounded-lg text-sm font-medium transition-all ${
+                    currentPage === page
+                      ? 'bg-emerald-900 text-white shadow-md'
+                      : 'border border-gray-200 text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  {page}
+                </button>
               ))}
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => prev + 1)}
+                className="px-3 py-1.5 rounded-lg border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:hover:bg-transparent transition-all"
+              >
+                Next
+              </button>
             </div>
           )}
+          
         </div>
 
       </div>

@@ -19,8 +19,20 @@ import logo1 from './logo1.png'
 import contact from './contact.jpg'
 import map from './map.jpg'
 import plant from './plant.jpeg'
+import About1 from './About1.jpg'
+import About2 from './About2.jpg'
+import About3 from './About3.png'
+import About4 from './About4.png'
+import WebLogo from './WebLogo.png'
+
 
 export const assets = {
+    
+    WebLogo,
+    About1,
+    About2,
+    About3,
+    About4,
     plant,
     map,
     contact,

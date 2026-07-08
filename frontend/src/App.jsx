@@ -19,6 +19,7 @@ import Payment from './pages/Payment'
 import Shipping from './pages/Shipping'
 import Summary from './pages/Summary'
 import UserDashboard from './pages/UserDashboard'
+import PrivacyPolicy from './pages/PrivacyPolicy'
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -53,6 +54,7 @@ const App = () => {
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
        
 
         <Route path="/payment" element={<Payment />} />

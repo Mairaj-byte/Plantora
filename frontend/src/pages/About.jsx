@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { assets } from '../assets/assets';
 
 const About = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -43,11 +44,12 @@ const About = () => {
       <main>
         {/* Hero Section */}
         <section 
-          className="relative h-[614px] flex items-center justify-center text-center px-4 bg-cover bg-center"
-          style={{
-            backgroundImage: `linear-gradient(rgba(6, 27, 14, 0.4), rgba(6, 27, 14, 0.4)), url('https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`
-          }}
-        >
+  className="relative h-[614px] flex items-center justify-center text-center px-4 bg-cover bg-center"
+  style={{
+    backgroundImage: `linear-gradient(rgba(6, 27, 14, 0.4), rgba(6, 27, 14, 0.4)), url(${assets.About1})`
+  }}
+>
+        
           <div className="max-w-4xl mx-auto space-y-6">
             <span className="inline-block px-4 py-1.5 bg-[#ccebc7] text-[#07200b] rounded-full text-[14px] font-semibold uppercase tracking-widest">
               Since 2016
@@ -92,7 +94,7 @@ const About = () => {
             <div className="relative group mt-8 lg:mt-0">
               <div className="absolute -inset-4 bg-[#ccebc7]/30 rounded-full blur-3xl opacity-50 group-hover:opacity-70 transition-opacity"></div>
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKlOqBiyUKD1wjkcPdOhoLpZUuc43rA42iBpDnx1d9YQ132YU86H0NRN_NY5CJ2HL460lOfO9ALFNZQtX_VuEivFf--gklARmTrdWzH3OE6BITV5N4VrXQ3jG1N2fZzIODlsJwxorTh2U47U-oRr8EJpF0vA5mwbj1S82FcopVW6uXrX0cVBDIgJAc2dZ1l-3CU0Dq8DZF6tP1mnRUqV4JDqJZZTahvrLZO3VoQQZhdVXz4I1Ez2USdghI5en6csKlfWpuNHI_6Wbg"
+                src={assets.About2}
                 alt="Nursery Staff"
                 className="relative rounded-2xl shadow-2xl w-full h-[500px] object-cover"
               />
@@ -171,7 +173,7 @@ const About = () => {
             <div className="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-2xl bg-[#e2e3e0] h-[300px] md:h-auto">
               <img 
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFqRJrUJ-utia-a-yXYaQL7KdCRyFKkqdgEq-8D6b3xC5A4slVOE-QRRKhB2xA_4rEZiQ60kFgZtWBYr4XJa18dcEWv7GlK-tjhhP_s6hdqLVYy8T6ZMi8FUn2XPaQmKws0ROzRZzwcvQUBijJe_dzD2BH0u9xE40pZBnFjYei69CwUFYiTlbs3_6-FfiInEtvWNgL-om9aBbMmDo6qU6cGrTLkF1CI9LifKh4vZ_8cRKJklN3W4qNVIeBmEqgDyd2w0yBOwn3CX4I" 
+                src={assets.About3} 
                 alt="Wholesale Supply"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#061b0e]/80 to-transparent flex flex-col justify-end p-8 text-white">
@@ -185,7 +187,7 @@ const About = () => {
             <div className="md:col-span-2 relative group overflow-hidden rounded-2xl bg-[#e2e3e0] h-[200px] md:h-auto">
               <img 
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiKp6p4f8MOeNQi3i-9YmZg9oHcwkeBqtR6ANLB_Bj8hi0qkiTEa4eGRhMacCigssCaoqvIaGUl4msWvP4VrL1_RfJ7FkyDbKc_JXdqqwS6NX8R5xeS4orZu1rSu8bWYjctS5UW1WhGtxFzXu-HFM2_iEhm9TJVNDM3xweuIP9R8T4xwSj9YF1HY3dHGBf-mnlPHoifo7Fi5OSN3gAKUIw-lDqQcOfasg23T4Z6ybRpMEAJ-TULqoI9ewUbjF5IEBzyTxccfezr5v5" 
+                src={assets.About4} 
                 alt="Landscaping"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#061b0e]/80 to-transparent flex flex-col justify-end p-6 text-white">

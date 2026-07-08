@@ -52,12 +52,14 @@ const Navbar = () => {
         }
       `}</style>
 
-      <nav className='sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-stone-100 px-4 sm:px-6 lg:px-10 py-0 flex items-center justify-between transition-all duration-300'>
+      <nav className='sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-stone-100 px-4 sm:px-6 lg:px-10 py-4 flex items-center justify-between transition-all duration-300'>
 
         {/* Brand Logo */}
-        <Link to='/' className='flex items-center group flex-shrink-0 mr-4'>
-          <img src={assets.logo1} className='w-20 sm:w-24 md:w-28 transition-transform duration-300 group-hover:scale-[1.01]' alt="Nursery Logo" />
-        </Link>
+        <img
+  src={assets.WebLogo}
+  className="w-28 sm:w-32 md:w-40 transition-transform duration-300 group-hover:scale-[1.01]"
+  alt="Nursery Logo"
+/>
 
         {/* Right Side Utility & Navigation Panel combined closer together */}
         <div className='flex items-center gap-6 md:gap-8 flex-1 justify-end max-w-5xl ml-auto'>
