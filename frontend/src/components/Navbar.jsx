@@ -216,7 +216,7 @@ const Navbar = () => {
             {/* Mobile Admin Option Line & URL */}
             <hr className="my-2 border-stone-200" />
             <a
-              href="https://plantora-uots.vercel.app/"
+              href="https://plantora-uots.vercel.app/dashboard"
               target="_blank"
               rel="noreferrer"
               onClick={() => setVisible(false)}
