@@ -13,7 +13,7 @@ const UserDashboard = () => {
   });
 
 
-  const backendUrl = "http://localhost:4000"; // Replace with your actual backend URL
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   // Fetch both order history and user details
   const fetchDashboardData = async () => {

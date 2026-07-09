@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const ProfileSetup = ({ token }) => {
-    const backendUrl = "http://localhost:4000"; 
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
     
     const [loading, setLoading] = useState(false);
     const [imagePreview, setImagePreview] = useState(''); 
