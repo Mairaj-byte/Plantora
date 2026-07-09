@@ -4,24 +4,32 @@ import Title from "../components/Title";
 import axios from "axios";
 
 const UserDashboard = () => {
-  const { backendUrl, token, currency } = useContext(ShopContext);
+  const { token, currency } = useContext(ShopContext);
   const [orderData, setOrderData] = useState([]);
-  const [greeting, setGreeting] = useState("Hello, Rohan Sharma");
+  const [greeting, setGreeting] = useState("Hello");
+  const [userData, setUserData] = useState({
+    name: "Rohan Sharma",
+    profilePic: "" // Holds the URL string for the user profile picture
+  });
 
-  const loadOrderData = async () => {
+
+  const backendUrl = "http://localhost:4000"; // Replace with your actual backend URL
+
+  // Fetch both order history and user details
+  const fetchDashboardData = async () => {
     try {
       if (!token) return;
 
-      const response = await axios.post(
+      // 1. Load Orders Data
+      const orderResponse = await axios.post(
         backendUrl + "/api/order/userorders",
         {},
         { headers: { token } }
       );
 
-      if (response.data.success) {
+      if (orderResponse.data.success) {
         let allOrdersItem = [];
-
-        response.data.orders.forEach((order) => {
+        orderResponse.data.orders.forEach((order) => {
           order.items.forEach((item) => {
             allOrdersItem.push({
               ...item,
@@ -32,22 +40,38 @@ const UserDashboard = () => {
             });
           });
         });
-
         setOrderData(allOrdersItem.reverse());
       }
+
+      // 2. Load User Profile Data (Adjust API endpoint path as needed for your backend setup)
+      const userResponse = await axios.get(
+        backendUrl + "/api/user/getuserdata", 
+        { headers: { token } }
+      );
+      
+      if (userResponse.data.success) {
+        setUserData({
+          name: userResponse.data.user.name || "Rohan Sharma",
+          profilePic: userResponse.data.user.profilePic || ""
+        });
+      }
+
     } catch (error) {
-      console.log(error);
+      console.log("Error loading dashboard data:", error);
     }
   };
 
   useEffect(() => {
-    loadOrderData();
+    fetchDashboardData();
 
     // Time of day greeting dynamic updater logic
     const hour = new Date().getHours();
-    if (hour < 12) setGreeting("Good Morning, Rohan");
-    else if (hour < 18) setGreeting("Good Afternoon, Rohan");
-    else setGreeting("Good Evening, Rohan");
+    let timeGreeting = "Hello";
+    if (hour < 12) timeGreeting = "Good Morning";
+    else if (hour < 18) timeGreeting = "Good Afternoon";
+    else timeGreeting = "Good Evening";
+    
+    setGreeting(timeGreeting);
   }, [token]);
 
   return (
@@ -59,10 +83,32 @@ const UserDashboard = () => {
         {/* Header: Welcome Greeting */}
         <section className="mb-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-serif text-[#061b0e] mb-2">{greeting}</h1>
-              <p className="text-base md:text-lg text-[#434843]">Welcome back to your garden sanctuary. Here is what's happening today.</p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              {/* Profile Picture Display */}
+              <div className="w-16 h-16 rounded-full overflow-hidden bg-[#ccebc7] border-2 border-[#4a6549]/20 flex items-center justify-center flex-shrink-0 shadow-sm">
+                {userData.profilePic ? (
+                  <img 
+                    src={userData.profilePic} 
+                    alt={userData.name} 
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-xl font-serif font-bold text-[#061b0e]">
+                    {userData.name.charAt(0).toUpperCase()}
+                  </span>
+                )}
+              </div>
+              
+              <div>
+                <h1 className="text-3xl md:text-4xl font-serif text-[#061b0e] mb-1">
+                  {greeting}, {userData.name}
+                </h1>
+                <p className="text-sm md:text-base text-[#434843]">
+                  Welcome back to your garden sanctuary. Here is what's happening today.
+                </p>
+              </div>
             </div>
+            
             <div className="bg-[#ccebc7] text-[#07200b] px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-2 self-start md:self-auto">
               <span className="material-symbols-outlined text-[18px]">nest_eco_leaf</span>
               Open 24 Hours For Your Garden Needs
@@ -142,7 +188,7 @@ const UserDashboard = () => {
                       </div>
                       <div className="flex gap-3">
                         <button 
-                          onClick={loadOrderData}
+                          onClick={fetchDashboardData}
                           className="px-5 py-2 rounded-full bg-[#061b0e] text-white text-sm font-semibold hover:bg-[#061b0e]/90 transition-colors"
                         >
                           Track Order
@@ -254,9 +300,6 @@ const UserDashboard = () => {
           </aside>
         </div>
       </main>
-
-      
-
     </div>
   );
 };

@@ -152,8 +152,8 @@ const Navbar = () => {
               {token && (
                 <div className='absolute right-0 top-full pt-2 w-40 hidden group-hover:block z-50'>
                   <div className='flex flex-col gap-1 p-2 bg-white shadow-xl rounded-xl border border-stone-100 text-stone-700 text-xs sm:text-sm'>
-                    <p onClick={() => navigate('/profile')} className='cursor-pointer px-3 py-2 rounded-lg hover:bg-stone-50 transition-colors'>My Profile</p>
-                    <p onClick={() => navigate('/userdashboard')} className='cursor-pointer px-3 py-2 rounded-lg hover:bg-stone-50 transition-colors'>Orders</p>
+                    <p onClick={() => navigate('/profilesetup')} className='cursor-pointer px-3 py-2 rounded-lg hover:bg-stone-50 transition-colors'>Profile Setup</p>
+                    <p onClick={() => navigate('/userdashboard')} className='cursor-pointer px-3 py-2 rounded-lg hover:bg-stone-50 transition-colors'>Dashboard</p>
                     <hr className="border-stone-100" />
                     <p onClick={logout} className='cursor-pointer px-3 py-2 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors'>Logout</p>
                   </div>

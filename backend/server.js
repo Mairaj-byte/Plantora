@@ -12,6 +12,7 @@ import orderRouter from './routes/orderRoute.js'
 import clearRouter from './routes/clearRoute.js'
 import enquiryRouter from './routes/enquiryRoute.js'
 
+
 // App Config
 const app = express()
 const port = process.env.PORT || 4000
@@ -25,7 +26,7 @@ app.use(cors())
 
 // api endpoints
 app.use('/api/user', userRouter)
-app.use('/api/admin', adminRouter) // Added Admin API Route
+app.use('/api/admin', adminRouter)
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/order', orderRouter)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react' // Fixed: Imported useContext
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import Collection from './pages/Collection'
@@ -23,9 +23,13 @@ import PrivacyPolicy from './pages/PrivacyPolicy'
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import ProfileSetup from './pages/ProfileSetup'
+import { ShopContext } from './context/ShopContext';
 
 const App = () => {
   const location = useLocation();
+
+  const { token, setToken } = useContext(ShopContext);
 
   // Define routes where global navigation elements should be hidden
   const hideNavbarRoutes = ['/shipping', '/orders', '/summary', '/payment', '/login'];
@@ -55,7 +59,9 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
-       
+        
+        {/* Fixed: Corrected spelling to /profilesetup and fixed JSX element syntax */}
+        <Route path="/profilesetup" element={<ProfileSetup token={token}/>} />
 
         <Route path="/payment" element={<Payment />} />
         <Route path="/shipping" element={<Shipping />} />

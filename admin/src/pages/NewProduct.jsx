@@ -60,6 +60,8 @@ const NewProduct = ({ token }) => {
         setSubCategory("");
         setBestseller(false);
         setImages([null, null, null, null]);
+
+        
       } else {
         toast.error(response.data.message);
       }
@@ -67,7 +69,8 @@ const NewProduct = ({ token }) => {
       console.error(error);
       toast.error(error.message || "Something went wrong");
     } finally {
-      loading && setLoading(false);
+      // FIX: Always reset loading to false regardless of the current snapshot state
+      setLoading(false);
     }
   };
 

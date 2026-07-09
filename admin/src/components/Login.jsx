@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 // Import Lucide icons
 import { ArrowRight, Leaf, Mail, Lock, ShieldCheck, KeyRound, CornerUpLeft } from 'lucide-react';
 import loginImg from '../assets/login.jpeg';
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setToken }) => {
   // states: 'Login' | 'Forgot' | 'Reset'
@@ -14,30 +15,32 @@ const Login = ({ setToken }) => {
   const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  const navigate = useNavigate();
 
 
   // 1. Submit Handle for Login Form
   // 1. Submit Handle for Login Form
-const onLoginSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  try {
-    // Replaced hardcoded localhost with your backend Url config
-    const response = await axios.post(`${backendUrl}/api/admin/login`, { email, password });
-    
-    if (response.data.success) {
-      setToken(response.data.token);
-      toast.success("Admin Authentication Successful");
-    } else {
-      toast.error(response.data.message);
+  const onLoginSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      // Replaced hardcoded localhost with your backend Url config
+      const response = await axios.post(`${backendUrl}/api/admin/login`, { email, password });
+
+      if (response.data.success) {
+        setToken(response.data.token);
+        toast.success("Admin Authentication Successful");
+        navigate("/dashboard");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || error.message);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error(error);
-    toast.error(error.response?.data?.message || error.message);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   // 2. Request OTP for Password Reset
   const onSendOtpSubmit = async (e) => {
@@ -87,24 +90,24 @@ const onLoginSubmit = async (e) => {
 
   return (
     <div className="min-h-screen w-full flex bg-white text-stone-800 font-sans overflow-hidden relative">
-      
+
       {/* Mobile-only structural Background Wrapper */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center md:hidden z-0" 
-        style={{ backgroundImage: `url(${loginImg})` }} 
+      <div
+        className="absolute inset-0 bg-cover bg-center md:hidden z-0"
+        style={{ backgroundImage: `url(${loginImg})` }}
       />
-      
+
       {/* Dark overlay specifically for mobile backdrop legibility */}
       <div className="absolute inset-0 bg-black/50 md:hidden z-0" />
-      
+
       {/* Left Column: Premium Cinematic Image Background */}
       <div className="hidden md:flex md:w-[45%] lg:w-[50%] relative flex-col justify-between p-12 overflow-hidden group perspective-1000 z-10">
-        
+
         {/* Cinematic Background Image Layer */}
         <div className="absolute inset-0 w-full h-full transform transition-transform duration-[4000ms] ease-out group-hover:scale-110 z-0">
-          <img 
-            src={loginImg} 
-            alt="Admin Portal Background" 
+          <img
+            src={loginImg}
+            alt="Admin Portal Background"
             className="w-full h-full object-cover grayscale-[10%] contrast-[105%]"
           />
         </div>
@@ -143,7 +146,7 @@ const onLoginSubmit = async (e) => {
 
       {/* Right Column: Dynamic Form Layout */}
       <div className="w-full md:w-[55%] lg:w-[50%] flex items-center justify-center p-4 sm:p-12 relative z-10 md:bg-white">
-        
+
         {/* Mobile-only fallback brand display */}
         <div className="absolute md:hidden top-0 right-0 p-6 flex items-center gap-2 text-white/90">
           <Leaf className="w-4 h-4 text-[#b0cfad]" />
@@ -152,7 +155,7 @@ const onLoginSubmit = async (e) => {
 
         {/* Glassmorphic Form Container */}
         <div className="w-full max-w-md bg-white/10 md:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-8 rounded-2xl border border-white/20 md:border-none shadow-2xl md:shadow-none transition-all duration-500">
-          
+
           {/* Form Header Titles dynamically derived by state */}
           <div className="mb-8 space-y-2">
             <h1 className="text-3xl font-serif tracking-tight text-white md:text-[#061b0e] transition-all duration-300">
@@ -176,12 +179,12 @@ const onLoginSubmit = async (e) => {
                 <label className="block text-xs font-semibold text-stone-200 md:text-stone-700 uppercase tracking-wider mb-1.5">Administrative Email</label>
                 <div className="relative flex items-center">
                   <Mail className="absolute left-3.5 text-stone-300 md:text-stone-400 w-5 h-5" />
-                  <input 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    value={email} 
-                    type="email" 
-                    className="w-full pl-11 pr-4 py-3 bg-white/10 md:bg-stone-50 border border-white/20 md:border-stone-200 focus:border-[#4a6549] text-white md:text-stone-800 focus:bg-white/20 md:focus:bg-white backdrop-blur-md rounded-xl text-sm transition-all outline-none placeholder-stone-300 md:placeholder-stone-400" 
-                    placeholder="admin@chauhan.com" 
+                  <input
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    type="email"
+                    className="w-full pl-11 pr-4 py-3 bg-white/10 md:bg-stone-50 border border-white/20 md:border-stone-200 focus:border-[#4a6549] text-white md:text-stone-800 focus:bg-white/20 md:focus:bg-white backdrop-blur-md rounded-xl text-sm transition-all outline-none placeholder-stone-300 md:placeholder-stone-400"
+                    placeholder="admin@chauhan.com"
                     required
                   />
                 </div>
@@ -190,7 +193,7 @@ const onLoginSubmit = async (e) => {
               <div>
                 <div className="flex justify-between items-center mb-1.5">
                   <label className="block text-xs font-semibold text-stone-200 md:text-stone-700 uppercase tracking-wider">Secure Password</label>
-                  <button 
+                  <button
                     type="button"
                     onClick={() => setCurrentState('Forgot')}
                     className="text-xs text-[#b0cfad] md:text-[#4a6549] hover:underline cursor-pointer"
@@ -200,19 +203,19 @@ const onLoginSubmit = async (e) => {
                 </div>
                 <div className="relative flex items-center">
                   <Lock className="absolute left-3.5 text-stone-300 md:text-stone-400 w-5 h-5" />
-                  <input 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    value={password} 
-                    type="password" 
-                    className="w-full pl-11 pr-4 py-3 bg-white/10 md:bg-stone-50 border border-white/20 md:border-stone-200 focus:border-[#4a6549] text-white md:text-stone-800 focus:bg-white/20 md:focus:bg-white backdrop-blur-md rounded-xl text-sm transition-all outline-none placeholder-stone-300 md:placeholder-stone-400" 
-                    placeholder="••••••••" 
+                  <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    type="password"
+                    className="w-full pl-11 pr-4 py-3 bg-white/10 md:bg-stone-50 border border-white/20 md:border-stone-200 focus:border-[#4a6549] text-white md:text-stone-800 focus:bg-white/20 md:focus:bg-white backdrop-blur-md rounded-xl text-sm transition-all outline-none placeholder-stone-300 md:placeholder-stone-400"
+                    placeholder="••••••••"
                     required
                   />
                 </div>
               </div>
 
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={loading}
                 className="w-full py-3.5 mt-6 bg-white text-[#061b0e] md:bg-[#061b0e] md:text-white hover:bg-stone-100 md:hover:bg-[#13301d] font-semibold md:font-medium tracking-wide rounded-xl shadow-md transition-all active:scale-[0.99] flex items-center justify-center gap-2 group disabled:opacity-50"
               >
@@ -229,19 +232,19 @@ const onLoginSubmit = async (e) => {
                 <label className="block text-xs font-semibold text-stone-200 md:text-stone-700 uppercase tracking-wider mb-1.5">Registered Admin Email</label>
                 <div className="relative flex items-center">
                   <Mail className="absolute left-3.5 text-stone-300 md:text-stone-400 w-5 h-5" />
-                  <input 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    value={email} 
-                    type="email" 
-                    className="w-full pl-11 pr-4 py-3 bg-white/10 md:bg-stone-50 border border-white/20 md:border-stone-200 focus:border-[#4a6549] text-white md:text-stone-800 focus:bg-white/20 md:focus:bg-white backdrop-blur-md rounded-xl text-sm transition-all outline-none placeholder-stone-300 md:placeholder-stone-400" 
-                    placeholder="admin@chauhan.com" 
+                  <input
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    type="email"
+                    className="w-full pl-11 pr-4 py-3 bg-white/10 md:bg-stone-50 border border-white/20 md:border-stone-200 focus:border-[#4a6549] text-white md:text-stone-800 focus:bg-white/20 md:focus:bg-white backdrop-blur-md rounded-xl text-sm transition-all outline-none placeholder-stone-300 md:placeholder-stone-400"
+                    placeholder="admin@chauhan.com"
                     required
                   />
                 </div>
               </div>
 
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={loading}
                 className="w-full py-3.5 mt-4 bg-white text-[#061b0e] md:bg-[#061b0e] md:text-white hover:bg-stone-100 md:hover:bg-[#13301d] font-semibold md:font-medium tracking-wide rounded-xl shadow-md transition-all active:scale-[0.99] flex items-center justify-center gap-2 group disabled:opacity-50"
               >
@@ -249,7 +252,7 @@ const onLoginSubmit = async (e) => {
                 <KeyRound className="w-4 h-4" />
               </button>
 
-              <button 
+              <button
                 type="button"
                 onClick={() => setCurrentState('Login')}
                 className="w-full flex items-center justify-center gap-2 text-xs text-stone-300 md:text-stone-500 hover:text-white md:hover:text-stone-800 mt-2 transition-colors cursor-pointer"
@@ -266,13 +269,13 @@ const onLoginSubmit = async (e) => {
                 <label className="block text-xs font-semibold text-stone-200 md:text-stone-700 uppercase tracking-wider mb-1.5">Verification Token (OTP)</label>
                 <div className="relative flex items-center">
                   <ShieldCheck className="absolute left-3.5 text-stone-300 md:text-stone-400 w-5 h-5" />
-                  <input 
-                    onChange={(e) => setOtp(e.target.value)} 
-                    value={otp} 
-                    type="text" 
+                  <input
+                    onChange={(e) => setOtp(e.target.value)}
+                    value={otp}
+                    type="text"
                     maxLength="6"
-                    className="w-full pl-11 pr-4 py-3 bg-white/10 md:bg-stone-50 border border-white/20 md:border-stone-200 focus:border-[#4a6549] text-white md:text-stone-800 focus:bg-white/20 md:focus:bg-white backdrop-blur-md rounded-xl text-sm tracking-widest transition-all outline-none placeholder-stone-300 md:placeholder-stone-400" 
-                    placeholder="6-Digit OTP" 
+                    className="w-full pl-11 pr-4 py-3 bg-white/10 md:bg-stone-50 border border-white/20 md:border-stone-200 focus:border-[#4a6549] text-white md:text-stone-800 focus:bg-white/20 md:focus:bg-white backdrop-blur-md rounded-xl text-sm tracking-widest transition-all outline-none placeholder-stone-300 md:placeholder-stone-400"
+                    placeholder="6-Digit OTP"
                     required
                   />
                 </div>
@@ -282,19 +285,19 @@ const onLoginSubmit = async (e) => {
                 <label className="block text-xs font-semibold text-stone-200 md:text-stone-700 uppercase tracking-wider mb-1.5">New Vault Password</label>
                 <div className="relative flex items-center">
                   <Lock className="absolute left-3.5 text-stone-300 md:text-stone-400 w-5 h-5" />
-                  <input 
-                    onChange={(e) => setNewPassword(e.target.value)} 
-                    value={newPassword} 
-                    type="password" 
-                    className="w-full pl-11 pr-4 py-3 bg-white/10 md:bg-stone-50 border border-white/20 md:border-stone-200 focus:border-[#4a6549] text-white md:text-stone-800 focus:bg-white/20 md:focus:bg-white backdrop-blur-md rounded-xl text-sm transition-all outline-none placeholder-stone-300 md:placeholder-stone-400" 
-                    placeholder="••••••••" 
+                  <input
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    value={newPassword}
+                    type="password"
+                    className="w-full pl-11 pr-4 py-3 bg-white/10 md:bg-stone-50 border border-white/20 md:border-stone-200 focus:border-[#4a6549] text-white md:text-stone-800 focus:bg-white/20 md:focus:bg-white backdrop-blur-md rounded-xl text-sm transition-all outline-none placeholder-stone-300 md:placeholder-stone-400"
+                    placeholder="••••••••"
                     required
                   />
                 </div>
               </div>
 
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={loading}
                 className="w-full py-3.5 mt-4 bg-white text-[#061b0e] md:bg-[#061b0e] md:text-white hover:bg-stone-100 md:hover:bg-[#13301d] font-semibold md:font-medium tracking-wide rounded-xl shadow-md transition-all active:scale-[0.99] flex items-center justify-center gap-2 group disabled:opacity-50"
               >
@@ -302,7 +305,7 @@ const onLoginSubmit = async (e) => {
                 <ArrowRight className="w-4 h-4" />
               </button>
 
-              <button 
+              <button
                 type="button"
                 onClick={() => setCurrentState('Forgot')}
                 className="w-full flex items-center justify-center gap-2 text-xs text-stone-300 md:text-stone-500 hover:text-white md:hover:text-stone-800 mt-2 transition-colors cursor-pointer"
