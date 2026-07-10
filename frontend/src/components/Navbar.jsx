@@ -8,6 +8,8 @@ import {
   User,
   Menu,
   ChevronLeft,
+  LayoutDashboard,
+  LogOut
 } from "lucide-react";
 
 
@@ -56,13 +58,13 @@ const Navbar = () => {
 
         {/* Brand Logo */}
         <a href="/about">
-        <img
-  src={assets.WebLogo}
-  className="w-28 sm:w-32 md:w-40 transition-transform duration-300 group-hover:scale-[1.01]"
-  alt="Nursery Logo"
-/>
+          <img
+            src={assets.WebLogo}
+            className="w-28 sm:w-32 md:w-40 transition-transform duration-300 group-hover:scale-[1.01]"
+            alt="Nursery Logo"
+          />
         </a>
-        
+
 
         {/* Right Side Utility & Navigation Panel combined closer together */}
         <div className='flex items-center gap-6 md:gap-8 flex-1 justify-end max-w-5xl ml-auto'>
@@ -150,15 +152,49 @@ const Navbar = () => {
               </button>
 
               {token && (
-                <div className='absolute right-0 top-full pt-2 w-40 hidden group-hover:block z-50'>
-                  <div className='flex flex-col gap-1 p-2 bg-white shadow-xl rounded-xl border border-stone-100 text-stone-700 text-xs sm:text-sm'>
-                    <p onClick={() => navigate('/profilesetup')} className='cursor-pointer px-3 py-2 rounded-lg hover:bg-stone-50 transition-colors'>Profile Setup</p>
-                    <p onClick={() => navigate('/userdashboard')} className='cursor-pointer px-3 py-2 rounded-lg hover:bg-stone-50 transition-colors'>Dashboard</p>
-                    <hr className="border-stone-100" />
-                    <p onClick={logout} className='cursor-pointer px-3 py-2 rounded-lg text-rose-600 hover:bg-rose-50 transition-colors'>Logout</p>
+                <div className="absolute right-0 top-full pt-3 w-52 hidden group-hover:block z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="flex flex-col p-1.5 bg-white shadow-xl rounded-2xl border border-[#c3c8c1]/30 text-[#2c302b]">
+
+                    {/* Decorative tiny subtle tag header */}
+                    <div className="px-3 pt-2 pb-1.5">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-[#737973]">Account Actions</span>
+                    </div>
+
+                    {/* Profile Setup Option */}
+                    <button
+                      onClick={() => navigate('/profilesetup')}
+                      className="w-full flex items-center gap-3 text-left font-medium text-xs sm:text-sm px-3 py-2.5 rounded-xl hover:bg-[#f9faf7] hover:text-[#061b0e] transition-all duration-150 group/item"
+                    >
+                      <User className="w-4 h-4 text-[#737973] group-hover/item:text-[#4a6549] transition-colors" />
+                      <span>Profile Setup</span>
+                    </button>
+
+                    {/* Dashboard Option */}
+                    <button
+                      onClick={() => navigate('/userdashboard')}
+                      className="w-full flex items-center gap-3 text-left font-medium text-xs sm:text-sm px-3 py-2.5 rounded-xl hover:bg-[#f9faf7] hover:text-[#061b0e] transition-all duration-150 group/item"
+                    >
+                      <LayoutDashboard className="w-4 h-4 text-[#737973] group-hover/item:text-[#4a6549] transition-colors" />
+                      <span>Dashboard</span>
+                    </button>
+
+                    {/* Clean Divider */}
+                    <div className="h-[1px] bg-[#c3c8c1]/20 my-1 mx-2" />
+
+                    {/* Logout Option */}
+                    <button
+                      onClick={logout}
+                      className="w-full flex items-center gap-3 text-left font-medium text-xs sm:text-sm px-3 py-2.5 rounded-xl text-red-600 hover:bg-red-50/60 transition-all duration-150 group/item"
+                    >
+                      <LogOut className="w-4 h-4 text-red-400 group-hover/item:text-red-600 transition-colors" />
+                      <span>Logout</span>
+                    </button>
+
                   </div>
                 </div>
               )}
+
+
             </div>
 
             {/* Desktop Action Button */}

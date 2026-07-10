@@ -2,6 +2,17 @@ import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
 import Title from "../components/Title";
 import axios from "axios";
+import { 
+  Leaf, 
+  MapPin, 
+  CreditCard, 
+  BriefcaseBusiness, 
+  PhoneCall, 
+  Truck, 
+  Sparkles, 
+  Heart, 
+  MoreVertical 
+} from 'lucide-react';
 
 const UserDashboard = () => {
   const { token, currency } = useContext(ShopContext);
@@ -9,18 +20,15 @@ const UserDashboard = () => {
   const [greeting, setGreeting] = useState("Hello");
   const [userData, setUserData] = useState({
     name: "Rohan Sharma",
-    profilePic: "" // Holds the URL string for the user profile picture
+    profilePic: "" 
   });
-
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  // Fetch both order history and user details
   const fetchDashboardData = async () => {
     try {
       if (!token) return;
 
-      // 1. Load Orders Data
       const orderResponse = await axios.post(
         backendUrl + "/api/order/userorders",
         {},
@@ -43,16 +51,16 @@ const UserDashboard = () => {
         setOrderData(allOrdersItem.reverse());
       }
 
-      // 2. Load User Profile Data (Adjust API endpoint path as needed for your backend setup)
       const userResponse = await axios.get(
-        backendUrl + "/api/user/getuserdata", 
+        `${backendUrl}/api/user/getuserdata`,
         { headers: { token } }
       );
-      
+
       if (userResponse.data.success) {
+        const user = userResponse.data.user;
         setUserData({
-          name: userResponse.data.user.name || "Rohan Sharma",
-          profilePic: userResponse.data.user.profilePic || ""
+          name: user.name || "Rohan Sharma",
+          profilePic: user.image || user.profilePic || ""
         });
       }
 
@@ -62,34 +70,32 @@ const UserDashboard = () => {
   };
 
   useEffect(() => {
-    fetchDashboardData();
+    if (token) {
+      fetchDashboardData();
+    }
 
-    // Time of day greeting dynamic updater logic
     const hour = new Date().getHours();
     let timeGreeting = "Hello";
     if (hour < 12) timeGreeting = "Good Morning";
     else if (hour < 18) timeGreeting = "Good Afternoon";
     else timeGreeting = "Good Evening";
-    
+
     setGreeting(timeGreeting);
   }, [token]);
 
   return (
-    <div className="text-gray-900 font-sans min-h-screen bg-[#f9faf7]">
-      {/* Top Navigation Bar */}
-      
-      {/* Main Container */}
-      <main className="pt-4 pb-2 px-4 md:px-12 max-w-7xl mx-auto">
-        {/* Header: Welcome Greeting */}
-        <section className="mb-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              {/* Profile Picture Display */}
-              <div className="w-16 h-16 rounded-full overflow-hidden bg-[#ccebc7] border-2 border-[#4a6549]/20 flex items-center justify-center flex-shrink-0 shadow-sm">
+    <div className="text-gray-900 font-sans min-h-screen bg-[#f9faf7] antialiased">
+      <main className="pt-10 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
+        
+        {/* Header Section */}
+        <section className="mb-10">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 rounded-full overflow-hidden bg-[#ccebc7] border-2 border-[#4a6549]/10 flex items-center justify-center flex-shrink-0 shadow-sm">
                 {userData.profilePic ? (
-                  <img 
-                    src={userData.profilePic} 
-                    alt={userData.name} 
+                  <img
+                    src={userData.profilePic}
+                    alt={userData.name}
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -98,103 +104,115 @@ const UserDashboard = () => {
                   </span>
                 )}
               </div>
-              
+
               <div>
-                <h1 className="text-3xl md:text-4xl font-serif text-[#061b0e] mb-1">
+                <h1 className="text-2xl md:text-3xl font-serif text-[#061b0e] font-medium tracking-tight">
                   {greeting}, {userData.name}
                 </h1>
-                <p className="text-sm md:text-base text-[#434843]">
+                <p className="text-sm text-[#555b54] mt-0.5">
                   Welcome back to your garden sanctuary. Here is what's happening today.
                 </p>
               </div>
             </div>
-            
-            <div className="bg-[#ccebc7] text-[#07200b] px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-2 self-start md:self-auto">
-              <span className="material-symbols-outlined text-[18px]">nest_eco_leaf</span>
+
+            <div className="bg-[#ccebc7]/60 text-[#07200b] px-4 py-2 rounded-full text-xs font-semibold flex items-center gap-2 self-start md:self-auto shadow-sm backdrop-blur-sm">
+              <Leaf className="w-4 h-4 text-[#4a6549]" />
               Open 24 Hours For Your Garden Needs
             </div>
           </div>
 
-          {/* Bento Grid Summary */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <div className="bg-[#f3f4f1] p-6 rounded-xl border border-[#c3c8c1]/20 hover:shadow-sm transition-all hover:scale-[1.02]">
+          {/* Bento Grid Analytics */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-8">
+            <div className="bg-white p-6 rounded-2xl border border-[#c3c8c1]/30 shadow-sm transition-all hover:shadow-md">
               <div className="flex justify-between items-start mb-4">
-                <span className="material-symbols-outlined text-[#4a6549] text-3xl">local_shipping</span>
-                <span className="text-sm text-[#4a6549] font-bold">{orderData.filter(o => o.status !== "Delivered").length} Active</span>
+                <Truck className="w-6 h-6 text-[#4a6549]" />
+                <span className="text-xs bg-[#4a6549]/10 text-[#4a6549] px-2 py-0.5 rounded-full font-bold">
+                  {orderData.filter(o => o.status !== "Delivered").length} Active
+                </span>
               </div>
               <h3 className="text-xs text-[#737973] uppercase tracking-wider font-semibold">Garden Status</h3>
-              <p className="text-xl md:text-2xl font-serif text-[#061b0e] mt-1">In Transit</p>
+              <p className="text-xl font-serif text-[#061b0e] mt-1 font-medium">In Transit</p>
             </div>
-            <div className="bg-[#f3f4f1] p-6 rounded-xl border border-[#c3c8c1]/20 hover:shadow-sm transition-all hover:scale-[1.02]">
+            
+            <div className="bg-white p-6 rounded-2xl border border-[#c3c8c1]/30 shadow-sm transition-all hover:shadow-md">
               <div className="flex justify-between items-start mb-4">
-                <span className="material-symbols-outlined text-[#4a6549] text-3xl">loyalty</span>
-                <span className="text-sm text-[#4a6549] font-bold">+1200</span>
+                <Sparkles className="w-6 h-6 text-[#4a6549]" />
+                <span className="text-xs bg-[#4a6549]/10 text-[#4a6549] px-2 py-0.5 rounded-full font-bold">+1200</span>
               </div>
               <h3 className="text-xs text-[#737973] uppercase tracking-wider font-semibold">Growth Points</h3>
-              <p className="text-xl md:text-2xl font-serif text-[#061b0e] mt-1">Nurturer Tier</p>
+              <p className="text-xl font-serif text-[#061b0e] mt-1 font-medium">Nurturer Tier</p>
             </div>
-            <div className="bg-[#f3f4f1] p-6 rounded-xl border border-[#c3c8c1]/20 hover:shadow-sm transition-all hover:scale-[1.02]">
+            
+            <div className="bg-white p-6 rounded-2xl border border-[#c3c8c1]/30 shadow-sm transition-all hover:shadow-md sm:col-span-2 md:col-span-1">
               <div className="flex justify-between items-start mb-4">
-                <span className="material-symbols-outlined text-[#4a6549] text-3xl">favorite</span>
-                <span className="text-sm text-[#4a6549] font-bold">8 Items</span>
+                <Heart className="w-6 h-6 text-[#4a6549]" />
+                <span className="text-xs bg-[#4a6549]/10 text-[#4a6549] px-2 py-0.5 rounded-full font-bold">8 Items</span>
               </div>
               <h3 className="text-xs text-[#737973] uppercase tracking-wider font-semibold">Wishlist</h3>
-              <p className="text-xl md:text-2xl font-serif text-[#061b0e] mt-1">Saved Greenery</p>
+              <p className="text-xl font-serif text-[#061b0e] mt-1 font-medium">Saved Greenery</p>
             </div>
           </div>
         </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-          {/* Main Content Columns */}
-          <div className="lg:col-span-2 space-y-16">
+        {/* Content Structure */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+          
+          {/* Main Dashboard Feed */}
+          <div className="lg:col-span-2 space-y-12">
             
-            {/* Recent Orders Section Integration */}
+            {/* Recent Orders */}
             <section>
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-serif text-[#061b0e]">Recent Orders</h2>
-                <button className="text-sm text-[#4a6549] font-semibold hover:underline">View All Orders</button>
+              <div className="flex justify-between items-center mb-5">
+                <h2 className="text-xl font-serif font-medium text-[#061b0e]">Recent Orders</h2>
+                <button className="text-xs text-[#4a6549] font-semibold hover:underline">View All Orders</button>
               </div>
 
               <div className="space-y-4">
                 {orderData.length === 0 ? (
-                  <p className="text-sm text-gray-500">No orders found.</p>
+                  <div className="bg-white border border-dashed border-[#c3c8c1] rounded-2xl p-8 text-center text-gray-500 text-sm">
+                    No orders found.
+                  </div>
                 ) : (
                   orderData.map((item, index) => (
                     <div
                       key={index}
-                      className="bg-white p-5 rounded-xl flex flex-col md:flex-row items-center gap-6 group hover:-translate-y-0.5 transition-all border border-[#c3c8c1]/10 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]"
+                      className="bg-white p-5 rounded-2xl flex flex-col sm:flex-row items-center gap-5 border border-[#c3c8c1]/20 shadow-sm transition-all hover:shadow-md"
                     >
-                      <div className="w-20 h-20 bg-[#e7e8e6] rounded-lg overflow-hidden flex-shrink-0">
+                      <div className="w-20 h-20 bg-[#e7e8e6] rounded-xl overflow-hidden flex-shrink-0">
                         <img
                           alt={item.name}
                           className="w-full h-full object-cover"
-                          src={item.image?.[0] || "https://lh3.googleusercontent.com/aida-public/AB6AXuB3ac1_Py5RdN7rw-PSJ5QOiF0jVRZFq1imSeswUFDTnEpWTUFP_PHR_x8DXXI3g_Loeqg_GNfy5vfkoIiVlgfUDKjeruBX3m-foKu9_ktu_6JjsCDTVg8c858I3imwgN_7c0Z0aijJV1Ezm1JCJB1HNMLbX16RO7cDMiRkAonTcBMEj6-FUB8WRQh0agHmSOUdwVKaeLPUifysSL4leX-hOB2iYN7xI_c6v8UQbcIu_pK4ZV6hXXyrJgND2oigMCi-SSaJluTQcsaq"}
+                          src={item.image?.[0] || "https://images.unsplash.com/photo-1545241047-6083a3684587?q=80&w=200&auto=format&fit=crop"}
                         />
                       </div>
-                      <div className="flex-grow text-center md:text-left">
+                      
+                      <div className="flex-grow text-center sm:text-left w-full">
                         <p className="text-xs text-[#737973] mb-1">
                           Ordered on {new Date(item.date).toDateString()}
                         </p>
-                        <h4 className="text-lg font-serif text-[#061b0e]">{item.name}</h4>
-                        <div className="flex items-center justify-center md:justify-start gap-3 mt-1 text-sm text-[#434843]">
-                          <p className="font-medium text-[#061b0e]">{currency}{item.price}</p>
+                        <h4 className="font-serif text-[#061b0e] font-medium">{item.name}</h4>
+                        <div className="flex items-center justify-center sm:justify-start gap-3 mt-1 text-xs text-[#434843]">
+                          <p className="font-semibold text-[#061b0e]">{currency}{item.price}</p>
+                          <p>•</p>
                           <p>Qty: {item.quantity}</p>
-                          <p className="text-xs text-gray-400">({item.paymentMethod})</p>
+                          <p>•</p>
+                          <p className="text-gray-400">({item.paymentMethod})</p>
                         </div>
-                        <div className="flex items-center justify-center md:justify-start gap-2 mt-2">
-                          <span className={`w-2 h-2 rounded-full ${item.status === 'Delivered' ? 'bg-[#737973]' : 'bg-[#4a6549]'}`}></span>
-                          <span className={`text-sm ${item.status === 'Delivered' ? 'text-[#737973]' : 'text-[#4a6549]'}`}>{item.status}</span>
+                        <div className="flex items-center justify-center sm:justify-start gap-2 mt-2.5">
+                          <span className={`w-2 h-2 rounded-full ${item.status === 'Delivered' ? 'bg-[#737973]' : 'bg-[#4a6549] animate-pulse'}`}></span>
+                          <span className={`text-xs font-medium ${item.status === 'Delivered' ? 'text-[#737973]' : 'text-[#4a6549]'}`}>{item.status}</span>
                         </div>
                       </div>
-                      <div className="flex gap-3">
-                        <button 
+                      
+                      <div className="flex sm:flex-col md:flex-row items-center gap-2 w-full sm:w-auto justify-end">
+                        <button
                           onClick={fetchDashboardData}
-                          className="px-5 py-2 rounded-full bg-[#061b0e] text-white text-sm font-semibold hover:bg-[#061b0e]/90 transition-colors"
+                          className="w-full sm:w-auto px-4 py-2 rounded-full bg-[#061b0e] text-white text-xs font-semibold hover:bg-[#122e1c] transition-colors whitespace-nowrap shadow-sm"
                         >
                           Track Order
                         </button>
-                        <button className="p-2 rounded-full border border-[#c3c8c1] hover:bg-[#f3f4f1] transition-colors">
-                          <span className="material-symbols-outlined">more_vert</span>
+                        <button className="p-2 rounded-full border border-[#c3c8c1]/60 hover:bg-[#f3f4f1] text-gray-600 transition-colors">
+                          <MoreVertical className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
@@ -203,97 +221,91 @@ const UserDashboard = () => {
               </div>
             </section>
 
-            {/* My Greenery Static Grid Section */}
+            {/* My Greenery */}
             <section>
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-serif text-[#061b0e]">My Greenery</h2>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+                <h2 className="text-xl font-serif font-medium text-[#061b0e]">My Greenery</h2>
                 <div className="flex gap-2">
-                  <span className="bg-[#ffdbcc] text-[#2c160b] px-3 py-1 rounded-full text-xs">Indoor Favorites</span>
-                  <span className="bg-[#e7e8e6] text-[#434843] px-3 py-1 rounded-full text-xs">Outdoor Hardy</span>
+                  <span className="bg-[#ffdbcc] text-[#2c160b] px-3 py-1 rounded-full text-xs font-medium">Indoor Favorites</span>
+                  <span className="bg-[#e7e8e6] text-[#434843] px-3 py-1 rounded-full text-xs font-medium">Outdoor Hardy</span>
                 </div>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                <div className="group cursor-pointer">
-                  <div className="aspect-square rounded-xl overflow-hidden bg-[#f3f4f1] mb-3 relative">
-                    <img alt="Monstera" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC46mvbR55bF3vBa8eXAIWE5Q89cQJWae02fQ8Y90-roaSxphJievTZJE1TvMH-Av0AEGfe3LsrTLYCf7XCiLSzcLuU49rznvoB3FUb_J8Rje8QWWHKwbVLrbRGQ-phqvgFoWBjLbHC82WcfOQ9RRGGXRvXHPy6wDP20CuSorqEVNJzZg3_vmHB4UCoyBsoiDbsLfkduwO2NYaUFolQUrBzMiTjIUin8cnGYSxCW_UGGWgOXvUc7mA4QXA9VvdseLNC5ZReD9Dhnqt"/>
-                    <button className="absolute top-3 right-3 bg-white/90 p-2 rounded-full shadow-md text-red-500 hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
-                    </button>
+              
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {[
+                  { name: "Monstera Deliciosa", desc: "Lush Green • Low Light", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAC46mvbR55bF3vBa8eXAIWE5Q89cQJWae02fQ8Y90-roaSxphJievTZJE1TvMH-Av0AEGfe3LsrTLYCf7XCiLSzcLuU49rznvoB3FUb_J8Rje8QWWHKwbVLrbRGQ-phqvgFoWBjLbHC82WcfOQ9RRGGXRvXHPy6wDP20CuSorqEVNJzZg3_vmHB4UCoyBsoiDbsLfkduwO2NYaUFolQUrBzMiTjIUin8cnGYSxCW_UGGWgOXvUc7mA4QXA9VvdseLNC5ZReD9Dhnqt" },
+                  { name: "Snake Plant Zeylanica", desc: "Hardy • Air Purifying", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAa04pEtG4tQ3fo5leYxaf9tcQYvwbtKU29_0x3X-kcQ5my_zhKi0iNDJJhfzyuyKyS2a5Xmm_xv9bkidrtXtqom_Y-eRmGfDNIyz9qF8_Crzf3ssyjU8zLb6YIM6nA-DEPwo_p45HGBqG_lZGvVciRQy-7r6LlWM49wdWp-R8jwC2Obb4LRUr4fpUhs1B8qdamQnTJDf8GlsXzNk-zha4PJFCfHCStvlDDvMnKTc7HGqIMHg0NnA0fwEi8-MGIbXENnO0dBsfh8itF" },
+                  { name: "Miniature Olive Tree", desc: "Mediterranean • Bright", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDBi58z7csAjHYpuSuu2sZE7vu8n8DaL_8fd-8xIHxJA2APiJHIauE24O4T-2SgAj9-qjlQHm2kPsmWF79txGEWaZ7AP54GW4ijqLYbuQXPm3JSAnn8-jHm67RN6e-hZ7ZfWCfbfctslmuoIbJZTdvkajWSor_DyBZcyDTGEwbxC0sELDVzAgdluEMKOJzGQsYh9f1Z2-YZvk5BMOajILL0UA1QFs2vpf7_kiPbs8enIADCk7Aw--lkjrpBYsVBACUOMQj7CeyEs0fN" }
+                ].map((plant, idx) => (
+                  <div key={idx} className="group cursor-pointer bg-white p-3 rounded-2xl border border-[#c3c8c1]/20 shadow-sm">
+                    <div className="aspect-square rounded-xl overflow-hidden bg-[#f3f4f1] mb-3 relative">
+                      <img alt={plant.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src={plant.img} />
+                      <button className="absolute top-2.5 right-2.5 bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-sm hover:scale-110 transition-transform">
+                        <Heart className="w-4 h-4 text-red-500 fill-current" />
+                      </button>
+                    </div>
+                    <h5 className="font-serif text-[#061b0e] font-medium text-base truncate">{plant.name}</h5>
+                    <p className="text-xs text-[#737973] mt-0.5">{plant.desc}</p>
                   </div>
-                  <h5 className="font-serif text-[#061b0e] text-lg">Monstera Deliciosa</h5>
-                  <p className="text-xs text-[#737973]">Lush Green • Low Light</p>
-                </div>
-                <div className="group cursor-pointer">
-                  <div className="aspect-square rounded-xl overflow-hidden bg-[#f3f4f1] mb-3 relative">
-                    <img alt="Snake Plant" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa04pEtG4tQ3fo5leYxaf9tcQYvwbtKU29_0x3X-kcQ5my_zhKi0iNDJJhfzyuyKyS2a5Xmm_xv9bkidrtXtqom_Y-eRmGfDNIyz9qF8_Crzf3ssyjU8zLb6YIM6nA-DEPwo_p45HGBqG_lZGvVciRQy-7r6LlWM49wdWp-R8jwC2Obb4LRUr4fpUhs1B8qdamQnTJDf8GlsXzNk-zha4PJFCfHCStvlDDvMnKTc7HGqIMHg0NnA0fwEi8-MGIbXENnO0dBsfh8itF"/>
-                    <button className="absolute top-3 right-3 bg-white/90 p-2 rounded-full shadow-md text-red-500 hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
-                    </button>
-                  </div>
-                  <h5 className="font-serif text-[#061b0e] text-lg">Snake Plant Zeylanica</h5>
-                  <p className="text-xs text-[#737973]">Hardy • Air Purifying</p>
-                </div>
-                <div className="group cursor-pointer">
-                  <div className="aspect-square rounded-xl overflow-hidden bg-[#f3f4f1] mb-3 relative">
-                    <img alt="Olive Tree" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBi58z7csAjHYpuSuu2sZE7vu8n8DaL_8fd-8xIHxJA2APiJHIauE24O4T-2SgAj9-qjlQHm2kPsmWF79txGEWaZ7AP54GW4ijqLYbuQXPm3JSAnn8-jHm67RN6e-hZ7ZfWCfbfctslmuoIbJZTdvkajWSor_DyBZcyDTGEwbxC0sELDVzAgdluEMKOJzGQsYh9f1Z2-YZvk5BMOajILL0UA1QFs2vpf7_kiPbs8enIADCk7Aw--lkjrpBYsVBACUOMQj7CeyEs0fN"/>
-                    <button className="absolute top-3 right-3 bg-white/90 p-2 rounded-full shadow-md text-[#737973] hover:scale-110 transition-transform">
-                      <span className="material-symbols-outlined">favorite</span>
-                    </button>
-                  </div>
-                  <h5 className="font-serif text-[#061b0e] text-lg">Miniature Olive Tree</h5>
-                  <p className="text-xs text-[#737973]">Mediterranean • Bright Light</p>
-                </div>
+                ))}
               </div>
             </section>
           </div>
 
-          {/* Right Sidebar Sidebar Column */}
-          <aside className="space-y-8">
-            <div className="bg-[#edeeeb] p-6 rounded-xl space-y-4">
-              <h2 className="text-2xl font-serif text-[#061b0e] mb-2">Account Hub</h2>
-              <a className="flex items-center gap-4 p-3 rounded-lg bg-white hover:bg-[#ccebc7] transition-colors group" href="#">
-                <div className="p-2 rounded bg-[#e7e8e6] text-[#4a6549] group-hover:bg-white">
-                  <span className="material-symbols-outlined">location_on</span>
+          {/* Right Sidebar */}
+          <aside className="space-y-6">
+            
+            {/* Account Hub Menu Card */}
+            <div className="bg-[#f0f1ee] p-6 rounded-2xl space-y-3.5 border border-[#c3c8c1]/30">
+              <h2 className="text-lg font-serif font-medium text-[#061b0e] mb-1">Account Hub</h2>
+              
+              <a className="flex items-center gap-3.5 p-3 rounded-xl bg-white hover:bg-[#ccebc7]/50 transition-all border border-transparent hover:border-[#4a6549]/20 group shadow-sm" href="#">
+                <div className="p-2 rounded-lg bg-[#f0f1ee] text-[#4a6549] group-hover:bg-white transition-colors">
+                  <MapPin className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="block text-sm text-[#061b0e] font-bold">Shipping Addresses</span>
-                  <span className="text-xs text-[#737973]">2 locations saved</span>
+                  <span className="block text-xs font-bold text-[#061b0e]">Shipping Addresses</span>
+                  <span className="text-[11px] text-[#737973]">2 locations saved</span>
                 </div>
               </a>
-              <a className="flex items-center gap-4 p-3 rounded-lg bg-white hover:bg-[#ccebc7] transition-colors group" href="#">
-                <div className="p-2 rounded bg-[#e7e8e6] text-[#4a6549] group-hover:bg-white">
-                  <span className="material-symbols-outlined">payments</span>
+              
+              <a className="flex items-center gap-3.5 p-3 rounded-xl bg-white hover:bg-[#ccebc7]/50 transition-all border border-transparent hover:border-[#4a6549]/20 group shadow-sm" href="#">
+                <div className="p-2 rounded-lg bg-[#f0f1ee] text-[#4a6549] group-hover:bg-white transition-colors">
+                  <CreditCard className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="block text-sm text-[#061b0e] font-bold">Payment Methods</span>
-                  <span className="text-xs text-[#737973]">Visa ending in 4242</span>
+                  <span className="block text-xs font-bold text-[#061b0e]">Payment Methods</span>
+                  <span className="text-[11px] text-[#737973]">Visa ending in 4242</span>
                 </div>
               </a>
-              <a className="flex items-center gap-4 p-3 rounded-lg bg-[#3e261a] text-[#ffdbcc] hover:opacity-90 transition-opacity" href="#">
-                <div className="p-2 rounded bg-white/10 text-[#e6bead]">
-                  <span className="material-symbols-outlined">business_center</span>
+              
+              <a className="flex items-center gap-3.5 p-3 rounded-xl bg-[#3e261a] hover:bg-[#4d3021] text-[#ffdbcc] transition-all shadow-sm" href="#">
+                <div className="p-2 rounded-lg bg-white/10 text-[#e6bead]">
+                  <BriefcaseBusiness className="w-4 h-4" />
                 </div>
                 <div>
-                  <span className="block text-sm font-bold">Wholesale Profile</span>
-                  <span className="text-xs opacity-70">Exclusive B2B pricing</span>
+                  <span className="block text-xs font-bold">Wholesale Profile</span>
+                  <span className="text-[11px] opacity-80">Exclusive B2B pricing</span>
                 </div>
               </a>
             </div>
 
-            <div className="relative rounded-xl overflow-hidden aspect-[4/5] shadow-lg group">
-              <img alt="Care Tips" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTaq-VBdueoj2TAVjUb_8uWY5GF1JZXCWjge15q8OFh7TJ_ndLcpibsPgvQ1t91VePWn9LEIBOtGkL3SQOT003rM9QB_YpIQbCPiX5YL2Lf5y4f-RbYNDrwQGB0P8WijovuuB82qSFReAgJiboxVAGXmOkoTV5_v_meJ894TCLPJ6cjZle48e2MutO9NDOjw3NED9TD0xLiRzBVimCx1za2i2eB6u2nJiGLn9wlmcLgLbo3tecqfbxG4gks6ozQbnYiAd0Hi8drd3k"/>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#061b0e]/90 via-[#061b0e]/30 to-transparent flex flex-col justify-end p-6">
-                <span className="text-[#ffdbcc] text-xs mb-2 font-bold uppercase tracking-widest">Nurturer's Guide</span>
-                <h3 className="font-serif text-white text-2xl leading-tight mb-4">Winter Care Tips for your Indoor Jungle</h3>
-                <button className="bg-[#ccebc7] text-[#07200b] w-full py-3 rounded-full text-sm font-bold hover:bg-white transition-colors">Read Full Guide</button>
+            {/* Guide Promo Banner */}
+            <div className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-md group">
+              <img alt="Care Tips" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTaq-VBdueoj2TAVjUb_8uWY5GF1JZXCWjge15q8OFh7TJ_ndLcpibsPgvQ1t91VePWn9LEIBOtGkL3SQOT003rM9QB_YpIQbCPiX5YL2Lf5y4f-RbYNDrwQGB0P8WijovuuB82qSFReAgJiboxVAGXmOkoTV5_v_meJ894TCLPJ6cjZle48e2MutO9NDOjw3NED9TD0xLiRzBVimCx1za2i2eB6u2nJiGLn9wlmcLgLbo3tecqfbxG4gks6ozQbnYiAd0Hi8drd3k" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#061b0e]/95 via-[#061b0e]/40 to-transparent flex flex-col justify-end p-5">
+                <span className="text-[#ffdbcc] text-[10px] tracking-widest font-bold uppercase mb-1">Nurturer's Guide</span>
+                <h3 className="font-serif text-white text-xl leading-snug mb-4">Winter Care Tips for your Indoor Jungle</h3>
+                <button className="bg-[#ccebc7] text-[#07200b] py-2.5 rounded-full text-xs font-bold hover:bg-white transition-colors shadow-sm">Read Full Guide</button>
               </div>
             </div>
 
-            <div className="border border-[#c3c8c1]/30 p-6 rounded-xl bg-[#f9faf7]">
-              <h4 className="text-sm text-[#061b0e] font-bold mb-2">Need Expert Advice?</h4>
-              <p className="text-xs text-[#434843] mb-4">Our botanists are available 24/7 for urgent plant care consultations.</p>
-              <button className="flex items-center justify-center gap-2 w-full py-3 rounded-full border border-[#061b0e] text-[#061b0e] hover:bg-[#061b0e] hover:text-white transition-all text-sm font-semibold">
-                <span className="material-symbols-outlined">call</span>
+            {/* Micro Support Banner */}
+            <div className="border border-[#c3c8c1]/50 p-5 rounded-2xl bg-white shadow-sm text-center lg:text-left">
+              <h4 className="text-xs font-bold text-[#061b0e] uppercase tracking-wider mb-1">Need Expert Advice?</h4>
+              <p className="text-xs text-[#555b54] mb-4 leading-relaxed">Our botanists are available 24/7 for urgent plant care consultations.</p>
+              <button className="flex items-center justify-center gap-2 w-full py-2.5 rounded-full border border-[#061b0e] text-[#061b0e] hover:bg-[#061b0e] hover:text-white transition-all text-xs font-semibold">
+                <PhoneCall className="w-3.5 h-3.5" />
                 Call Our Experts Now
               </button>
             </div>

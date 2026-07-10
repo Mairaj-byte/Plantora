@@ -35,15 +35,9 @@ body {
     margin: 0;
     padding: 0;
     color: #292524; /* Warm stone-800 text instead of pure harsh black */
-    background-color: transparent; /* Elegant off-white cream base */
+    background-color: #fcfcfb; /* Elegant off-white cream base */
     
-    /* Layer 1: Smooth, subtle radial gradients that mimic morning light passing through leaves */
-    background-image: 
-        radial-gradient(at 0% 0%, rgba(209, 250, 229, 0.3) 0px, transparent 50%), 
-        radial-gradient(at 100% 100%, rgba(240, 253, 244, 0.4) 0px, transparent 50%),
-        /* Layer 2: Ultra-fine analog noise grain to make the background feel premium and material */
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.015'/%3E%3C/svg%3E");
-        
+     
     background-attachment: fixed;
 }
 

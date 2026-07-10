@@ -5,13 +5,22 @@ import ProductItem from './ProductItem';
 const BestSeller = () => {
     const { products } = useContext(ShopContext);
     const [bestSeller, setBestSeller] = useState([]);
+    // FIX 1: Declared the missing animate state variable
+    const [animate, setAnimate] = useState(false);
 
     useEffect(() => {
         if (products && products.length > 0) {
             const bestProduct = products.filter((item) => item.bestseller);
-            setBestSeller(bestProduct.slice(0, 5))
+            setBestSeller(bestProduct.slice(0, 4));
+            
+            // FIX 2: Added the timeout trigger to flip the animation state safely
+            const timer = setTimeout(() => {
+                setAnimate(true);
+            }, 50);
+
+            return () => clearTimeout(timer);
         }
-    }, [products])
+    }, [products]);
 
     return (
         <section className='relative my-24 sm:my-32 max-w-7xl mx-auto overflow-hidden'>
@@ -39,18 +48,15 @@ const BestSeller = () => {
             </div>
 
             {/* Premium Flex/Grid Presentation Layer */}
-            <div className='relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 gap-y-10 z-10 px-4 sm:px-12'>
+            <div className='relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-6 gap-y-10 z-10 px-4 sm:px-12'>
                 {
                     bestSeller.map((item, index) => (
                         <div 
-                            key={index} 
-                            className='group relative bg-white border border-stone-100 rounded-2xl p-2.5 sm:p-4 hover:border-emerald-800/10 hover:shadow-[0_12px_30px_rgba(11,34,22,0.06)] hover:-translate-y-1.5 transition-all duration-300 ease-out flex flex-col justify-between'
+                            key={item._id || index} 
+                            style={{ transitionDelay: `${index * 80}ms` }}
+                            className={`duration-700 ease-out transition-all
+                                ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}
                         >
-                            {/* Floating Corner Accent Badge */}
-                            <div className='absolute top-3 right-3 z-20 bg-[#0b2216] text-white text-[9px] font-bold px-2 py-0.5 rounded-md tracking-wider shadow-xs transform group-hover:scale-105 transition-all duration-300'>
-                                POPULAR
-                            </div>
-
                             {/* Product Entry Wrapper Injection */}
                             <div className='w-full h-full overflow-hidden rounded-xl bg-stone-50/50'>
                                 <ProductItem 
@@ -58,6 +64,8 @@ const BestSeller = () => {
                                     name={item.name} 
                                     image={item.image} 
                                     price={item.price} 
+                                    badge={item.badge || "Popular"}
+                                    subcategory={item.category}
                                 />
                             </div>
                         </div>
@@ -68,4 +76,4 @@ const BestSeller = () => {
     )
 }
 
-export default BestSeller
+export default BestSeller;

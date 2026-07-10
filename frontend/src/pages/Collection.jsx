@@ -215,14 +215,19 @@ const Collection = () => {
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4">
                 {currentProducts.map((item, index) => (
+                  
                   <div key={item._id || index} className="group bg-[#F3F4F0] rounded-xl overflow-hidden hover:translate-y-[-2px] transition-all duration-300">
                     <ProductItem
                       name={item.name}
                       id={item._id}
                       price={item.price}
                       image={item.image}
+                      badge={item.category}
+                      subcategory={item.subCategory}
                     />
                   </div>
+
+
                 ))}
               </div>
             )}

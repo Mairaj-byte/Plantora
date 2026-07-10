@@ -85,7 +85,7 @@ const WhyChooseUs = () => {
           <div className='w-[1px] h-12 bg-emerald-200' />
 
           <div>
-            <h4 className='text-2xl sm:text-3xl font-light text-emerald-900 tracking-tight'>8+ Years</h4>
+            <h4 className='text-2xl sm:text-3xl font-light text-emerald-900 tracking-tight'>5+ Years</h4>
             <p className='text-[11px] font-bold tracking-wider text-emerald-800 uppercase mt-1'>Experience</p>
           </div>
         </div>

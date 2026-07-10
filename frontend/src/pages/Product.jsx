@@ -184,23 +184,8 @@ const Product = () => {
         </div>
       </div>
 
-      {/* About Description Section */}
-      <section className="mt-16 pt-8 border-t border-gray-100">
-        <div className="max-w-2xl">
-          <h2 className="text-lg font-bold text-gray-900 mb-3">About this specimen</h2>
-          <div className="space-y-4 text-gray-600 text-sm leading-relaxed">
-            <p>
-              Bring nature into your home with our carefully selected healthy plants. Every single specimen is nurtured natively with absolute precision care parameters and packed dynamically to make sure it establishes healthy structural boundaries once it arrives.
-            </p>
-            <div className="bg-[#F4F6F2] p-4 rounded-xl border-l-4 border-emerald-800 italic text-gray-800 font-medium text-xs">
-              "A quintessential addition to any botanical collection, providing immediate architectural impact with minimal structural maintenance requirements."
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Related Products Hook Section Wrapper */}
-      <div className="border-t border-gray-100 mt-16 pt-10">
+      <div className="border-t border-gray-100 mt-10 pt-10">
         <RelatedProducts
           category={productData.category}
           subCategory={productData.subCategory}

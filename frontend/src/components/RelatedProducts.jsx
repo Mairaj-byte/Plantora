@@ -22,32 +22,56 @@ const RelatedProducts = ({ category, subCategory, currentProductId }) => {
         strictMatch = filteredProducts.filter((item) => item.category === category);
       }
 
-      // 4. Slice the top 5 relevant items
-      setRelated(strictMatch.slice(0, 5));
+      // 4. Slice the top 4 relevant items
+      setRelated(strictMatch.slice(0, 4));
     }
-  }, [products, category, subCategory, currentProductId]); // Added missing dependencies
+  }, [products, category, subCategory, currentProductId]);
 
   // Don't render anything if no related products are found
   if (related.length === 0) return null;
 
   return (
-    <div className='my-24 px-4 sm:px-0'>
-      <div className='text-center text-3xl py-4'>
-        <Title text1={'RELATED'} text2={'PRODUCTS'} />
+    <div className='relative overflow-hidden'>
+
+      {/* Editorial Header Section */}
+      <div className='px-6 md:px-12 lg:px-16 mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4'>
+        <div>
+          <span className='text-xs uppercase tracking-[0.25em] text-emerald-700 font-semibold block mb-2'>
+            Curated Pairings
+          </span>
+          <h2 className='text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-zinc-900 font-serif'>
+            Related <span className='text-emerald-800 font-normal italic'>Botanicals</span>
+          </h2>
+        </div>
+        <p className='text-sm text-zinc-500 max-w-sm font-light leading-relaxed border-l-2 border-emerald-600 pl-4 py-1'>
+          Enhance your interior landscape with these hand-selected, premium varieties.
+        </p>
       </div>
 
-      {/* Grid Layout */}
-      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6'>
+      {/* Grid Layout - Spanning Full Screen Edge to Edge */}
+      <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4'>
         {related.map((item) => (
-          <ProductItem 
-            key={item._id} // Best practice: Use unique item IDs instead of array indexes for keys
-            id={item._id} 
-            name={item.name} 
-            price={item.price} 
-            image={item.image}
-          />
+          <div
+            key={item._id}
+            className='group relative md:p-4'
+          >
+            {/* Subtle internal emerald glow line on item hover */}
+            <div className='absolute top-0 left-0 w-full h-[3px] bg-emerald-700 scale-x-0' />
+
+            <ProductItem
+              id={item._id}
+              name={item.name}
+              price={item.price}
+              image={item.image}
+              badge={item.category}
+              category={item.subcategory}
+            />
+          </div>
         ))}
       </div>
+
+
+
     </div>
   );
 };

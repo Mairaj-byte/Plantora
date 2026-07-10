@@ -5,26 +5,39 @@ import ProductItem from './ProductItem';
 const LatestArrival = () => {
     const { products } = useContext(ShopContext);
     const [latestProducts, setLatestProducts] = useState([]);
-    const [animate, setAnimate] = useState(false);
 
     useEffect(() => {
         if (products && products.length > 0) {
-            // Since products are already reversed in your API fetch code, 
-            // the first 5 elements represent the absolute newest additions.
-            setLatestProducts(products.slice(0, 5));
-            
-            // Trigger the cascading top-down animation
-            const timer = setTimeout(() => {
-                setAnimate(true);
-            }, 50);
-
-            return () => clearTimeout(timer);
+            // Take up to 10 products for the marquee track
+            setLatestProducts(products.slice(0, 10));
         }
     }, [products]);
 
     return (
-        <section className='relative my-24 sm:my-32 max-w-7xl mx-auto overflow-hidden'>
+        <section className='relative my-24 sm:my-32 w-full overflow-hidden'>
             
+            {/* Injecting CSS Keyframes dynamically for the seamless infinite scroll */}
+            <style>{`
+                @keyframes marquee {
+                    0% {
+                        transform: translateX(0%);
+                    }
+                    100% {
+                        transform: translateX(-50%);
+                    }
+                }
+                .animate-marquee {
+                    display: flex;
+                    width: max-content;
+                    /* Adjusted time to 20s for smaller cards to keep velocity matching well */
+                    animation: marquee 20s linear infinite;
+                }
+                /* Optional: Pause the scrolling effect when a user hovers over a product */
+                .animate-marquee:hover {
+                    animation-play-state: paused;
+                }
+            `}</style>
+
             {/* Soft Ambient Background Elements */}
             <div className='absolute -top-12 -left-12 w-64 h-64 bg-stone-100/50 rounded-full blur-3xl pointer-events-none' />
             <div className='absolute -bottom-16 -right-16 w-80 h-80 bg-amber-50/30 rounded-full blur-3xl pointer-events-none' />
@@ -41,43 +54,51 @@ const LatestArrival = () => {
                     </h2>
                 </div>
                 <div className='max-w-md md:text-right'>
-                    <p className='text-xs sm:text-sm text-stone-600 font-light leading-relaxed tracking-wide'>
+                    <p className='text-xs sm:text-sm text-stone-600 font-light leading-relaxed tracking-wide '>
                         Be the first to adopt our newest arrivals. Hand-picked and freshly cultivated, these rare specimens and seasonal essentials are ready to bring new life into your home ecosystem.
                     </p>
                 </div>
             </div>
 
-            {/* Premium Flex/Grid Presentation Layer */}
-            <div className='relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 gap-y-10 z-10 px-4 sm:px-12'>
-                {
-                    latestProducts.map((item, index) => (
-                        <div 
-                            key={item._id || index} 
-                            style={{ transitionDelay: `${index * 80}ms` }}
-                            className={`group relative bg-white border border-stone-100 rounded-2xl p-2.5 sm:p-4 hover:border-emerald-800/10 hover:shadow-[0_12px_30px_rgba(11,34,22,0.06)] hover:-translate-y-1.5 flex flex-col justify-between
-                                duration-700 ease-out transition-all
-                                ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}
-                        >
-                            {/* Floating Corner Accent Badge */}
-                            <div className='absolute top-3 right-3 z-20 bg-emerald-800 text-white text-[9px] font-bold px-2 py-0.5 rounded-md tracking-wider shadow-xs transform group-hover:scale-105 transition-all duration-300'>
-                                NEW
-                            </div>
-
-                            {/* Product Entry Wrapper Injection */}
-                            <div className='w-full h-full overflow-hidden rounded-xl bg-stone-50/50'>
-                                <ProductItem 
-                                    id={item._id} 
-                                    name={item.name} 
-                                    image={item.image} 
-                                    price={item.price} 
-                                />
-                            </div>
+            {/* Dynamic Infinite Horizontal Marquee Container */}
+            <div className='relative w-full overflow-hidden z-10 mask-gradient'>
+                {/* Changed gap-6 to gap-4 for a more compact arrangement */}
+                <div className='animate-marquee gap-4 px-4'>
+                    
+                    {/* First Render Loop */}
+                    {latestProducts.map((item, index) => (
+                        <div key={`original-${item._id || index}`} className="w-[230px] sm:w-[270px] flex-shrink-0">
+                            <ProductItem 
+                                id={item._id} 
+                                name={item.name} 
+                                image={item.image} 
+                                price={item.price} 
+                                badge={item.badge || "Latest"}
+                                subcategory={item.category || "Indoor"}
+                                subtext={item.subtext || "Low Light"}
+                            />
                         </div>
-                    ))
-                }
+                    ))}
+
+                    {/* Exact Duplicate Render Loop to allow seamless, infinite snapping back */}
+                    {latestProducts.map((item, index) => (
+                        <div key={`duplicate-${item._id || index}`} className="w-[230px] sm:w-[270px] flex-shrink-0" aria-hidden="true">
+                            <ProductItem 
+                                id={item._id} 
+                                name={item.name} 
+                                image={item.image} 
+                                price={item.price} 
+                                badge={item.badge || "Latest"}
+                                subcategory={item.category || "Indoor"}
+                                subtext={item.subtext || "Low Light"}
+                            />
+                        </div>
+                    ))}
+
+                </div>
             </div>
         </section>
     )
 }
 
-export default LatestArrival
+export default LatestArrival;
