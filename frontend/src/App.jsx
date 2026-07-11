@@ -28,6 +28,7 @@ import { ShopContext } from './context/ShopContext';
 import Blog from './pages/Blog'
 import BlogDetail from './components/BlogDetail'
 
+
 const App = () => {
   const location = useLocation();
 
