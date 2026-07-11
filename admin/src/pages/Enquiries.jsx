@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Calendar, Trash2, Search, MessageSquare, Inbox } from 'lucide-react';
+import { backendUrl } from '../App';
 
 const Enquiries = () => {
   const [inquiries, setInquiries] = useState([]);
@@ -8,7 +9,7 @@ const Enquiries = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All Statuses');
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  
 
   // 1. Fetch inquiries on component mount
   useEffect(() => {
@@ -18,7 +19,7 @@ const Enquiries = () => {
   const fetchInquiries = async () => {
     try {
       setLoading(true);
-      const response = await fetch(backendUrl + "/api/enquiry/list");
+      const response = await fetch(`${backendUrl}/api/enquiry/list`);
       if (!response.ok) throw new Error('Failed to fetch inquiries');
       
       const jsonResponse = await response.json();
@@ -44,7 +45,7 @@ const Enquiries = () => {
     );
 
     try {
-      const response = await fetch(backendUrl + "/api/enquiry/status", {
+      const response = await fetch(`${backendUrl}/api/enquiry/status`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, status: newStatus }),
@@ -65,7 +66,7 @@ const Enquiries = () => {
     if (!window.confirm('Are you sure you want to delete this inquiry?')) return;
 
     try {
-      const response = await fetch(backendUrl + "/api/enquiry/delete", {
+      const response = await fetch(`${backendUrl}/api/enquiry/delete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id }),

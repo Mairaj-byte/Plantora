@@ -65,7 +65,7 @@ const App = () => {
               - px-4 md:px-8: provides proportional responsive spacing
               - pt-24 lg:pt-8: adds spacing above content on mobile layout to sit cleanly below fixed top-bar
             */}
-            <div className='flex-1 px-4 md:px-8 pt-24 lg:pt-8 pb-8 text-gray-600 text-base overflow-x-hidden'>
+            <div className='flex-1 px-4 md:px-8 pt-24 lg:pt-8 pb-8 bg-[#f9faf7] text-gray-600 text-base overflow-x-hidden'>
               <Routes>
                 <Route path='/newproduct' element={<NewProduct token={token} />} />
                 <Route path='/list' element={<List token={token} />} />
