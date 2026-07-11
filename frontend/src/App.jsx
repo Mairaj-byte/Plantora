@@ -34,7 +34,7 @@ const App = () => {
   const { token, setToken } = useContext(ShopContext);
 
   // Define routes where global navigation elements should be hidden
-  const hideNavbarRoutes = ['/shipping', '/orders', '/summary', '/payment', '/login', '/blogs', '/blog/:id'];
+  const hideNavbarRoutes = ['/shipping', '/orders', '/summary', '/payment', '/login'];
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   // Define routes where the footer should be hidden (currently just login)
