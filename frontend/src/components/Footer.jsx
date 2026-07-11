@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const Footer = () => {
   const links = [
@@ -7,7 +8,6 @@ const Footer = () => {
     { name: 'Services', path: '/services' },
     { name: 'Privacy policy', path: '/privacy' },
     { name: 'News & Blogs', path: '/blogs' },
-
   ];
 
   return (
@@ -52,12 +52,16 @@ const Footer = () => {
             <ul className='flex flex-col gap-3 text-sm text-stone-400'>
               {links.map((link) => (
                 <li key={link.name}>
-                  <a 
-                    href={link.path} 
-                    className='hover:text-emerald-300 transition-colors duration-200 ease-in-out relative block w-fit after:block after:content-[""] after:absolute after:h-[1px] after:bg-emerald-400 after:w-0 hover:after:w-full after:transition-all after:duration-300'
+                  <NavLink 
+                    to={link.path} 
+                    className={({ isActive }) => 
+                      `transition-colors duration-200 ease-in-out relative block w-fit after:block after:content-[""] after:absolute after:h-[1px] after:bg-emerald-400 after:w-0 hover:after:w-full after:transition-all after:duration-300 ${
+                        isActive ? 'text-emerald-400 font-medium' : 'hover:text-emerald-300 text-stone-400'
+                      }`
+                    }
                   >
                     {link.name}
-                  </a>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -66,19 +70,19 @@ const Footer = () => {
           {/* Contact Section */}
           <div className='md:col-span-3 flex flex-col gap-5'>
             <p className='text-xs font-bold tracking-widest uppercase text-white'>
-              <a href="/contact" className="hover:text-emerald-400 transition-colors duration-200">
+              <NavLink to="/contact" className={({ isActive }) => `transition-colors duration-200 ${isActive ? 'text-emerald-400' : 'hover:text-emerald-400'}`}>
                 Get In Touch
-              </a>
+              </NavLink>
             </p>
             <ul className='flex flex-col gap-3 text-sm text-stone-400'>
               <li>
-                <a href="tel:+12124567890" className='hover:text-emerald-300 transition-colors duration-200'>
+                <a href="tel:+919760500048" className='hover:text-emerald-300 transition-colors duration-200'>
                   +91 97605 00048
                 </a>
               </li>
               <li>
-                <a href="mailto:contact@nursery.com" className='hover:text-emerald-300 transition-colors duration-200 underline underline-offset-4 decoration-emerald-800 hover:decoration-emerald-300'>
-                  contact@edogardenursery.com
+                <a href="mailto:contact@ecogardenursery.com" className='hover:text-emerald-300 transition-colors duration-200 underline underline-offset-4 decoration-emerald-800 hover:decoration-emerald-300'>
+                  contact@ecogardenursery.com
                 </a>
               </li>
               <li className='text-stone-400 leading-relaxed mt-1'>
