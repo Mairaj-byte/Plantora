@@ -31,10 +31,14 @@ import Services4 from './Services4.jpg'
 import Services5 from './Services5.jpg'
 import Services6 from './Services6.jpg'
 import Services7 from './Services7.jpg'
+import topright from './topright.png'
+import topleft from './topleft.png'
 
 
 
 export const assets = {
+    topright,
+    topleft,
     Services1,
     Services2,
     Services3,

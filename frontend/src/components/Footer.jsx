@@ -6,6 +6,8 @@ const Footer = () => {
     { name: 'About us', path: '/about' },
     { name: 'Services', path: '/services' },
     { name: 'Privacy policy', path: '/privacy' },
+    { name: 'News & Blogs', path: '/blogs' },
+
   ];
 
   return (

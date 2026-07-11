@@ -25,6 +25,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import ProfileSetup from './pages/ProfileSetup'
 import { ShopContext } from './context/ShopContext';
+import Blog from './pages/Blog'
+import BlogDetail from './components/BlogDetail'
 
 const App = () => {
   const location = useLocation();
@@ -32,11 +34,11 @@ const App = () => {
   const { token, setToken } = useContext(ShopContext);
 
   // Define routes where global navigation elements should be hidden
-  const hideNavbarRoutes = ['/shipping', '/orders', '/summary', '/payment', '/login'];
+  const hideNavbarRoutes = ['/shipping', '/orders', '/summary', '/payment', '/login', '/blogs', '/blog/:id'];
   const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
 
   // Define routes where the footer should be hidden (currently just login)
-  const hideFooterRoutes = ['/login'];
+  const hideFooterRoutes = ['/login', '/blogs', '/blog/:id'];
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
   return (
@@ -70,6 +72,13 @@ const App = () => {
 
         <Route path="/verify" element={<Verify />} />
         <Route path="/enquiry" element={<Enquiry />} />
+ 
+        <Route path="/blogs" element={<Blog />} />
+        <Route path="/blog/:id" element={<BlogDetail />} />
+        
+
+
+
       </Routes>
 
       <ToastContainer

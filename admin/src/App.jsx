@@ -13,6 +13,9 @@ import Settings from './pages/Settings'
 import Dashboard from './pages/Dashboard'
 import Products from './pages/Products'
 import ProductEdit from './pages/ProductEdit'
+import Blogs from './pages/Blogs'
+import BlogEdit from './components/BlogEdit'
+import BlogAdd from './components/BlogAdd'
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL
 export const currency = '₹'
@@ -72,6 +75,9 @@ const App = () => {
                 <Route path='/dashboard' element={<Dashboard token={token} />} />
                 <Route path='/products' element={<Products token={token} />} />
                 <Route path="/product/:productId" element={<ProductEdit token={token} />} />
+                <Route path="/blogs" element={<Blogs token={token} />} />
+                <Route path="/blog/:blogId" element={<BlogEdit token={token} />} />
+                
               </Routes>
             </div>
 

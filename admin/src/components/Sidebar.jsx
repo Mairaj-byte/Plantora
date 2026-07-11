@@ -42,6 +42,13 @@ const Sidebar = ({ setToken }) => {
   // Reusable Nav items collection
   const NavItems = () => (
     <nav className='flex flex-col gap-1 mt-6'>
+
+      <NavLink className={navLinkClass} to="/newproduct" onClick={() => setIsOpen(false)}>
+        <Package className='w-5 h-5 transition-opacity' />
+        <span>Add Product</span>
+      </NavLink>
+
+
       <NavLink className={navLinkClass} to="/dashboard" onClick={() => setIsOpen(false)}>
         <LayoutDashboard className='w-5 h-5 transition-opacity' />
         <span>Dashboard</span>
@@ -62,10 +69,12 @@ const Sidebar = ({ setToken }) => {
         <span>Orders</span>
       </NavLink>
 
-      <NavLink className={navLinkClass} to="/newproduct" onClick={() => setIsOpen(false)}>
+      <NavLink className={navLinkClass} to="/blogs" onClick={() => setIsOpen(false)}>
         <Package className='w-5 h-5 transition-opacity' />
-        <span>New Product</span>
+        <span>News & Blogs</span>
       </NavLink>
+
+      
 
       <NavLink className={navLinkClass} to="/settings" onClick={() => setIsOpen(false)}>
         <Settings className='w-5 h-5 transition-opacity' />
