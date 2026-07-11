@@ -41,7 +41,7 @@ const BlogAdd = ({ onCancel, onBlogAdded, token }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/blog/addblog", 
+        `${backend}/api/blog/addblog`, 
         formData, 
         { headers: { token } }
       );

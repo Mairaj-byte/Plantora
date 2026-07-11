@@ -11,11 +11,13 @@ const BlogDetail = () => {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   useEffect(() => {
     const fetchBlogDetail = async () => {
       try {
         // Pointing to your specific single blog endpoint route
-        const response = await axios.get(`http://localhost:4000/api/blog/single/${id}`);
+        const response = await axios.get(`${backendUrl}/api/blog/single/${id}`);
         if (response.data.success) {
           // Direct assignment since backend structure payload returns an object: response.data.blog
           setBlog(response.data.blog);
