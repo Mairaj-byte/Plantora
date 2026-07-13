@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; 
+import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
 import RelatedProducts from "../components/RelatedProducts";
@@ -39,7 +39,7 @@ const Product = () => {
 
   return productData ? (
     <main className="pt-6 max-w-5xl mx-auto px-4 md:px-6 mb-16 transition-opacity ease-in duration-500 opacity-100 relative">
-      
+
       {/* Breadcrumbs Navigation */}
       <nav className="flex items-center gap-1.5 mb-6 text-gray-400 text-xs tracking-wide">
         <a className="hover:text-emerald-800 transition-colors" href="/">Home</a>
@@ -106,9 +106,17 @@ const Product = () => {
           {/* Pricing Row */}
           <div className="flex items-baseline gap-3 pt-1 border-t border-gray-100">
             <span className="text-2xl font-bold text-gray-900">
-              {productData.price === 0 ? "Out of Stock" : `${currency}${productData.price}`}
+              {productData.subCategory === 'Services' ? (
+                "Variable Price Range"
+              ) : productData.price === 0 ? (
+                "Out of Stock"
+              ) : (
+                `${currency}${productData.price}`
+              )}
             </span>
-            {productData.price > 0 && (
+
+            {/* Only show discount if it's not a service and has a price */}
+            {productData.subCategory !== 'Services' && productData.price > 0 && (
               <>
                 <span className="text-gray-400 line-through text-xs">
                   {currency}{(productData.price * 1.3).toFixed(0)}
@@ -123,9 +131,9 @@ const Product = () => {
             {productData.description || "Renowned for its structural statement look, this vibrant botanical addition adapts gracefully to your interior framework while purifying native surrounding air parameters naturally."}
           </p>
 
-          {/* Conditional Add to Cart / Notify Layout */}
+          {/* Conditional Add to Cart / Enquiry Layout */}
           <div className="pt-2 max-w-md">
-            {productData.price === 0 ? (
+            {productData.subCategory === 'Services' || productData.price === 0 ? (
               <button
                 onClick={() => setIsEnquiryOpen(true)}
                 className="w-full bg-amber-600 text-white font-medium py-3.5 px-6 rounded-xl hover:bg-amber-700 transition-all active:scale-[0.99] flex items-center justify-center gap-2 text-sm shadow-sm"
@@ -196,9 +204,9 @@ const Product = () => {
       {isEnquiryOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
           <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl">
-            <Enquiry 
-              plantName={productData.name} 
-              onClose={() => setIsEnquiryOpen(false)} 
+            <Enquiry
+              plantName={productData.name}
+              onClose={() => setIsEnquiryOpen(false)}
             />
           </div>
         </div>

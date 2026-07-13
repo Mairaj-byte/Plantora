@@ -98,6 +98,7 @@ const Gallery = () => {
               price={item.price} 
               image={item.image} 
               badge={item.category} 
+              subcategory={item.subCategory}
             />
           </div>
         ))}
