@@ -61,7 +61,7 @@ const NewProduct = ({ token }) => {
         setBestseller(false);
         setImages([null, null, null, null]);
 
-        
+
       } else {
         toast.error(response.data.message);
       }
@@ -78,7 +78,7 @@ const NewProduct = ({ token }) => {
     <div className="flex-grow overflow-y-auto h-screen bg-[#f9faf7] text-[#191c1b] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <main className="px-4 md:px-8 lg:px-12 pb-20 pt-8 max-w-4xl mx-auto">
         <div className="flex flex-col gap-8 h-full">
-          
+
           {/* Page Header */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
@@ -94,7 +94,7 @@ const NewProduct = ({ token }) => {
           {/* Form Card Body Container */}
           <div className="bg-white rounded-lg shadow-[0_10px_40px_-10px_rgba(74,101,73,0.06)] border border-[#e1e4df] overflow-hidden p-6 md:p-8">
             <form onSubmit={onSubmitHandler} className="space-y-6">
-              
+
               {/* --- Image Upload Gallery Section --- */}
               <div>
                 <p className="text-sm font-semibold text-[#2d322e] mb-3 flex items-center gap-2">
@@ -173,6 +173,12 @@ const NewProduct = ({ token }) => {
                     <option value="Indoor Plants">🏠 Indoor Plants</option>
                     <option value="Ground Cover Plants">🍀 Ground Cover Plants</option>
                     <option value="Palm Tree">🌴 Palm Tree</option>
+                    <option value="Design">Design</option>
+                    <option value="Garden">Garden</option>
+                    <option value="Tapoori">Tapoori</option>
+                    <option value="Vertical Garden">Vertical Garden</option>
+                    <option value="Pot Design">Pot Design</option>
+                    <option value="Stone Design">Stone Design</option>
                   </select>
                 </div>
 
@@ -189,6 +195,7 @@ const NewProduct = ({ token }) => {
                     <option value="Low Maintenance">Low Maintenance</option>
                     <option value="Pet Friendly">Pet Friendly</option>
                     <option value="Flowering">Flowering</option>
+                    <option value="Services">Services</option>
                   </select>
                 </div>
 

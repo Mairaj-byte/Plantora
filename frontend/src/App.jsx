@@ -27,6 +27,7 @@ import ProfileSetup from './pages/ProfileSetup'
 import { ShopContext } from './context/ShopContext';
 import Blog from './pages/Blog'
 import BlogDetail from './components/BlogDetail'
+import Gallery from './pages/Gallery'
 
 
 const App = () => {
@@ -62,6 +63,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/gallery" element={<Gallery/>} />
         
         {/* Fixed: Corrected spelling to /profilesetup and fixed JSX element syntax */}
         <Route path="/profilesetup" element={<ProfileSetup token={token}/>} />

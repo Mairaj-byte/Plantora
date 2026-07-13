@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { ArrowLeft, Upload, Save, Loader2 } from 'lucide-react';
+import { backendUrl } from '../App';
 
 const ProductEdit = ({ token }) => {
   const { productId } = useParams();
@@ -23,7 +24,7 @@ const ProductEdit = ({ token }) => {
   const [existingImages, setExistingImages] = useState([]);
   const [imageFiles, setImageFiles] = useState([null, null, null, null]);
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  
     
   // Fetch individual product details
   const fetchProductDetails = async () => {

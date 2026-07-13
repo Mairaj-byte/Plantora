@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { ArrowRight, Leaf, Mail, Lock, ShieldCheck, KeyRound, CornerUpLeft } from 'lucide-react';
 import loginImg from '../assets/login.jpeg';
 import { useNavigate } from 'react-router-dom';
+import { backendUrl } from '../App';
 
 const Login = ({ setToken }) => {
   // states: 'Login' | 'Forgot' | 'Reset'
@@ -14,7 +15,7 @@ const Login = ({ setToken }) => {
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+  
   const navigate = useNavigate();
 
 

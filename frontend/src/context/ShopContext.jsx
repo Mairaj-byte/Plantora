@@ -14,6 +14,7 @@ const ShopContextProvider = (props) => {
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
+  const [services, setServices] = useState([]);
   const [token, setToken] = useState("");
 
   const navigate = useNavigate();
@@ -116,6 +117,25 @@ const ShopContextProvider = (props) => {
     }
   };
 
+
+  // Fetch Products
+  const getServicesData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:4000/api/product/services"
+      );
+
+      if (response.data.success) {
+        setServices(response.data.products.reverse());
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
   // Fetch User Cart
   const getUserCart = async (token) => {
     try {
@@ -152,6 +172,7 @@ const ShopContextProvider = (props) => {
 
   
   const value = {
+    services,
     products,
     currency,
     delivery_fee,

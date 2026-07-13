@@ -73,6 +73,27 @@ const listProducts = async (req, res) => {
     }
 };
 
+// List Services
+const servicesControl = async (req, res) => {
+    try {
+        // Query database to find only products where subCategory is 'Services'
+        // Using 'i' for case-insensitive matching
+        const products = await productModel.find({ 
+            subCategory: { $regex: '^Services$', $options: 'i' } 
+        });
+
+        res.json({ success: true, products });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+
+
 // Remove Product
 const removeProduct = async (req, res) => {
     try {
@@ -197,7 +218,8 @@ export {
     listProducts,
     removeProduct,
     singleProduct,
-    updateProduct
+    updateProduct,
+    servicesControl,
 };
 
 

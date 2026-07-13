@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { currency } from '../App';
+import { currency, backendUrl } from '../App';
 import { toast } from 'react-toastify';
 import { assets } from '../assets/assets';
 import { Download, Plus, Search, Package, Phone, Image as ImageIcon } from 'lucide-react';
@@ -10,7 +10,7 @@ const Orders = ({ token }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All Statuses');
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+ 
 
   const fetchAllOrders = async () => {
     try {
@@ -35,7 +35,7 @@ const Orders = ({ token }) => {
   const statusHandler = async (event, orderId) => {
     try {
       const response = await axios.post(
-        backendUrl + '/api/order/status',
+        $`{backendUrl}/api/order/status`,
         { orderId, status: event.target.value },
         { headers: { token } }
       );
