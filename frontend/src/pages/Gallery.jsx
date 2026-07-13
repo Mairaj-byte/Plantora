@@ -4,17 +4,19 @@ import { toast } from 'react-toastify';
 import { ShopContext } from '../context/ShopContext';
 import ProductItem from '../components/ProductItem';
 
+
 const Gallery = () => {
   const { search, showSearch } = useContext(ShopContext);
   const [services, setServices] = useState([]);
   const [filterProducts, setFilterProducts] = useState([]);
   const [activeCategory, setActiveCategory] = useState('All Services'); // Changed to single state for tabs
-  
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
   const categories = ['All Services', 'Garden', 'Vertical Garden', 'Tapoori', 'Pot Design', 'Design', 'Stone Design'];
 
   const getServicesData = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/product/services");
+      const response = await axios.get(`${backendUrl}/api/product/services`);
       if (response.data.success) {
         setServices(response.data.products.reverse());
       }
