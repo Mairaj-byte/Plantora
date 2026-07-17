@@ -22,7 +22,7 @@ const Footer = () => {
           <div className='md:col-span-5 flex flex-col gap-6'>
             <div className='flex flex-col'>
               <span className='text-2xl font-extrabold tracking-wide text-white font-serif uppercase'>
-                Eco Garden Nursery
+                Chauhan Traders & Nursery
               </span>
               <span className='text-xs font-medium tracking-widest uppercase text-emerald-400 mt-1'>
                 Nature at your fingertips

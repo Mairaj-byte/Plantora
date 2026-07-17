@@ -6,11 +6,13 @@ import BestSeller from '../components/BestSeller'
 import OurPolicy from '../components/OurPolicy'
 import NewsletterBox from '../components/NewsletterBox'
 import LatestArrival from '../components/LatestArrival'
+import AboutUs from '../components/AboutUs'
 
 const Home = () => {
   return (
     <div>
       <Hero />
+      <AboutUs/>
       <WhyChooseUs/>
       <LatestArrival />
       <CustomerReviews />

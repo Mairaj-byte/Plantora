@@ -23,6 +23,8 @@ import logo1 from './logo1.png'
 import contact from './contact.jpg'
 import map from './map.jpg'
 import plant from './plant.jpeg'
+import abouts from './abouts.png'
+import about from './about.jpg'
 import About1 from './About1.jpg'
 import About2 from './About2.jpg'
 import About3 from './About3.png'
@@ -55,6 +57,8 @@ import topleft from './topleft.png'
 
 
 export const assets = {
+  abouts,
+  about,
     topright,
     topleft,
     Services1,
