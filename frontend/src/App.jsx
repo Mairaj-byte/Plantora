@@ -42,7 +42,7 @@ const App = () => {
   );
 
   // Define routes where the footer should be hidden
-  const hideFooterRoutes = ['/login', '/blogs', '/blog/:id', '/services/:id'];
+  const hideFooterRoutes = ['/login', '/blogs', '/blog/:id', '/shipping', '/services/:id', '/orders', '/summary', '/payment' ];
   
   const shouldHideFooter = hideFooterRoutes.some(routePath => 
     matchPath({ path: routePath, end: true }, location.pathname)

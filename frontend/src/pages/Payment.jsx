@@ -3,6 +3,16 @@ import { useLocation } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { 
+  Lock, 
+  ArrowRight, 
+//   Eco, 
+  ShieldCheck, 
+  Truck, 
+  RotateCcw, 
+  MapPin, 
+  Phone 
+} from "lucide-react"; // Using lucide-react to match your Cart design icons
 
 const Payment = () => {
   const location = useLocation();
@@ -370,44 +380,59 @@ const Payment = () => {
         </div>
       </main>
 
-      {/* Footer Ecosystem */}
+
+      {/* Footer Block */}
       <footer className="bg-[#f3f4f1] border-t border-[#c3c8c1]/30 mt-20">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4 sm:px-12 py-20 max-w-7xl mx-auto">
-          <div className="space-y-6">
-            <h2 className="font-serif text-xl font-medium text-[#061b0e] tracking-tight">Chauhan Traders & Nursery</h2>
-            <p className="text-sm text-[#434843] leading-relaxed">Nurturing growth since 1985. We provide the finest botanical stock and landscaping solutions across the region.</p>
-            <div className="flex items-center gap-2 text-[#4a6549] text-sm font-semibold">
-              <span className="material-symbols-outlined">schedule</span> Open 24 Hours
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 px-4 sm:px-12 py-16 max-w-7xl mx-auto">
+          <div className="md:col-span-1">
+            <h3 className="font-serif text-lg font-medium text-[#061b0e] tracking-tight">Chauhan Traders & Nursery</h3>
+            <p className="mt-4 text-sm text-[#434843] leading-relaxed">Nurturing growth since 1985. Open 24 Hours.</p>
+            <div className="mt-6 inline-flex items-center gap-2 px-3 py-1 bg-[#ccebc7] text-[#07200b] rounded-full text-xs font-medium">
+              <span className="w-2 h-2 rounded-full bg-[#4a6549] animate-pulse"></span>
+              24/7 Support Available
             </div>
           </div>
-          <div className="space-y-4">
-            <h4 className="text-xs font-semibold text-[#061b0e] uppercase tracking-widest">Company</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#">Our Story</a></li>
-              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#">Wholesale Inquiry</a></li>
-              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#">Contact Us</a></li>
+          <div>
+            <h5 className="text-xs font-semibold text-[#4a6549] mb-6 uppercase tracking-widest">Customer Service</h5>
+            <ul className="space-y-3 text-xs sm:text-sm">
+              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#privacy">Privacy Policy</a></li>
+              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#terms">Terms of Service</a></li>
+              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#shipping">Shipping & Returns</a></li>
             </ul>
           </div>
-          <div className="space-y-4">
-            <h4 className="text-xs font-semibold text-[#061b0e] uppercase tracking-widest">Support</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#">Shipping & Returns</a></li>
-              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#">Care Tips</a></li>
-              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#">FAQs</a></li>
+          <div>
+            <h5 className="text-xs font-semibold text-[#4a6549] mb-6 uppercase tracking-widest">Business</h5>
+            <ul className="space-y-3 text-xs sm:text-sm">
+              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#wholesale">Wholesale Inquiry</a></li>
+              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#landscaping">Landscaping Services</a></li>
+              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#bulk">Bulk Orders</a></li>
             </ul>
           </div>
-          <div className="space-y-4">
-            <h4 className="text-xs font-semibold text-[#061b0e] uppercase tracking-widest">Legal</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#">Privacy Policy</a></li>
-              <li><a className="text-[#434843] hover:text-[#061b0e] transition-colors" href="#">Terms of Service</a></li>
+          <div>
+            <h5 className="text-xs font-semibold text-[#4a6549] mb-6 uppercase tracking-widest">Contact</h5>
+            <ul className="space-y-4 text-xs sm:text-sm">
+              <li className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-[#4a6549] flex-shrink-0 mt-0.5" />
+                <span className="text-[#434843]">Main Nursery Road, New Delhi, India</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Phone className="w-4 h-4 text-[#4a6549] flex-shrink-0" />
+                <span className="text-[#434843]">+91 98765 43210</span>
+              </li>
             </ul>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-12 py-8 border-t border-[#c3c8c1]/10 text-center">
-          <p className="text-xs text-[#4a6549]">© 2026 Chauhan Traders & Nursery. Nurturing growth since 1985. Open 24 Hours.</p>
+        <div className="border-t border-[#c3c8c1]/10 py-8 px-4 sm:px-12 max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-[#434843]/70">© 2026 Chauhan Traders & Nursery. All rights reserved.</p>
+          <div className="flex gap-4 opacity-40 items-center">
+            <span className="text-xs font-semibold tracking-wider text-neutral-600">VISA</span>
+            <span className="text-xs font-semibold tracking-wider text-neutral-600">MASTERCARD</span>
+            <span className="text-xs font-semibold tracking-wider text-neutral-600">UPI</span>
+          </div>
         </div>
       </footer>
+
+     
     </div>
   );
 };
