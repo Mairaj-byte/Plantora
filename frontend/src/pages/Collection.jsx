@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import { assets } from '../assets/assets';
 import ProductItem from '../components/ProductItem';
-import SearchBar from '../components/SearchBar';
 
 const Collection = () => {
   const { products, search, showSearch } = useContext(ShopContext);
@@ -28,15 +27,6 @@ const Collection = () => {
     }
     else {
       setCategory(prev => [...prev, e.target.value])
-    }
-  }
-
-  const toggleSubCategory = (e) => {
-    if (subCategory.includes(e.target.value)) {
-      setSubCategory(prev => prev.filter(item => item !== e.target.value))
-    }
-    else {
-      setSubCategory(prev => [...prev, e.target.value])
     }
   }
 
@@ -102,36 +92,27 @@ const Collection = () => {
     <main className="bg-[#f5f7f4] min-h-screen py-8 px-4 sm:px-8 lg:px-16 font-['Work_Sans']">
       <div className="max-w-7xl mx-auto w-full">
         
-        {/* Header Section (Matching Services Page Style) */}
-<div className={`transition-all duration-1000 ease-out mb-10 md:mb-16 ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-  <div className="flex flex-col items-center text-center max-w-3xl mx-auto gap-4 md:gap-6">
-    <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-emerald-800 font-bold bg-emerald-100/60 px-4 py-2 rounded-full w-fit">
-      Hand-Grown Specimen Nursery
-    </span>
+        {/* Header Section */}
+        <div className={`transition-all duration-1000 ease-out mb-10 md:mb-16 ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto gap-4 md:gap-6">
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-emerald-800 font-bold bg-emerald-100/60 px-4 py-2 rounded-full w-fit">
+              Hand-Grown Specimen Nursery
+            </span>
 
-    <h1 className="mt-2 text-3xl sm:text-6xl font-light text-[#061b0e] tracking-tight font-['EB_Garamond'] leading-[1.2] sm:leading-[1.1] lg:whitespace-nowrap transition-all duration-500 ease-in-out hover:text-emerald-950">
-      Our Exclusive <span className="font-semibold italic text-emerald-900">Plant Collection</span>
-    </h1>
+            <h1 className="mt-2 text-3xl sm:text-6xl font-light text-[#061b0e] tracking-tight font-['EB_Garamond'] leading-[1.2] sm:leading-[1.1] transition-all duration-500 ease-in-out hover:text-emerald-950">
+              Our Exclusive <span className="font-semibold italic text-emerald-900">Plant Collection</span>
+            </h1>
 
-    <p className="text-sm sm:text-[16px] text-[#434843] max-w-[515px] leading-relaxed font-light mt-1">
-      Discover our curated collection of nursery-grown specimens, from rare indoor tropicals to hardy fruit-bearing trees.
-    </p>
-  </div>
-</div>
-
-        {/* Global Search Bar Integration (If active) */}
-        {showSearch && (
-          <div className="mb-8 p-4 bg-white/65 backdrop-blur-md border border-white/50 rounded-2xl shadow-sm max-w-2xl mx-auto">
-            <SearchBar />
+            <p className="text-sm sm:text-[16px] text-[#434843] max-w-[515px] leading-relaxed font-light mt-1">
+              Discover our curated collection of nursery-grown specimens, from rare indoor tropicals to hardy fruit-bearing trees.
+            </p>
           </div>
-        )}
+        </div>
 
         <div className="flex flex-col lg:flex-row gap-8 items-start">
 
           {/* Filter Sidebar Container */}
           <aside className="w-full lg:w-64 lg:sticky lg:top-24 flex-shrink-0">
-
-            {/* Mobile Collapse Toggle Trigger */}
             <button
               onClick={() => setShowFilter(!showFilter)}
               className="w-full lg:hidden flex justify-between items-center py-3.5 px-5 bg-white border border-stone-200/80 rounded-2xl shadow-sm font-semibold text-xs tracking-wider text-[#061b0e]"
@@ -147,21 +128,18 @@ const Collection = () => {
               <img className={`h-2 transition-transform duration-300 ${showFilter ? 'rotate-180' : ''}`} src={assets.dropdown_icon} alt="Toggle Filters" />
             </button>
 
-            {/* Collapsible Content */}
             <div className={`mt-3 lg:mt-0 space-y-6 bg-white/70 backdrop-blur-md p-6 rounded-2xl border border-stone-200/80 shadow-sm transition-all duration-300 ${showFilter ? 'block' : 'hidden lg:block'}`}>
-
-              {/* Categories Section */}
               <div>
                 <h3 className="text-[11px] font-bold uppercase tracking-wider text-emerald-950 mb-4">Categories</h3>
                 <div className="space-y-3">
                   {[
-                    { id: 'indoor', value: 'Indoor Plants', label: 'Indoor Plants' },
-                    { id: 'creepar', value: 'Creepar', label: 'Creepar' },
-                    { id: 'outdoor', value: 'Ground Cover Plants', label: 'Ground Cover Plants' },
-                    { id: 'fruit', value: 'Fruit Plants', label: 'Fruit Plants' },
-                    { id: 'pot', value: 'Timber', label: 'Timber' },
-                    { id: 'exotic', value: 'Shrub', label: 'Shrub' },
-                    { id: 'palm', value: 'Palm Tree', label: 'Palm Tree' }
+                    { value: 'Indoor Plants', label: 'Indoor Plants' },
+                    { value: 'Creepar', label: 'Creepar' },
+                    { value: 'Ground Cover Plants', label: 'Ground Cover Plants' },
+                    { value: 'Fruit Plants', label: 'Fruit Plants' },
+                    { value: 'Timber', label: 'Timber' },
+                    { value: 'Shrub', label: 'Shrub' },
+                    { value: 'Palm Tree', label: 'Palm Tree' }
                   ].map((cat) => (
                     <label key={cat.value} className="flex items-center group cursor-pointer select-none">
                       <input
@@ -179,7 +157,6 @@ const Collection = () => {
 
               <div className="h-px bg-stone-200/60" />
 
-              {/* Static Info Block */}
               <div className="bg-emerald-50/40 p-4 rounded-xl border border-emerald-100/60">
                 <div className="flex items-center gap-2 text-emerald-900 font-semibold text-xs">
                   <span>🕒</span>
@@ -188,7 +165,6 @@ const Collection = () => {
                 <p className="text-[11px] mt-1 text-emerald-800/80 leading-relaxed">Ready for dynamic pickup or flat-rate delivery anytime.</p>
               </div>
 
-              {/* Reset Button */}
               {(category.length > 0 || subCategory.length > 0) && (
                 <button
                   onClick={resetFilters}
@@ -198,20 +174,16 @@ const Collection = () => {
                 </button>
               )}
             </div>
-
           </aside>
 
           {/* Right Side Showcase Grid */}
           <div className="flex-grow w-full flex flex-col justify-between">
-
             <div>
-              {/* Product Counter / Sorting Header */}
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-stone-200/60">
                 <span className="text-xs sm:text-sm text-stone-500 font-medium">
                   Showing <span className="font-semibold text-stone-800">{filterProducts.length > 0 ? indexOfFirstProduct + 1 : 0}-{Math.min(indexOfLastProduct, filterProducts.length)}</span> of <span className="font-semibold text-stone-800">{filterProducts.length}</span> luxury specimens
                 </span>
 
-                {/* Sort Option */}
                 <div className="flex items-center gap-2 self-start sm:self-auto">
                   <span className="text-xs sm:text-sm text-stone-500 font-medium whitespace-nowrap">Sort by:</span>
                   <select
@@ -226,7 +198,6 @@ const Collection = () => {
                 </div>
               </div>
 
-              {/* Grid layout */}
               {filterProducts.length === 0 ? (
                 <div className="text-center py-20 bg-white/50 rounded-2xl border border-dashed border-stone-200">
                   <p className="text-xs sm:text-sm text-stone-500 font-medium">No botanical species match the selected criteria.</p>
@@ -252,7 +223,7 @@ const Collection = () => {
               )}
             </div>
 
-            {/* --- PAGINATION UI CONTROLS --- */}
+            {/* Pagination Controls */}
             {totalPages > 1 && (
               <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-12 pb-6">
                 <button
@@ -286,9 +257,7 @@ const Collection = () => {
                 </button>
               </div>
             )}
-            
           </div>
-
         </div>
       </div>
     </main>

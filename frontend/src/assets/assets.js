@@ -14,6 +14,10 @@ import razorpay_logo from './razorpay_logo.png'
 import stripe_logo from './stripe_logo.png'
 import cross_icon from './cross_icon.png'
 import hero from './hero.jpg'
+import hero2 from './hero2.jpg'
+import hero3 from './hero3.jpg'
+import hero4 from './hero4.jpg'
+
 import garden from './garden.jpg'
 import logo1 from './logo1.png'
 import contact from './contact.jpg'
@@ -82,6 +86,9 @@ export const assets = {
     contact,
     garden,
     hero,
+    hero2,
+    hero3,
+    hero4,
     logo1,
     cart_icon,
     dropdown_icon,

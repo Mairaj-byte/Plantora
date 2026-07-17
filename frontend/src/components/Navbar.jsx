@@ -36,25 +36,26 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className='sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-100 px-4 sm:px-8 py-3.5 flex items-center justify-between'>
+      {/* Updated Navbar with Gradient Glassmorphism */}
+      <nav className='sticky top-0 z-50 bg-gradient-to-b from-white/95 to-emerald-50/80 backdrop-blur-lg border-b border-emerald-100/50 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-sm'>
         
-        {/* Weblogo (Permanently aligned to the left) */}
+        {/* Weblogo */}
         <Link to="/" className="flex-shrink-0">
           <img src={assets.WebLogo} className="w-28 sm:w-36 transition-transform hover:scale-105" alt="Logo" />
         </Link>
 
         {/* Desktop Center Navigation Links */}
-        <ul className='hidden lg:flex items-center gap-8 text-[14px] font-medium tracking-wide text-stone-600'>
+        <ul className='hidden lg:flex items-center gap-8 text-[14px] font-medium tracking-wide text-stone-700'>
           {navLinks.map((item, idx) => (
             <NavLink 
               key={idx} 
               to={item.path} 
-              className={({ isActive }) => `relative py-2 transition-colors hover:text-emerald-800 ${isActive ? 'text-emerald-900 font-semibold' : ''}`}
+              className={({ isActive }) => `relative py-2 transition-colors hover:text-emerald-800 ${isActive ? 'text-emerald-950 font-semibold' : ''}`}
             >
               {({ isActive }) => (
                 <>
                   <span>{item.name}</span>
-                  <span className={`absolute bottom-0 left-0 h-[2px] bg-emerald-700 transition-all duration-300 w-full ${isActive ? 'scale-x-100' : 'scale-x-0'}`} />
+                  <span className={`absolute bottom-0 left-0 h-[2px] bg-emerald-600 transition-all duration-300 w-full ${isActive ? 'scale-x-100' : 'scale-x-0'}`} />
                 </>
               )}
             </NavLink>
@@ -64,21 +65,19 @@ const Navbar = () => {
         {/* Right Side Actions Panel */}
         <div className='flex items-center gap-3 sm:gap-4'>
           
-          {/* Interactive Search Field */}
           <div 
             onClick={() => { setShowSearch(true); navigate('/collection'); }}
-            className='hidden md:flex items-center gap-2 bg-stone-50 border border-stone-200/60 px-3 py-1.5 rounded-full w-48 lg:w-56 cursor-pointer hover:bg-stone-100 transition-all'
+            className='hidden md:flex items-center gap-2 bg-white/50 border border-stone-200/60 px-3 py-1.5 rounded-full w-48 lg:w-56 cursor-pointer hover:bg-white transition-all'
           >
             <Search size={15} className="text-stone-400" />
             <span className='text-xs text-stone-400'>Search Plants...</span>
           </div>
 
-          <button onClick={() => { setShowSearch(true); navigate('/collection'); }} className='block md:hidden p-2 hover:bg-stone-50 rounded-full'>
+          <button onClick={() => { setShowSearch(true); navigate('/collection'); }} className='block md:hidden p-2 hover:bg-white/50 rounded-full'>
             <Search size={20} className="text-stone-700" />
           </button>
 
-          {/* Cart Icon */}
-          <Link to='/cart' className={`relative p-2 hover:bg-stone-50 rounded-full transition-all ${animateCart ? 'scale-110 text-emerald-700' : ''}`}>
+          <Link to='/cart' className={`relative p-2 hover:bg-white/50 rounded-full transition-all ${animateCart ? 'scale-110 text-emerald-700' : ''}`}>
             <ShoppingCart size={20} className="text-stone-700" />
             {cartCount > 0 && (
               <span className='absolute top-1 right-1 bg-emerald-700 text-white font-bold text-[9px] h-4 w-4 flex items-center justify-center rounded-full shadow-sm animate-bounce'>
@@ -87,14 +86,13 @@ const Navbar = () => {
             )}
           </Link>
 
-          {/* User Account / Dropdown */}
           <div className='group relative'>
-            <button onClick={() => !token && navigate('/login')} className='p-2 hover:bg-stone-50 rounded-full block'>
+            <button onClick={() => !token && navigate('/login')} className='p-2 hover:bg-white/50 rounded-full block'>
               <User size={20} className="text-stone-700" />
             </button>
 
             {token && (
-              <div className="absolute right-0 top-full pt-2 w-48 hidden group-hover:block z-50 transition-all">
+              <div className="absolute right-0 top-full pt-2 w-48 hidden group-hover:block z-50">
                 <div className="flex flex-col p-1.5 bg-white shadow-xl rounded-xl border border-stone-100 text-stone-700">
                   <button onClick={() => navigate('/profilesetup')} className="w-full flex items-center gap-2 text-left text-xs px-3 py-2 rounded-lg hover:bg-stone-50">
                     <User size={14} /> Profile Setup
@@ -111,7 +109,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Desktop Clean Auth Trigger */}
           <button 
             onClick={() => token ? logout() : navigate('/login')}
             className={`hidden sm:block text-xs font-semibold tracking-wider px-5 py-2 rounded-full transition-all ${token ? 'border border-red-200 text-red-600 hover:bg-red-50' : 'bg-stone-900 text-white hover:bg-emerald-900'}`}
@@ -119,14 +116,13 @@ const Navbar = () => {
             {token ? 'LOGOUT' : 'LOGIN'}
           </button>
 
-          {/* Mobile Menu Toggle */}
-          <button onClick={() => setVisible(true)} className='lg:hidden p-2 hover:bg-stone-50 rounded-full'>
+          <button onClick={() => setVisible(true)} className='lg:hidden p-2 hover:bg-white/50 rounded-full'>
             <Menu size={20} className="text-stone-700" />
           </button>
         </div>
       </nav>
 
-      {/* Mobile Sidebar Navigation Drawer */}
+      {/* Mobile Sidebar */}
       <div onClick={() => setVisible(false)} className={`fixed inset-0 bg-black/30 backdrop-blur-xs z-50 transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} />
       
       <div className={`fixed top-0 right-0 bottom-0 z-50 bg-white w-full max-w-[280px] shadow-2xl transition-transform duration-300 ease-in-out ${visible ? 'translate-x-0' : 'translate-x-full'}`}>
