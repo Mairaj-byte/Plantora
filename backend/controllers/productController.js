@@ -59,10 +59,11 @@ const addProduct = async (req, res) => {
 };
 
 
-// List Products
+// List Products (excluding Services)
 const listProducts = async (req, res) => {
     try {
-        const products = await productModel.find({});
+        // Query to find products where subCategory is NOT "Services"
+        const products = await productModel.find({ subCategory: { $ne: "Services" } });
         res.json({ success: true, products });
     } catch (error) {
         console.log(error);

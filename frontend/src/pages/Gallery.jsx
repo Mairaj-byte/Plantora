@@ -4,12 +4,12 @@ import { toast } from 'react-toastify';
 import { ShopContext } from '../context/ShopContext';
 import ProductItem from '../components/ProductItem';
 
-
 const Gallery = () => {
   const { search, showSearch } = useContext(ShopContext);
   const [services, setServices] = useState([]);
   const [filterProducts, setFilterProducts] = useState([]);
-  const [activeCategory, setActiveCategory] = useState('All Services'); // Changed to single state for tabs
+  const [activeCategory, setActiveCategory] = useState('All Services');
+  const [isMounted, setIsMounted] = useState(false);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const categories = ['All Services', 'Garden', 'Vertical Garden', 'Tapoori', 'Pot Design', 'Design', 'Stone Design'];
@@ -25,7 +25,11 @@ const Gallery = () => {
     }
   };
 
-  useEffect(() => { getServicesData(); }, []);
+  useEffect(() => {
+    getServicesData();
+    const timer = setTimeout(() => setIsMounted(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     let productsCopy = services.slice();
@@ -39,76 +43,77 @@ const Gallery = () => {
   }, [activeCategory, search, showSearch, services]);
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-10">
-      {/* Header Section */}
-      <div className="text-center mb-12 flex flex-col items-center">
-        <h1 className="text-4xl font-bold text-emerald-800 mb-4">
-          Our Versatile Services
-        </h1>
+    <main className="bg-[#f5f7f4] min-h-screen py-8 px-4 sm:px-8 lg:px-16 font-['Work_Sans']">
+      <div className="max-w-7xl mx-auto w-full">
+        
+        {/* Header Section (Matching Services Page Style) */}
+        <div className={`transition-all duration-1000 ease-out mb-10 md:mb-16 ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto gap-4 md:gap-6">
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-emerald-800 font-bold bg-emerald-100/60 px-4 py-2 rounded-full w-fit">
+              Artistic Landscape Showcase
+            </span>
 
-        {/* Decorative Leaf Line */}
-        <div className="flex items-center justify-center gap-3 w-64 mb-6">
-          <div className="flex-1 h-px bg-emerald-800/40"></div>
-          {/* Inline SVG Leaf Icon */}
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24" 
-            fill="currentColor" 
-            className="w-6 h-6 text-emerald-800"
-          >
-            <path d="M16 8c-1.12 0-2.3.26-3.41.74a10.05 10.05 0 0 0-4.04-1.89C8.36 5.51 8 4 8 4S7 5.92 7 8c0 3.31 2.69 6 6 6h1c.88 0 1.7-.26 2.41-.74A10.05 10.05 0 0 0 20.45 15.1c.19 1.34.55 2.84.55 2.84s-1-1.92-1-4c0-3.31-2.69-6-6-6Zm-3 4H12c-2.21 0-4-1.79-4-4 0-.17.02-.34.05-.5.84.28 1.63.74 2.3 1.34.8.71 1.79 1.16 2.85 1.16h.85c-.53.72-1.23 1.32-2.05 1.7Z" />
-          </svg>
-          <div className="flex-1 h-px bg-emerald-800/40"></div>
+            <h1 className="mt-2 text-3xl sm:text-6xl font-light text-[#061b0e] tracking-tight font-['EB_Garamond'] leading-[1.2] sm:leading-[1.1] lg:whitespace-nowrap transition-all duration-500 ease-in-out hover:text-emerald-950">
+              Our Versatile <span className="font-semibold italic text-emerald-900">Work & Design</span>
+            </h1>
+
+            <p className="text-sm sm:text-[16px] text-[#434843] max-w-[515px] leading-relaxed font-light mt-1">
+              Explore our comprehensive range of professional gardening and nursery services designed to help your plants and gardens thrive.
+            </p>
+          </div>
         </div>
 
-        {/* Two-Line Paragraph */}
-        <p className="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          Explore our comprehensive range of professional gardening and nursery services <br className="hidden sm:block" />
-          designed to help your plants and garden thrive.
-        </p>
-      </div>
-
-      {/* Modern Tab Filters */}
-      <div className="flex flex-wrap justify-center gap-3 mb-12">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`px-6 py-2.5 rounded-xl border transition-all duration-300 text-sm font-medium ${
-              activeCategory === cat 
-                ? 'bg-emerald-800 text-white border-emerald-800' 
-                : 'bg-white text-gray-700 border-gray-300 hover:border-emerald-800'
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-
-
-      </div>
-
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-        {filterProducts.map((item) => (
-          <div key={item._id} className="border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-            {/* Note: Adjust ProductItem or wrapper to match the card content style */}
-            <ProductItem 
-              name={item.name} 
-              id={item._id} 
-              price={item.price} 
-              image={item.image} 
-              badge={item.category} 
-              subcategory={item.subCategory}
-            />
+        {/* Swipeable Pill Tabs (Mobile Scrolling, Desktop Centered) */}
+        <div className="w-full mb-10 overflow-hidden">
+          <div className="flex overflow-x-auto pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 sm:flex-wrap sm:justify-center gap-2 sm:gap-3 scrollbar-none [mask-image:linear-gradient(to_right,white_85%,transparent)] sm:[mask-image:none]">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-5 py-2.5 rounded-xl border text-xs sm:text-sm font-semibold tracking-wide whitespace-nowrap transition-all duration-300 ${
+                  activeCategory === cat
+                    ? 'bg-emerald-900 text-white border-emerald-900 shadow-md shadow-emerald-900/10'
+                    : 'bg-white text-stone-600 border-stone-200/80 hover:border-emerald-850 hover:text-emerald-900'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
 
-      {/* CTA Footer */}
-      <div className="text-center">
-        <button className="bg-emerald-800 text-white px-10 py-3 rounded-full hover:bg-emerald-900 transition-colors">
-          View All Services
-        </button>
+        {/* Gallery/Products Grid */}
+        {filterProducts.length === 0 ? (
+          <div className="text-center py-20 bg-white/50 rounded-2xl border border-dashed border-stone-200 mb-16">
+            <p className="text-xs sm:text-sm text-stone-500 font-medium">No botanical services match the selected category.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-16">
+            {filterProducts.map((item) => (
+              <div 
+                key={item._id} 
+                className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 ease-out border border-stone-100"
+              >
+                <ProductItem 
+                  name={item.name} 
+                  id={item._id} 
+                  price={item.price} 
+                  image={item.image} 
+                  badge={item.category} 
+                  subcategory={item.subCategory}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* CTA Footer */}
+        <div className="text-center pb-6">
+          <button className="bg-emerald-800 hover:bg-emerald-900 text-white text-xs sm:text-sm uppercase tracking-widest font-bold px-10 py-4 rounded-full shadow-lg shadow-emerald-900/10 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
+            View All Services
+          </button>
+        </div>
+
       </div>
     </main>
   );

@@ -34,53 +34,57 @@ const Services = () => {
   ];
 
   return (
-    <section className="bg-[#f5f7f4] py-[24px] sm:px-8 lg:px-16 min-h-screen flex flex-col justify-center overflow-hidden font-['Work_Sans']">
-      <div className="mx-auto w-full">
+    <section className="bg-[#f5f7f4] py-8 px-4 sm:px-8 lg:px-16 min-h-screen flex flex-col justify-center overflow-hidden font-['Work_Sans']">
+      <div className="mx-auto w-full max-w-7xl">
         {/* Header Section */}
         <div className={`transition-all duration-1000 ease-out ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16 gap-6">
-            <span className="text-xs uppercase tracking-[0.2em] text-emerald-800 font-bold bg-emerald-100/60 px-4 py-2 rounded-full w-fit">
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-8 md:mb-16 gap-4 md:gap-6">
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-emerald-800 font-bold bg-emerald-100/60 px-4 py-2 rounded-full w-fit">
               Premium Horticultural Standards
             </span>
 
-            <h2 className="mt-2 text-3xl sm:text-6xl font-light text-[#061b0e] tracking-tight font-['EB_Garamond'] leading-[1.1] sm:whitespace-nowrap transition-all duration-500 ease-in-out hover:text-emerald-950 hover:scale-[1.01]">
-              The Green Thumb <span className="font-semibold italic text-emerald-900 transition-colors duration-500 hover:text-emerald-700">Experience</span>
+            <h2 className="mt-2 text-3xl sm:text-6xl font-light text-[#061b0e] tracking-tight font-['EB_Garamond'] leading-[1.2] sm:leading-[1.1] transition-all duration-500 ease-in-out hover:text-emerald-950">
+              The Green Thumb <span className="font-semibold italic text-emerald-900">Experience</span>
             </h2>
 
-            <p className="text-[16px] text-[#434843] max-w-[515px] leading-relaxed font-light mt-2 transition-all duration-500 ease-in-out hover:text-[#2c302c]">
+            <p className="text-sm sm:text-[16px] text-[#434843] max-w-[515px] leading-relaxed font-light mt-1">
               We design, construct, and manage elite residential and commercial landscape ecosystems backed by experienced horticultural architects.
             </p>
           </div>
         </div>
 
         {/* Grid Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {servicesList.map((service, index) => (
             <div
               key={service.id}
               className={`transition-all duration-700 ease-out ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-              style={{ transitionDelay: isMounted ? '0ms' : `${index * 40}ms` }}
+              style={{ transitionDelay: isMounted ? '0ms' : `${index * 30}ms` }}
             >
-              {/* Wrapper div contains mounting animations, isolating the inline transitionDelay */}
               <div
                 onClick={() => navigate(`/services/${service.id}`)}
-                className="relative overflow-hidden h-[260px] rounded-2xl flex flex-col justify-end cursor-pointer group shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 ease-out will-change-transform bg-stone-800"
+                className="relative overflow-hidden h-[200px] md:h-[260px] rounded-2xl flex flex-col justify-end cursor-pointer group shadow-md hover:shadow-xl hover:scale-[1.03] active:scale-[1.01] transition-all duration-200 ease-out will-change-transform bg-stone-800"
               >
                 <img 
                   src={service.image} 
                   alt={service.title} 
-                  className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-500 ease-out group-hover:scale-105" 
+                  className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-300 ease-out group-hover:scale-105" 
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent z-10" />
                 
-                <div className="p-6 w-full relative z-20 text-white">
-                  <h3 className="text-xl font-semibold font-['EB_Garamond'] transition-colors duration-300 group-hover:text-[#ccebc7]">{service.title}</h3>
-                  <p className="text-white/80 text-xs mt-2 line-clamp-2 leading-relaxed">{service.description}</p>
+                <div className="p-5 md:p-6 w-full relative z-20 text-white">
+                  <h3 className="text-lg md:text-xl font-semibold font-['EB_Garamond'] transition-colors duration-200 group-hover:text-[#ccebc7]">
+                    {service.title}
+                  </h3>
+                  <p className="text-white/80 text-xs mt-1 md:mt-2 line-clamp-2 leading-relaxed">
+                    {service.description}
+                  </p>
                   
-                  <div className="mt-4 h-4 overflow-hidden">
-                    <div className="transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out">
-                      <button className="text-xs font-bold uppercase tracking-widest text-[#ccebc7] flex items-center gap-2">
-                        Explore <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" />
+                  {/* Explore button - Hidden by default, slides up and fades in on hover/active tap */}
+                  <div className="mt-3 md:mt-4 h-4 overflow-hidden">
+                    <div className="opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 ease-out">
+                      <button className="text-[11px] md:text-xs font-bold uppercase tracking-widest text-[#ccebc7] flex items-center gap-2">
+                        Explore <ArrowRight className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-1" />
                       </button>
                     </div>
                   </div>
