@@ -45,7 +45,7 @@ const AboutUs = () => {
           <div className="pt-2 flex justify-center sm:justify-start">
             <button 
               onClick={() => navigate('/about')} 
-              className="group relative inline-flex items-center justify-start overflow-hidden py-3 px-6 text-[11px] md:text-xs uppercase tracking-widest text-[#064e3b] border border-[#064e3b] transition-all duration-300 hover:text-white rounded-full bg-transparent cursor-pointer"
+              className="group relative inline-flex items-center justify-start overflow-hidden py-3 px-6 text-[11px] md:text-xs uppercase tracking-widest text-[#064e3b] border border-[#064e3b] transition-all duration-300 hover:text-black rounded-full bg-transparent cursor-pointer"
             >
               <span className="absolute inset-0 bg-[#064e3b] transition-all duration-300 transform -translate-x-full group-hover:translate-x-0 ease-out -z-10" />
               <span className="font-medium">Discover Our Story</span>

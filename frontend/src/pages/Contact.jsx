@@ -266,67 +266,74 @@ const Contact = ({ plantName, onClose }) => {
           </div>
 
           {/* Right Column: Contact Info & Map Card */}
-          <div className="lg:col-span-5 order-1 lg:order-2 space-y-8 bg-white p-6 md:p-8 rounded-2xl border border-slate-200/60 shadow-sm">
-            <h2 className="text-3xl font-serif text-slate-900">Contact Information</h2>
+<div className="lg:col-span-5 order-1 lg:order-2 space-y-8 bg-white p-6 md:p-8 rounded-2xl border border-slate-200/60 shadow-sm">
+  <h2 className="text-3xl font-serif text-slate-900">Contact Information</h2>
 
-            <div className="space-y-6">
-              {/* Location */}
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-slate-50 text-slate-600 rounded-xl border border-slate-100 shadow-sm">
-                  <MapPin className="w-5 h-5 text-emerald-600" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Our Location</p>
-                  <p className="text-slate-700 font-medium mt-1 leading-relaxed">
-                    Yaqoobpur, Amroha <br />Uttar Pradesh 244241
-                  </p>
-                </div>
-              </div>
+  <div className="space-y-6">
+    {/* Location */}
+    <div className="flex items-start gap-4">
+      <div className="p-3 bg-slate-50 text-slate-600 rounded-xl border border-slate-100 shadow-sm">
+        <MapPin className="w-5 h-5 text-emerald-600" />
+      </div>
+      <div>
+        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Our Location</p>
+        <p className="text-slate-700 font-medium mt-1 leading-relaxed">
+          Yaqoobpur, Amroha <br />Uttar Pradesh 244241
+        </p>
+      </div>
+    </div>
 
-              {/* Phone */}
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-slate-50 text-slate-600 rounded-xl border border-slate-100 shadow-sm">
-                  <Phone className="w-5 h-5 text-emerald-600" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Phone Number</p>
-                  <p className="text-slate-700 font-medium mt-1">+91-97605 00048</p>
-                </div>
-              </div>
+    {/* Phone */}
+    <div className="flex items-start gap-4">
+      <div className="p-3 bg-slate-50 text-slate-600 rounded-xl border border-slate-100 shadow-sm">
+        <Phone className="w-5 h-5 text-emerald-600" />
+      </div>
+      <div>
+        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Phone Number</p>
+        <p className="text-slate-700 font-medium mt-1">+91-97605 00048</p>
+      </div>
+    </div>
 
-              {/* Availability */}
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-emerald-50 text-emerald-700 rounded-xl border border-emerald-100/50">
-                  <Clock className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-emerald-800 uppercase tracking-wider">Availability</p>
-                  <p className="text-slate-900 font-bold mt-1">Open 24 Hours / 7 Days a Week</p>
-                  <p className="text-xs text-slate-400 mt-0.5">Providing fresh plants whenever inspiration strikes.</p>
-                </div>
-              </div>
-            </div>
+    {/* Availability */}
+    <div className="flex items-start gap-4">
+      <div className="p-3 bg-emerald-50 text-emerald-700 rounded-xl border border-emerald-100/50">
+        <Clock className="w-5 h-5" />
+      </div>
+      <div>
+        <p className="text-xs font-semibold text-emerald-800 uppercase tracking-wider">Availability</p>
+        <p className="text-slate-900 font-bold mt-1">Open 24 Hours / 7 Days a Week</p>
+        <p className="text-xs text-slate-400 mt-0.5">Providing fresh plants whenever inspiration strikes.</p>
+      </div>
+    </div>
+  </div>
 
-            {/* Map Preview Container */}
-            <div className="relative rounded-xl overflow-hidden shadow-sm h-52 bg-slate-100 border border-slate-200/60 group">
-              <img
-                src={assets.map_preview || "https://wallpaperbat.com/img/99008511-google-maps-wallpaper-free.jpg"}
-                alt="Map Location"
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-slate-900/10 transition-colors group-hover:bg-slate-900/20" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <a
-                  href="https://maps.google.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="bg-white text-slate-800 font-medium px-5 py-2.5 rounded-xl shadow-md hover:bg-slate-50 flex items-center gap-2 transition-all active:scale-95 text-sm"
-                >
-                  <ExternalLink className="w-4 h-4 text-emerald-600" /> View on Maps
-                </a>
-              </div>
-            </div>
-          </div>
+  {/* Real Map Container */}
+  <div className="relative rounded-xl overflow-hidden shadow-sm h-64 bg-slate-100 border border-slate-200/60 group">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13969.870598822003!2d78.43261645000001!3d28.914234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390b79e4bf0bcf53%3A0xe54fb72d41a7d65a!2sYaqoobpur%2C%20Uttar%20Pradesh%20244241!5e0!3m2!1sen!2sin!4v1720000000000!5m2!1sen!2sin"
+      width="100%"
+      height="100%"
+      style={{ border: 0 }}
+      allowFullScreen=""
+      loading="lazy"
+      referrerPolicy="no-referrer-when-downgrade"
+      title="Google Map of Yaqoobpur, Amroha"
+      className="w-full h-full"
+    />
+    
+    {/* Clean, hoverable overlay button to open full maps */}
+    <div className="absolute bottom-3 right-3">
+      <a
+        href="https://www.google.com/maps/place/Yaqoobpur,+Uttar+Pradesh+244241"
+        target="_blank"
+        rel="noreferrer"
+        className="bg-white text-slate-800 font-medium px-4 py-2 rounded-lg shadow-md hover:bg-slate-50 flex items-center gap-1.5 transition-all active:scale-95 text-xs border border-slate-200"
+      >
+        <ExternalLink className="w-3.5 h-3.5 text-emerald-600" /> View Larger Map
+      </a>
+    </div>
+  </div>
+</div>
 
         </div>
       </div>
