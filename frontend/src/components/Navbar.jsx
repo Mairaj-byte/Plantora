@@ -36,26 +36,26 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Updated Navbar with Gradient Glassmorphism */}
-      <nav className='sticky top-0 z-50 bg-gradient-to-b from-white/95 to-emerald-50/80 backdrop-blur-lg border-b border-emerald-100/50 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-sm'>
+      {/* Updated Navbar with Dark Background Theme */}
+      <nav className='sticky top-0 z-50 bg-emerald-950/95 backdrop-blur-lg border-b border-stone-800/60 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-md'>
         
         {/* Weblogo */}
         <Link to="/" className="flex-shrink-0">
-          <img src={assets.WebLogo} className="w-28 sm:w-36 transition-transform hover:scale-105" alt="Logo" />
+          <img src={assets.webLogo1} className="w-28 sm:w-36 transition-transform hover:scale-105 brightness-110" alt="Logo" />
         </Link>
 
-        {/* Desktop Center Navigation Links */}
-        <ul className='hidden lg:flex items-center gap-8 text-[14px] font-medium tracking-wide text-stone-700'>
+        {/* Desktop Center Navigation Links - Transformed to Light Text */}
+        <ul className='hidden lg:flex items-center gap-8 text-[14px] font-medium tracking-wide text-stone-300'>
           {navLinks.map((item, idx) => (
             <NavLink 
               key={idx} 
               to={item.path} 
-              className={({ isActive }) => `relative py-2 transition-colors hover:text-emerald-800 ${isActive ? 'text-emerald-950 font-semibold' : ''}`}
+              className={({ isActive }) => `relative py-2 transition-colors hover:text-emerald-400 ${isActive ? 'text-white font-semibold' : ''}`}
             >
               {({ isActive }) => (
                 <>
                   <span>{item.name}</span>
-                  <span className={`absolute bottom-0 left-0 h-[2px] bg-emerald-600 transition-all duration-300 w-full ${isActive ? 'scale-x-100' : 'scale-x-0'}`} />
+                  <span className={`absolute bottom-0 left-0 h-[2px] bg-emerald-500 transition-all duration-300 w-full ${isActive ? 'scale-x-100' : 'scale-x-0'}`} />
                 </>
               )}
             </NavLink>
@@ -65,43 +65,46 @@ const Navbar = () => {
         {/* Right Side Actions Panel */}
         <div className='flex items-center gap-3 sm:gap-4'>
           
+          {/* Search Box - Formatted for Dark Canvas */}
           <div 
             onClick={() => { setShowSearch(true); navigate('/collection'); }}
-            className='hidden md:flex items-center gap-2 bg-white/50 border border-stone-200/60 px-3 py-1.5 rounded-full w-48 lg:w-56 cursor-pointer hover:bg-white transition-all'
+            className='hidden md:flex items-center gap-2 bg-stone-900/80 border border-stone-800 px-3 py-1.5 rounded-full w-48 lg:w-56 cursor-pointer hover:bg-stone-900 transition-all'
           >
             <Search size={15} className="text-stone-400" />
             <span className='text-xs text-stone-400'>Search Plants...</span>
           </div>
 
-          <button onClick={() => { setShowSearch(true); navigate('/collection'); }} className='block md:hidden p-2 hover:bg-white/50 rounded-full'>
-            <Search size={20} className="text-stone-700" />
+          <button onClick={() => { setShowSearch(true); navigate('/collection'); }} className='block md:hidden p-2 hover:bg-stone-900 rounded-full transition-colors'>
+            <Search size={20} className="text-stone-300" />
           </button>
 
-          <Link to='/cart' className={`relative p-2 hover:bg-white/50 rounded-full transition-all ${animateCart ? 'scale-110 text-emerald-700' : ''}`}>
-            <ShoppingCart size={20} className="text-stone-700" />
+          {/* Cart Icon & Badge updates */}
+          <Link to='/cart' className={`relative p-2 hover:bg-stone-900 rounded-full transition-all ${animateCart ? 'scale-110 text-emerald-400' : ''}`}>
+            <ShoppingCart size={20} className="text-stone-300" />
             {cartCount > 0 && (
-              <span className='absolute top-1 right-1 bg-emerald-700 text-white font-bold text-[9px] h-4 w-4 flex items-center justify-center rounded-full shadow-sm animate-bounce'>
+              <span className='absolute top-1 right-1 bg-emerald-600 text-white font-bold text-[9px] h-4 w-4 flex items-center justify-center rounded-full shadow-sm animate-bounce'>
                 {cartCount}
               </span>
             )}
           </Link>
 
+          {/* User Options Dropdown Restyled */}
           <div className='group relative'>
-            <button onClick={() => !token && navigate('/login')} className='p-2 hover:bg-white/50 rounded-full block'>
-              <User size={20} className="text-stone-700" />
+            <button onClick={() => !token && navigate('/login')} className='p-2 hover:bg-stone-900 rounded-full block transition-colors'>
+              <User size={20} className="text-stone-300" />
             </button>
 
             {token && (
               <div className="absolute right-0 top-full pt-2 w-48 hidden group-hover:block z-50">
-                <div className="flex flex-col p-1.5 bg-white shadow-xl rounded-xl border border-stone-100 text-stone-700">
-                  <button onClick={() => navigate('/profilesetup')} className="w-full flex items-center gap-2 text-left text-xs px-3 py-2 rounded-lg hover:bg-stone-50">
+                <div className="flex flex-col p-1.5 bg-stone-900 shadow-xl rounded-xl border border-stone-800 text-stone-300">
+                  <button onClick={() => navigate('/profilesetup')} className="w-full flex items-center gap-2 text-left text-xs px-3 py-2 rounded-lg hover:bg-stone-800/60 hover:text-white transition-colors">
                     <User size={14} /> Profile Setup
                   </button>
-                  <button onClick={() => navigate('/userdashboard')} className="w-full flex items-center gap-2 text-left text-xs px-3 py-2 rounded-lg hover:bg-stone-50">
+                  <button onClick={() => navigate('/userdashboard')} className="w-full flex items-center gap-2 text-left text-xs px-3 py-2 rounded-lg hover:bg-stone-800/60 hover:text-white transition-colors">
                     <LayoutDashboard size={14} /> Dashboard
                   </button>
-                  <hr className="my-1 border-stone-100" />
-                  <button onClick={logout} className="w-full flex items-center gap-2 text-left text-xs px-3 py-2 rounded-lg text-red-600 hover:bg-red-50">
+                  <hr className="my-1 border-stone-800" />
+                  <button onClick={logout} className="w-full flex items-center gap-2 text-left text-xs px-3 py-2 rounded-lg text-red-400 hover:bg-red-950/40 transition-colors">
                     <LogOut size={14} /> Logout
                   </button>
                 </div>
@@ -111,25 +114,25 @@ const Navbar = () => {
 
           <button 
             onClick={() => token ? logout() : navigate('/login')}
-            className={`hidden sm:block text-xs font-semibold tracking-wider px-5 py-2 rounded-full transition-all ${token ? 'border border-red-200 text-red-600 hover:bg-red-50' : 'bg-stone-900 text-white hover:bg-emerald-900'}`}
+            className={`hidden sm:block text-xs font-semibold tracking-wider px-5 py-2 rounded-full transition-all ${token ? 'border border-red-800 text-red-400 hover:bg-red-950/30' : 'bg-stone-100 text-stone-950 hover:bg-emerald-500 hover:text-white'}`}
           >
             {token ? 'LOGOUT' : 'LOGIN'}
           </button>
 
-          <button onClick={() => setVisible(true)} className='lg:hidden p-2 hover:bg-white/50 rounded-full'>
-            <Menu size={20} className="text-stone-700" />
+          <button onClick={() => setVisible(true)} className='lg:hidden p-2 hover:bg-stone-900 rounded-full transition-colors'>
+            <Menu size={20} className="text-stone-300" />
           </button>
         </div>
       </nav>
 
-      {/* Mobile Sidebar */}
-      <div onClick={() => setVisible(false)} className={`fixed inset-0 bg-black/30 backdrop-blur-xs z-50 transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} />
+      {/* Mobile Sidebar - Preserving consistency with dark framework */}
+      <div onClick={() => setVisible(false)} className={`fixed inset-0 bg-black/50 backdrop-blur-xs z-50 transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} />
       
-      <div className={`fixed top-0 right-0 bottom-0 z-50 bg-white w-full max-w-[280px] shadow-2xl transition-transform duration-300 ease-in-out ${visible ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className='flex flex-col h-full bg-stone-50/50'>
-          <div onClick={() => setVisible(false)} className='flex items-center justify-between p-4 cursor-pointer border-b border-stone-100 bg-white'>
-            <span className='text-xs font-bold uppercase tracking-wider text-stone-500'>Menu</span>
-            <X size={18} className="text-stone-500" />
+      <div className={`fixed top-0 right-0 bottom-0 z-50 bg-stone-950 w-full max-w-[280px] shadow-2xl transition-transform duration-300 ease-in-out border-l border-stone-800/60 ${visible ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className='flex flex-col h-full bg-stone-950'>
+          <div onClick={() => setVisible(false)} className='flex items-center justify-between p-4 cursor-pointer border-b border-stone-800 bg-stone-900/40'>
+            <span className='text-xs font-bold uppercase tracking-wider text-stone-400'>Menu</span>
+            <X size={18} className="text-stone-400" />
           </div>
 
           <div className="flex flex-col py-3 px-2 gap-1">
@@ -138,7 +141,7 @@ const Navbar = () => {
                 key={idx} 
                 onClick={() => setVisible(false)} 
                 to={item.path}
-                className={({ isActive }) => `py-2.5 px-4 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-emerald-50 text-emerald-950 font-semibold' : 'text-stone-600 hover:bg-stone-100'}`}
+                className={({ isActive }) => `py-2.5 px-4 rounded-xl text-sm font-medium transition-all ${isActive ? 'bg-emerald-950/60 text-emerald-400 font-semibold' : 'text-stone-300 hover:bg-stone-900'}`}
               >
                 {item.name.toUpperCase()}
               </NavLink>

@@ -27,63 +27,15 @@ const reviewsData = [
     rating: 5,
     comment: "Finding authentic rare indoor plants in healthy condition is tough. This nursery is an absolute hidden gem for collectors!",
     date: "2 weeks ago",
-  },
-  {
-    id: 4,
-    name: "Rohan Das",
-    role: "Home Enthusiast",
-    plantType: "Snake Plant Zeylanica",
-    rating: 4,
-    comment: "Superb customer care team. They guided me carefully on watering frequencies for low-light rooms. The pricing is incredibly honest for this size.",
-    date: "3 weeks ago",
-  },
-  {
-    id: 5,
-    name: "Meera Nair",
-    role: "Balcony Gardener",
-    plantType: "Peace Lily Premium",
-    rating: 5,
-    comment: "The blooms are absolutely magnificent. It completely cleanses the room feeling. Will be placing another bundle order for my parents next weekend.",
-    date: "1 month ago",
-  },
-  {
-    id: 6,
-    name: "Arjun Mehta",
-    role: "Interior Stylist",
-    plantType: "Golden Pothos Pole",
-    rating: 5,
-    comment: "Stunning trailing length right out of the delivery box! Excellent thick foliage structure. Highly recommend their climbing setup variations.",
-    date: "1 month ago",
-  },
-  {
-    id: 7,
-    name: "Kriti Verma",
-    role: "Verified Buyer",
-    plantType: "Calathea Orbifolia",
-    rating: 4,
-    comment: "Tricky plant to keep happy, but the starter health from Chauhan Traders gave it an amazing baseline. Doing beautifully in my conservatory environment.",
-    date: "2 months ago",
-  },
-  {
-    id: 8,
-    name: "Kabir Singh",
-    role: "Office Manager",
-    plantType: "Areca Palm Bundle",
-    rating: 5,
-    comment: "Ordered ten large palms for our corporate lounge remodeling area. Every individual unit arrived fresh and upright. Exceptional wholesale quality control.",
-    date: "2 months ago",
   }
 ]
 
 const CustomerReviews = () => {
-  // Double the dataset arrays to loop cleanly without blank gaps
-  const infiniteReviews = [...reviewsData, ...reviewsData];
-
   return (
-    <section className='py-20 max-w-[100vw] overflow-x-hidden text-stone-800'>
+    <section className='py-20 max-w-7xl mx-auto px-4 sm:px-12 text-stone-800'>
       
       {/* Structural Header Block */}
-      <div className='flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 px-4 sm:px-12 max-w-7xl mx-auto'>
+      <div className='flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14'>
         <div className='max-w-xl'>
           <div className='inline-flex items-center gap-1.5 bg-emerald-100/80 text-emerald-900 text-[10px] font-bold tracking-wider uppercase px-3 py-1 rounded-full mb-2 border border-emerald-200/50'>
             Community Voices
@@ -104,19 +56,14 @@ const CustomerReviews = () => {
         </div>
       </div>
 
-      {/* Infinite Horizontal Marquee Container Track */}
-      <div className='relative w-full flex items-center overflow-x-hidden py-4 group'>
-        
-        {/* Soft edge blur shadows for high-end look */}
-        <div className='absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-stone-50 to-transparent z-10 pointer-events-none' />
-        <div className='absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-stone-50 to-transparent z-10 pointer-events-none' />
-
-        {/* Moving Lane wrapper block - Pauses animation on desktop hover */}
-        <div className='flex gap-6 whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]'>
-          {infiniteReviews.map((review, idx) => (
+      {/* Clean Static Product Layout Container */}
+      <div className='relative w-full z-10'>
+        {/* Switched from an animated track to a grid layout for tablet/desktop, and touch swipe for mobile */}
+        <div className='flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 overflow-x-auto md:overflow-x-visible pb-4 md:pb-0 scrollbar-none snap-x snap-mandatory'>
+          {reviewsData.map((review) => (
             <div 
-              key={`${review.id}-${idx}`}
-              className='inline-block w-[300px] sm:w-[360px] h-[220px] bg-stone-200/50 border border-stone-300/40 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:shadow-md hover:border-emerald-700/20 transition-all duration-300 whitespace-normal'
+              key={review.id}
+              className='w-[300px] sm:w-[360px] md:w-full min-h-[220px] bg-stone-200/50 border border-stone-300/40 p-6 rounded-2xl flex flex-col justify-between shadow-sm hover:shadow-md hover:border-emerald-700/20 transition-all duration-300 flex-shrink-0 snap-start'
             >
               <div>
                 {/* Star Evaluation Frame */}
@@ -139,9 +86,9 @@ const CustomerReviews = () => {
               <div>
                 <hr className='border-stone-300/60 mb-3' />
                 <div className='flex items-center justify-between gap-2'>
-                  <div>
-                    <h4 className='font-semibold text-stone-900 text-xs sm:text-sm leading-tight'>{review.name}</h4>
-                    <p className='text-[10px] text-stone-500 font-medium tracking-wide'>{review.role}</p>
+                  <div className='min-w-0'>
+                    <h4 className='font-semibold text-stone-900 text-xs sm:text-sm leading-tight truncate'>{review.name}</h4>
+                    <p className='text-[10px] text-stone-500 font-medium tracking-wide truncate'>{review.role}</p>
                   </div>
                   
                   <span className='text-[9px] font-bold text-emerald-900 bg-emerald-100/70 border border-emerald-200/60 px-2.5 py-1 rounded-full uppercase tracking-wider whitespace-nowrap'>
@@ -152,11 +99,10 @@ const CustomerReviews = () => {
             </div>
           ))}
         </div>
-
       </div>
 
     </section>
   )
 }
 
-export default CustomerReviews
+export default CustomerReviews;

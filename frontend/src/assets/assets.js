@@ -52,11 +52,13 @@ import Services18 from './Services18.webp'
 import Serviceslast from './Serviceslast.jpg'
 import topright from './topright.png'
 import topleft from './topleft.png'
+import webLogo1 from './webLogo1.png'
 
 
 
 
 export const assets = {
+  webLogo1,
   abouts,
   about,
     topright,
