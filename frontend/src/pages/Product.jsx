@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import { assets } from "../assets/assets";
 import RelatedProducts from "../components/RelatedProducts";
-import Enquiry from "./Enquiry"; // Make sure the path matches your project structure
+import Enquiry from "./Enquiry"; 
 
 import {
   Leaf,
@@ -17,25 +17,27 @@ import {
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency, addToCart } = useContext(ShopContext);
+  // FIX: Extracted services array alongside products array
+  const { products, services, currency, addToCart } = useContext(ShopContext);
 
   const [productData, setProductData] = useState(false);
   const [image, setImage] = useState("");
-  // State to control modal visibility
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
 
   const fetchProductData = () => {
-    const product = products.find((item) => item._id === productId);
+    // FIX: Combined arrays so it searches both normal physical products AND backend services
+    const combinedData = [...products, ...services];
+    const product = combinedData.find((item) => item._id === productId);
 
     if (product) {
       setProductData(product);
-      setImage(product.image[0]);
+      setImage(Array.isArray(product.image) ? product.image[0] : product.image || "");
     }
   };
 
   useEffect(() => {
     fetchProductData();
-  }, [productId, products]);
+  }, [productId, products, services]); // Added services dependency loop check
 
   return productData ? (
     <main className="pt-6 max-w-5xl mx-auto px-4 md:px-6 mb-16 transition-opacity ease-in duration-500 opacity-100 relative">
@@ -64,7 +66,7 @@ const Product = () => {
 
           {/* Gallery Thumbnails List */}
           <div className="grid grid-cols-4 gap-2.5">
-            {productData.image.map((item, index) => (
+            {Array.isArray(productData.image) && productData.image.map((item, index) => (
               <button
                 key={index}
                 onClick={() => setImage(item)}
@@ -202,7 +204,7 @@ const Product = () => {
 
       {/* ENQUIRY MODAL OVERLAY */}
       {isEnquiryOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white shadow-2xl">
             <Enquiry
               plantName={productData.name}

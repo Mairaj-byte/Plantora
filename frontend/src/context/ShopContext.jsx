@@ -48,11 +48,9 @@ const ShopContextProvider = (props) => {
   // Total Cart Items
   const getCartCount = () => {
     let totalCount = 0;
-
     for (const itemId in cartItems) {
       totalCount += cartItems[itemId];
     }
-
     return totalCount;
   };
 
@@ -85,17 +83,14 @@ const ShopContextProvider = (props) => {
   // Total Amount
   const getCartAmount = () => {
     let totalAmount = 0;
-
     for (const itemId in cartItems) {
       const itemInfo = products.find(
         (product) => product._id === itemId
       );
-
       if (itemInfo) {
         totalAmount += itemInfo.price * cartItems[itemId];
       }
     }
-
     return totalAmount;
   };
 
@@ -105,7 +100,6 @@ const ShopContextProvider = (props) => {
       const response = await axios.get(
         backendUrl + "/api/product/list"
       );
-
       if (response.data.success) {
         setProducts(response.data.products.reverse());
       } else {
@@ -117,25 +111,18 @@ const ShopContextProvider = (props) => {
     }
   };
 
-
-  // Fetch Products
+  // Fetch Services
   const getServicesData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:4000/api/product/services"
-      );
-
+      const response = await axios.get(`${backendUrl}/api/product/services`);
       if (response.data.success) {
         setServices(response.data.products.reverse());
-      } else {
-        toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
     }
   };
-
+  
   // Fetch User Cart
   const getUserCart = async (token) => {
     try {
@@ -144,7 +131,6 @@ const ShopContextProvider = (props) => {
         {},
         { headers: { token } }
       );
-
       if (response.data.success) {
         setCartItems(response.data.cartData);
       }
@@ -154,8 +140,10 @@ const ShopContextProvider = (props) => {
     }
   };
 
+  // FIX: Load both products and services data automatically on startup
   useEffect(() => {
     getProductsData();
+    getServicesData();
   }, []);
 
   useEffect(() => {
@@ -164,13 +152,11 @@ const ShopContextProvider = (props) => {
       setToken(storedToken);
       getUserCart(storedToken);
     }
-
     if (token) {
       getUserCart(token);
     }
   }, [token]);
 
-  
   const value = {
     services,
     products,
@@ -186,12 +172,13 @@ const ShopContextProvider = (props) => {
     getCartCount,
     updateQuantity,
     getCartAmount,
+    getServicesData, // FIX: Passed function here so Gallery can access it safely
+    getProductsData,
     navigate,
     backendUrl,
     token,
     setToken,
   };
-
 
   return (
     <ShopContext.Provider value={value}>

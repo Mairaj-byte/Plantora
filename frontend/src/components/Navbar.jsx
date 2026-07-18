@@ -25,13 +25,15 @@ const Navbar = () => {
     return () => clearTimeout(timer);
   }, [cartCount]);
 
+  // Updated navigation layout array
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Our Plants', path: '/collection' },
-    { name: 'Gallery', path: '/gallery' },
-    { name: 'Services', path: '/services' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Contact Us', path: '/contact' }
+    { name: 'HOME', path: '/' },
+    { name: 'SERVICES', path: '/services' },
+    { name: 'CONTACT', path: '/contact' },
+    { name: 'OUR PLANTS', path: '/collection' },
+    { name: 'GALLERY', path: '/gallery' },
+    { name: 'ABOUT US', path: '/about' },
+    { name: 'NEWS & BLOGS', path: '/blogs' }
   ];
 
   return (
@@ -44,8 +46,8 @@ const Navbar = () => {
           <img src={assets.webLogo1} className="w-28 sm:w-36 transition-transform hover:scale-105 brightness-110" alt="Logo" />
         </Link>
 
-        {/* Desktop Center Navigation Links - Transformed to Light Text */}
-        <ul className='hidden lg:flex items-center gap-8 text-[14px] font-medium tracking-wide text-stone-300'>
+        {/* Desktop Center Navigation Links */}
+        <ul className='hidden lg:flex items-center gap-6 xl:gap-8 text-[14px] font-medium tracking-wide text-stone-300'>
           {navLinks.map((item, idx) => (
             <NavLink 
               key={idx} 
@@ -63,18 +65,10 @@ const Navbar = () => {
         </ul>
 
         {/* Right Side Actions Panel */}
-        <div className='flex items-center gap-3 sm:gap-4'>
+        <div className='flex items-center gap-2 sm:gap-4'>
           
-          {/* Search Box - Formatted for Dark Canvas */}
-          <div 
-            onClick={() => { setShowSearch(true); navigate('/collection'); }}
-            className='hidden md:flex items-center gap-2 bg-stone-900/80 border border-stone-800 px-3 py-1.5 rounded-full w-48 lg:w-56 cursor-pointer hover:bg-stone-900 transition-all'
-          >
-            <Search size={15} className="text-stone-400" />
-            <span className='text-xs text-stone-400'>Search Plants...</span>
-          </div>
 
-          <button onClick={() => { setShowSearch(true); navigate('/collection'); }} className='block md:hidden p-2 hover:bg-stone-900 rounded-full transition-colors'>
+          <button onClick={() => { setShowSearch(true); navigate('/collection'); }} className='block lg:hidden p-2 hover:bg-stone-900 rounded-full transition-colors'>
             <Search size={20} className="text-stone-300" />
           </button>
 
@@ -112,20 +106,22 @@ const Navbar = () => {
             )}
           </div>
 
+          {/* Book Free Consultation Button - Only on Large Screens */}
           <button 
-            onClick={() => token ? logout() : navigate('/login')}
-            className={`hidden sm:block text-xs font-semibold tracking-wider px-5 py-2 rounded-full transition-all ${token ? 'border border-red-800 text-red-400 hover:bg-red-950/30' : 'bg-stone-100 text-stone-950 hover:bg-emerald-500 hover:text-white'}`}
+            onClick={() => navigate('/consultation')}
+            className='hidden lg:block text-xs font-semibold tracking-wider px-5 py-2.5 rounded-full bg-emerald-500 text-white hover:bg-emerald-600 shadow-md transition-all'
           >
-            {token ? 'LOGOUT' : 'LOGIN'}
+            Book Free Consultation
           </button>
 
+          {/* Mobile Menu Icon */}
           <button onClick={() => setVisible(true)} className='lg:hidden p-2 hover:bg-stone-900 rounded-full transition-colors'>
             <Menu size={20} className="text-stone-300" />
           </button>
         </div>
       </nav>
 
-      {/* Mobile Sidebar - Preserving consistency with dark framework */}
+      {/* Mobile Sidebar */}
       <div onClick={() => setVisible(false)} className={`fixed inset-0 bg-black/50 backdrop-blur-xs z-50 transition-opacity duration-300 ${visible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} />
       
       <div className={`fixed top-0 right-0 bottom-0 z-50 bg-stone-950 w-full max-w-[280px] shadow-2xl transition-transform duration-300 ease-in-out border-l border-stone-800/60 ${visible ? 'translate-x-0' : 'translate-x-full'}`}>

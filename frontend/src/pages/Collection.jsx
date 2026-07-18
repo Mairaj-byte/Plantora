@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { ShopContext } from '../context/ShopContext'
+import React, { useContext, useEffect, useState } from 'react';
+import { ShopContext } from '../context/ShopContext';
 import { assets } from '../assets/assets';
 import ProductItem from '../components/ProductItem';
 
@@ -9,7 +9,7 @@ const Collection = () => {
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
-  const [sortType, setSortType] = useState('relevant')
+  const [sortType, setSortType] = useState('relevant');
   const [isMounted, setIsMounted] = useState(false);
 
   // --- PAGINATION STATES ---
@@ -23,18 +23,17 @@ const Collection = () => {
 
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {
-      setCategory(prev => prev.filter(item => item !== e.target.value))
+      setCategory(prev => prev.filter(item => item !== e.target.value));
+    } else {
+      setCategory(prev => [...prev, e.target.value]);
     }
-    else {
-      setCategory(prev => [...prev, e.target.value])
-    }
-  }
+  };
 
   const applyFilter = () => {
     let productsCopy = products.slice();
 
     if (showSearch && search) {
-      productsCopy = productsCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
+      productsCopy = productsCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
     }
 
     if (category.length > 0) {
@@ -42,45 +41,45 @@ const Collection = () => {
     }
 
     if (subCategory.length > 0) {
-      productsCopy = productsCopy.filter(item => subCategory.includes(item.subCategory))
+      productsCopy = productsCopy.filter(item => subCategory.includes(item.subCategory));
     }
 
-    setFilterProducts(productsCopy)
+    setFilterProducts(productsCopy);
     setCurrentPage(1); // Reset to first page when filters change
-  }
+  };
 
   const sortProduct = () => {
     let fpCopy = filterProducts.slice();
 
     switch (sortType) {
       case 'low-high':
-        setFilterProducts(fpCopy.sort((a, b) => (a.price - b.price)));
+        setFilterProducts(fpCopy.sort((a, b) => a.price - b.price));
         break;
 
       case 'high-low':
-        setFilterProducts(fpCopy.sort((b, a) => (b.price - a.price)));
+        setFilterProducts(fpCopy.sort((b, a) => b.price - a.price));
         break;
 
       default:
         applyFilter();
         break;
     }
-  }
+  };
 
   const resetFilters = () => {
     setCategory([]);
     setSubCategory([]);
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(cb => cb.checked = false);
+    checkboxes.forEach(cb => (cb.checked = false));
   };
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory, search, showSearch, products])
+  }, [category, subCategory, search, showSearch, products]);
 
   useEffect(() => {
     sortProduct();
-  }, [sortType])
+  }, [sortType]);
 
   // --- PAGINATION CALCULATIONS ---
   const indexOfLastProduct = currentPage * itemsPerPage;
@@ -89,27 +88,27 @@ const Collection = () => {
   const totalPages = Math.ceil(filterProducts.length / itemsPerPage);
 
   return (
-    <main className="bg-[#f5f7f4] min-h-screen py-8 px-4 sm:px-8 lg:px-16 font-['Work_Sans']">
+    <main className="bg-[#f5f7f4] min-h-screen py-6 px-4 sm:py-8 sm:px-8 lg:px-16 font-['Work_Sans']">
       <div className="max-w-7xl mx-auto w-full">
         
-        {/* Header Section */}
-        <div className={`transition-all duration-1000 ease-out mb-10 md:mb-16 ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="flex flex-col items-center text-center max-w-3xl mx-auto gap-4 md:gap-6">
-            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-emerald-800 font-bold bg-emerald-100/60 px-4 py-2 rounded-full w-fit">
-              Hand-Grown Specimen Nursery
-            </span>
+       {/* Header Section */}
+<div className={`transition-all duration-1000 ease-out mb-10 md:mb-16 ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+  <div className="flex flex-col items-center text-center max-w-3xl mx-auto gap-4 md:gap-6">
+    <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-emerald-800 font-bold bg-emerald-100/60 px-4 py-2 rounded-full w-fit">
+      Hand-Grown Specimen Nursery
+    </span>
 
-            <h1 className="mt-2 text-3xl sm:text-6xl font-light text-[#061b0e] tracking-tight font-['EB_Garamond'] leading-[1.2] sm:leading-[1.1] transition-all duration-500 ease-in-out hover:text-emerald-950">
-              Our Exclusive <span className="font-semibold italic text-emerald-900">Plant Collection</span>
-            </h1>
+    <h1 className="mt-2 text-3xl sm:text-6xl font-light text-[#061b0e] tracking-tight font-['EB_Garamond'] leading-[1.2] sm:leading-[1.1] lg:whitespace-nowrap transition-all duration-500 ease-in-out hover:text-emerald-950">
+      Our Exclusive <span className="font-semibold italic text-emerald-900">Plant Collection</span>
+    </h1>
 
-            <p className="text-sm sm:text-[16px] text-[#434843] max-w-[515px] leading-relaxed font-light mt-1">
-              Discover our curated collection of nursery-grown specimens, from rare indoor tropicals to hardy fruit-bearing trees.
-            </p>
-          </div>
-        </div>
+    <p className="text-sm sm:text-[16px] text-[#434843] max-w-[515px] leading-relaxed font-light mt-1">
+      Discover our curated collection of nursery-grown specimens, from rare indoor tropicals to hardy fruit-bearing trees.
+    </p>
+  </div>
+</div>
 
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
 
           {/* Filter Sidebar Container */}
           <aside className="w-full lg:w-64 lg:sticky lg:top-24 flex-shrink-0">
@@ -180,21 +179,33 @@ const Collection = () => {
           <div className="flex-grow w-full flex flex-col justify-between">
             <div>
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-stone-200/60">
-                <span className="text-xs sm:text-sm text-stone-500 font-medium">
+                <span className="text-xs sm:text-sm text-stone-500 font-medium text-center sm:text-left">
                   Showing <span className="font-semibold text-stone-800">{filterProducts.length > 0 ? indexOfFirstProduct + 1 : 0}-{Math.min(indexOfLastProduct, filterProducts.length)}</span> of <span className="font-semibold text-stone-800">{filterProducts.length}</span> luxury specimens
                 </span>
 
-                <div className="flex items-center gap-2 self-start sm:self-auto">
-                  <span className="text-xs sm:text-sm text-stone-500 font-medium whitespace-nowrap">Sort by:</span>
-                  <select
-                    value={sortType}
-                    onChange={(e) => setSortType(e.target.value)}
-                    className="bg-white border border-stone-200/80 rounded-xl text-xs sm:text-sm font-semibold text-stone-700 px-3 py-2 focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-600 cursor-pointer transition-all duration-200"
-                  >
-                    <option value="relevant">Relevant Specimens</option>
-                    <option value="low-high">Price: Low to High</option>
-                    <option value="high-low">Price: High to Low</option>
-                  </select>
+                {/* Swipeable Sort Pill Tabs */}
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  <span className="text-xs sm:text-sm text-stone-500 font-medium whitespace-nowrap hidden sm:inline">Sort by:</span>
+                  
+                  <div className="flex overflow-x-auto pb-1 sm:pb-0 gap-2 w-full sm:w-auto scrollbar-none snap-x snap-mandatory">
+                    {[
+                      { label: 'Relevant', value: 'relevant' },
+                      { label: 'Price: Low-High', value: 'low-high' },
+                      { label: 'Price: High-Low', value: 'high-low' }
+                    ].map((option) => (
+                      <button
+                        key={option.value}
+                        onClick={() => setSortType(option.value)}
+                        className={`px-4 py-2 rounded-xl border text-xs font-semibold tracking-wide whitespace-nowrap snap-align-start transition-all duration-300 ${
+                          sortType === option.value
+                            ? 'bg-emerald-900 text-white border-emerald-900 shadow-md shadow-emerald-900/10'
+                            : 'bg-white text-stone-600 border-stone-200/80 hover:border-emerald-800 hover:text-emerald-900'
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -203,7 +214,7 @@ const Collection = () => {
                   <p className="text-xs sm:text-sm text-stone-500 font-medium">No botanical species match the selected criteria.</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                   {currentProducts.map((item, index) => (
                     <div 
                       key={item._id || index} 
@@ -225,7 +236,7 @@ const Collection = () => {
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-12 pb-6">
+              <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 mt-12 pb-6">
                 <button
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(prev => prev - 1)}
@@ -261,7 +272,7 @@ const Collection = () => {
         </div>
       </div>
     </main>
-  )
-}
+  );
+};
 
 export default Collection;

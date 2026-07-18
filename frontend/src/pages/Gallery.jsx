@@ -1,38 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import { ShopContext } from '../context/ShopContext';
 import ProductItem from '../components/ProductItem';
 
 const Gallery = () => {
-  const { search, showSearch } = useContext(ShopContext);
-  const [services, setServices] = useState([]);
+  // FIX: Destructured getServicesData from context so it can be safely invoked inside useEffect
+  const { services, search, showSearch, getServicesData } = useContext(ShopContext);
+ 
   const [filterProducts, setFilterProducts] = useState([]);
   const [activeCategory, setActiveCategory] = useState('All Services');
   const [isMounted, setIsMounted] = useState(false);
-  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const categories = ['All Services', 'Garden', 'Vertical Garden', 'Tapoori', 'Pot Design', 'Design', 'Stone Design'];
-
-  const getServicesData = async () => {
-    try {
-      const response = await axios.get(`${backendUrl}/api/product/services`);
-      if (response.data.success) {
-        setServices(response.data.products.reverse());
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
+  
   useEffect(() => {
-    getServicesData();
+    // Safely call if it exists in context, fallback gracefully if already fetched globally
+    if (getServicesData) {
+      getServicesData();
+    }
     const timer = setTimeout(() => setIsMounted(true), 100);
     return () => clearTimeout(timer);
-  }, []);
+  }, [getServicesData]);
 
   useEffect(() => {
-    let productsCopy = services.slice();
+    let productsCopy = Array.isArray(services) ? services.slice() : [];
     if (showSearch && search) {
       productsCopy = productsCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()));
     }
@@ -46,7 +36,7 @@ const Gallery = () => {
     <main className="bg-[#f5f7f4] min-h-screen py-8 px-4 sm:px-8 lg:px-16 font-['Work_Sans']">
       <div className="max-w-7xl mx-auto w-full">
         
-        {/* Header Section (Matching Services Page Style) */}
+        {/* Header Section */}
         <div className={`transition-all duration-1000 ease-out mb-10 md:mb-16 ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto gap-4 md:gap-6">
             <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-emerald-800 font-bold bg-emerald-100/60 px-4 py-2 rounded-full w-fit">
@@ -63,7 +53,7 @@ const Gallery = () => {
           </div>
         </div>
 
-        {/* Swipeable Pill Tabs (Mobile Scrolling, Desktop Centered) */}
+        {/* Swipeable Pill Tabs */}
         <div className="w-full mb-10 overflow-hidden">
           <div className="flex overflow-x-auto pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 sm:flex-wrap sm:justify-center gap-2 sm:gap-3 scrollbar-none [mask-image:linear-gradient(to_right,white_85%,transparent)] sm:[mask-image:none]">
             {categories.map((cat) => (
@@ -73,7 +63,7 @@ const Gallery = () => {
                 className={`px-5 py-2.5 rounded-xl border text-xs sm:text-sm font-semibold tracking-wide whitespace-nowrap transition-all duration-300 ${
                   activeCategory === cat
                     ? 'bg-emerald-900 text-white border-emerald-900 shadow-md shadow-emerald-900/10'
-                    : 'bg-white text-stone-600 border-stone-200/80 hover:border-emerald-850 hover:text-emerald-900'
+                    : 'bg-white text-stone-600 border-stone-200/80 hover:border-emerald-800 hover:text-emerald-900'
                 }`}
               >
                 {cat}
@@ -89,9 +79,9 @@ const Gallery = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-16">
-            {filterProducts.map((item) => (
+            {filterProducts.map((item, index) => (
               <div 
-                key={item._id} 
+                key={item._id || index} 
                 className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 ease-out border border-stone-100"
               >
                 <ProductItem 
