@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Routes, Route, useLocation, matchPath } from 'react-router-dom';
 import Home from './pages/Home';
 import Collection from './pages/Collection';
@@ -30,15 +30,6 @@ import ServiceDetail from './components/ServicesDetail';
 const App = () => {
   const location = useLocation();
   const { token } = useContext(ShopContext);
-
-  // Scroll to top whenever the route changes
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth', // Change to 'auto' for instant scrolling
-    });
-  }, [location.pathname]);
 
   // Routes where Navbar should be hidden
   const hideNavbarRoutes = [
