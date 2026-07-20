@@ -1,40 +1,51 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { 
-  LayoutDashboard, 
-  MessageSquare, 
-  ShoppingBag, 
-  ClipboardList, 
-  Settings, 
-  Menu, 
-  X, 
+import {
+  LayoutDashboard,
+  MessageSquare,
+  ShoppingBag,
+  ClipboardList,
+  Settings,
+  Menu,
+  X,
   LogOut,
   Package,
+  Leaf
 } from 'lucide-react'
 
 const Sidebar = ({ setToken }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   // Style helper for nav navigation links
-  const navLinkClass = ({ isActive }) => 
-  `flex items-center gap-3 px-4 py-3 mx-4 rounded-lg transition-all duration-200 text-[15px] font-medium ${
-    isActive 
-      ? 'bg-[#1A4331] text-[#EAF5F0] shadow-sm font-semibold' 
+  const navLinkClass = ({ isActive }) =>
+    `flex items-center gap-3 px-4 py-3 mx-4 rounded-lg transition-all duration-200 text-[15px] font-medium ${isActive
+      ? 'bg-[#1A4331] text-[#EAF5F0] shadow-sm font-semibold'
       : 'text-[#2C3E35]/70 hover:bg-[#1A4331]/5 hover:text-[#1A4331]'
-  }`;
+    }`;
 
   // Reusable Main Logo/Brand component
   const BrandLogo = () => (
-    <div className='flex flex-col items-center text-center px-2 py-1 select-none'>
-      <div className='text-xl md:text-2xl font-serif text-[#1A4331] font-semibold tracking-wider leading-tight'>
-        ECO GARDEN
+    <div className="flex flex-col items-center text-center px-4 py-2 select-none font-serif">
+      {/* Primary Brand Name */}
+      <div className="text-2xl md:text-3xl font-bold tracking-widest text-[#1A4331] uppercase">
+        Chauhan
       </div>
-      <div className='text-3xl md:text-4xl font-serif text-[#A0522D] font-medium tracking-widest leading-none mt-1'>
-        NURSERY
+
+      {/* Sub-brand / Business Line */}
+      <div className="text-xs md:text-sm tracking-[0.25em] font-medium text-[#A0522D] uppercase mt-0.5">
+        Traders & Nursery
       </div>
-      <div className='w-full border-b border-gray-400 my-2 shadow-sm'></div>
-      <div className='text-[9px] md:text-[10px] tracking-[0.2em] text-gray-800 font-medium whitespace-nowrap'>
-        NATURE AT YOUR FINGERTIPS
+
+     {/* Divider with Lucide Leaf Icon */}
+      <div className="flex items-center justify-center w-full max-w-[200px] my-2">
+        <div className="h-[1px] bg-gradient-to-r from-transparent via-[#1A4331]/40 to-transparent w-full" />
+        <Leaf className="w-4 h-4 mx-2 text-[#1A4331] shrink-0" />
+        <div className="h-[1px] bg-gradient-to-r from-transparent via-[#1A4331]/40 to-transparent w-full" />
+      </div>
+
+      {/* Tagline */}
+      <div className="text-[10px] md:text-[11px] font-sans tracking-[0.2em] font-semibold text-stone-600 uppercase">
+        Nurture <span className="text-[#A0522D]">•</span> Grow <span className="text-[#A0522D]">•</span> Thrive
       </div>
     </div>
   )
@@ -74,7 +85,7 @@ const Sidebar = ({ setToken }) => {
         <span>News & Blogs</span>
       </NavLink>
 
-      
+
 
       <NavLink className={navLinkClass} to="/settings" onClick={() => setIsOpen(false)}>
         <Settings className='w-5 h-5 transition-opacity' />
@@ -91,8 +102,8 @@ const Sidebar = ({ setToken }) => {
           <div className='text-sm font-serif text-[#1A4331] font-bold tracking-wider'>ECO GARDEN</div>
           <div className='text-lg font-serif text-[#A0522D] font-bold tracking-widest leading-none'>NURSERY</div>
         </div>
-        <button 
-          onClick={() => setIsOpen(!isOpen)} 
+        <button
+          onClick={() => setIsOpen(!isOpen)}
           className='p-2 text-gray-700 hover:bg-gray-100 rounded-md focus:outline-none'
         >
           {isOpen ? <X className='w-6 h-6' /> : <Menu className='w-6 h-6' />}
@@ -101,8 +112,8 @@ const Sidebar = ({ setToken }) => {
 
       {/* --- MOBILE OVERLAY BACKGROUND --- */}
       {isOpen && (
-        <div 
-          className='lg:hidden fixed inset-0 bg-black/40 z-40 transition-opacity' 
+        <div
+          className='lg:hidden fixed inset-0 bg-black/40 z-40 transition-opacity'
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -115,7 +126,7 @@ const Sidebar = ({ setToken }) => {
         w-[260px] lg:w-[22%] xl:w-[18%] shrink-0
         ${isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}
       `}>
-        
+
         {/* Top Section: Brand & Nav */}
         <div>
           {/* Close button inside mobile menu */}
@@ -144,11 +155,11 @@ const Sidebar = ({ setToken }) => {
 
           {/* Logout Button */}
           <div className='px-4'>
-            <button 
+            <button
               onClick={() => {
-                if(setToken) setToken('');
+                if (setToken) setToken('');
                 setIsOpen(false);
-              }} 
+              }}
               className='w-full flex items-center justify-center gap-2 bg-[#1A4331] hover:bg-[#133325] text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-150'
             >
               <LogOut className='w-4 h-4' />
