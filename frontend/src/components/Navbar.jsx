@@ -67,8 +67,12 @@ const Navbar = () => {
         {/* Right Side Actions Panel */}
         <div className='flex items-center gap-2 sm:gap-4'>
           
-
-          <button onClick={() => { setShowSearch(true); navigate('/collection'); }} className='block lg:hidden p-2 hover:bg-stone-900 rounded-full transition-colors'>
+          {/* Search Button (Visible on both Mobile and Desktop now) */}
+          <button 
+            onClick={() => { setShowSearch(true); navigate('/collection'); }} 
+            className='p-2 hover:bg-stone-900 rounded-full transition-colors'
+            aria-label="Search"
+          >
             <Search size={20} className="text-stone-300" />
           </button>
 
